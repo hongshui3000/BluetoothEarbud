@@ -1,0 +1,425 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project path="../../../../;../../../../;../../../../;../../../;../../;../;bt;bt/bluestack_if;bt/bt;core;core/appcmd;core/bigint;core/buffer;core/cache;core/capsense;core/ccp;core/ccp/gen;core/crt;core/dorm;core/excep;core/fault;core/hal;core/hal/aura;core/hal/aura/d00;core/hal/aura/d00/hal;core/hydra;core/hydra_log;core/hydra_service;core/id;core/include;core/include_fw;core/int;core/io;core/io/aura;core/io/aura/d00;core/io/aura/d00/io;core/io/aura/d00/pio_ctrl_sys_io;core/ipc;core/isp_router;core/itime;core/itime_kal;core/kal_utils;core/led;core/longtimer;core/memprot;core/mmu;core/panic;core/pio;core/piodebounce;core/pioint;core/pl_timers;core/pmalloc;core/sched;core/sched_oxygen;core/slt;core/subres;core/timed_event;core/timed_event_oxygen;core/utils;customer;customer/core;customer/core/init;customer/core/portability;customer/core/trap_api;nfc;nfc/nfc;../../../../;.;../../../../;../../../../" locked="no">
+    <workspace path="../../applications/earbud/qcc512x_qcc302x/CF376_CF440/earbud.x2w"/>
+    <folder name="appcmd">
+        <file path="core/appcmd/appcmd.c"/>
+        <file path="core/appcmd/appcmd.h"/>
+        <file path="core/appcmd/appcmd_private.h"/>
+        <file path="core/appcmd/appcmd_sched.h"/>
+        <file path="core/appcmd/appcmd_slt_entry.h"/>
+    </folder>
+    <folder name="bigint">
+        <file path="core/bigint/bigint.h"/>
+        <file path="core/bigint/bigint_imp.h"/>
+    </folder>
+    <folder name="bt">
+        <file path="bt/bluestack_if/bluestack_if.h"/>
+        <file path="bt/bt/bluestack_types.h"/>
+        <file path="bt/bt/bt_faultids.h"/>
+        <file path="bt/bt/bt_panicids.h"/>
+    </folder>
+    <folder name="buffer">
+        <file path="core/buffer/buf_create_buffer.c"/>
+        <file path="core/buffer/buf_create_clone_location.c"/>
+        <file path="core/buffer/buf_create_placeholder_location.c"/>
+        <file path="core/buffer/buf_destroy_buffer.c"/>
+        <file path="core/buffer/buf_init_handle.c"/>
+        <file path="core/buffer/buf_raw_read_map_16bit.c"/>
+        <file path="core/buffer/buf_raw_read_map_16bit_be.c"/>
+        <file path="core/buffer/buf_raw_read_map_16bit_save_state.c"/>
+        <file path="core/buffer/buf_raw_read_map_8bit.c"/>
+        <file path="core/buffer/buf_raw_read_map_8bit_save_state.c"/>
+        <file path="core/buffer/buf_raw_read_unmap.c"/>
+        <file path="core/buffer/buf_raw_read_update_restore_state.c"/>
+        <file path="core/buffer/buf_raw_read_write_map_16bit.c"/>
+        <file path="core/buffer/buf_raw_read_write_map_16bit_be.c"/>
+        <file path="core/buffer/buf_raw_read_write_map_16bit_save_state.c"/>
+        <file path="core/buffer/buf_raw_read_write_map_8bit.c"/>
+        <file path="core/buffer/buf_raw_read_write_map_8bit_save_state.c"/>
+        <file path="core/buffer/buf_raw_read_write_unmap.c"/>
+        <file path="core/buffer/buf_raw_restore_mapping_state.c"/>
+        <file path="core/buffer/buf_raw_update_tail_free.c"/>
+        <file path="core/buffer/buf_raw_write_map_16bit.c"/>
+        <file path="core/buffer/buf_raw_write_map_16bit_be.c"/>
+        <file path="core/buffer/buf_raw_write_map_16bit_save_state.c"/>
+        <file path="core/buffer/buf_raw_write_map_8bit.c"/>
+        <file path="core/buffer/buf_raw_write_map_8bit_save_state.c"/>
+        <file path="core/buffer/buf_raw_write_only_map_16bit.c"/>
+        <file path="core/buffer/buf_raw_write_only_map_16bit_be.c"/>
+        <file path="core/buffer/buf_raw_write_only_map_8bit.c"/>
+        <file path="core/buffer/buf_raw_write_only_map_8bit_save_state.c"/>
+        <file path="core/buffer/buf_raw_write_only_unmap.c"/>
+        <file path="core/buffer/buf_raw_write_unmap.c"/>
+        <file path="core/buffer/buf_raw_write_update_restore_state.c"/>
+        <file path="core/buffer/buf_reinit.c"/>
+        <file path="core/buffer/buffer.h"/>
+        <file path="core/buffer/buffer_msg.c"/>
+        <file path="core/buffer/buffer_msg.h"/>
+        <file path="core/buffer/buffer_msg_ptr_access.c"/>
+        <file path="core/buffer/buffer_private.h"/>
+    </folder>
+    <folder name="cache">
+        <file path="core/cache/cache.c"/>
+        <file path="core/cache/cache.h"/>
+        <file path="core/cache/cache_test_1.c"/>
+        <file path="core/cache/cache_test_2.c"/>
+        <file path="core/cache/cache_test_3.c"/>
+        <file path="core/cache/cache_test_4.c"/>
+        <file path="core/cache/cache_test_5.c"/>
+        <file path="core/cache/cache_test_6.c"/>
+        <file path="core/cache/cache_test_7.c"/>
+        <file path="core/cache/cache_test_8.c"/>
+    </folder>
+    <folder name="ccp">
+        <file path="core/ccp/ccp.h"/>
+        <file path="core/ccp/gen/ccp_funcs.h"/>
+    </folder>
+    <folder name="crt">
+        <file path="core/crt/crt.h"/>
+    </folder>
+    <folder name="customer_init">
+        <file path="customer/core/init/init.c"/>
+        <file path="customer/core/init/init.h"/>
+        <file path="customer/core/init/init_private.h"/>
+        <file path="customer/core/init/init_usb_early_init.c"/>
+    </folder>
+    <folder name="customer_portability">
+        <file path="customer/core/portability/portability.h"/>
+    </folder>
+    <folder name="customer_trap_api">
+        <file path="customer/core/trap_api/csrtypes.h"/>
+        <file path="customer/core/trap_api/panicdefs.h"/>
+        <file path="customer/core/trap_api/trap_api.h"/>
+        <file path="customer/core/trap_api/trap_api_bluestack.c"/>
+        <file path="customer/core/trap_api/trap_api_capacitive_sensor.c"/>
+        <file path="customer/core/trap_api/trap_api_core.c"/>
+        <file path="customer/core/trap_api/trap_api_core_pio.c"/>
+        <file path="customer/core/trap_api/trap_api_core_util.c"/>
+        <file path="customer/core/trap_api/trap_api_extra.c"/>
+        <file path="customer/core/trap_api/trap_api_led.c"/>
+        <file path="customer/core/trap_api/trap_api_message.c"/>
+        <file path="customer/core/trap_api/trap_api_message_log.c"/>
+        <file path="customer/core/trap_api/trap_api_operator.c"/>
+        <file path="customer/core/trap_api/trap_api_private.h"/>
+        <file path="customer/core/trap_api/trap_api_sched.h"/>
+        <file path="customer/core/trap_api/trap_api_stream.c"/>
+        <file path="customer/core/trap_api/trap_api_test_support.c"/>
+    </folder>
+    <folder name="dorm">
+        <file path="core/dorm/dorm.h"/>
+        <file path="core/dorm/dorm_config.c"/>
+        <file path="core/dorm/dorm_get_kip_flags.c"/>
+        <file path="core/dorm/dorm_kalimba.c"/>
+        <file path="core/dorm/dorm_private.h"/>
+    </folder>
+    <folder name="excep">
+        <file path="core/excep/excep.c"/>
+        <file path="core/excep/excep.h"/>
+        <file path="core/excep/excep_private.h"/>
+        <file path="core/excep/excep_test.c"/>
+    </folder>
+    <folder name="fault">
+        <file path="core/fault/fault.c"/>
+        <file path="core/fault/fault.h"/>
+        <file path="core/fault/fault_appcmd.c"/>
+        <file path="core/fault/fault_appcmd.h"/>
+        <file path="core/fault/fault_comms.c"/>
+        <file path="core/fault/fault_db.c"/>
+        <file path="core/fault/fault_itime.h"/>
+        <file path="core/fault/fault_preserved.h"/>
+        <file path="core/fault/fault_private.h"/>
+        <file path="core/fault/fault_sched.h"/>
+    </folder>
+    <folder name="hal">
+        <file path="core/hal/hal.h"/>
+        <file path="core/hal/hal_cross_cpu_registers.h"/>
+        <file path="core/hal/hal_data_conv.c"/>
+        <file path="core/hal/hal_data_conv.h"/>
+        <file path="core/hal/hal_delay_us.c"/>
+        <file path="core/hal/hal_led.c"/>
+        <file path="core/hal/hal_led.h"/>
+        <file path="core/hal/hal_macros.h"/>
+        <file path="core/hal/hal_registers.h"/>
+        <file path="core/hal/hal_transaction_types.h"/>
+        <file path="core/hal/halauxio.h"/>
+        <file path="core/hal/halint.h"/>
+        <file path="core/hal/halmgt.h"/>
+        <file path="core/hal/haltime.h"/>
+    </folder>
+    <folder name="hal_d01">
+        <file path="core/hal/aura/d01/hal/hal_macros.h"/>
+    </folder>
+    <folder name="hydra">
+        <file path="core/hydra/hydra.h"/>
+        <file path="core/hydra/hydra_faultids.h"/>
+        <file path="core/hydra/hydra_macros.h"/>
+        <file path="core/hydra/hydra_panicids.h"/>
+        <file path="core/hydra/hydra_patch.h"/>
+        <file path="core/hydra/hydra_private.h"/>
+        <file path="core/hydra/hydra_trb.h"/>
+        <file path="core/hydra/hydra_txbus.h"/>
+        <file path="core/hydra/hydra_types.h"/>
+    </folder>
+    <folder name="hydra_log">
+        <file path="core/hydra_log/hydra_log.h"/>
+        <file path="core/hydra_log/hydra_log_disabled.h"/>
+        <file path="core/hydra_log/hydra_log_firm.c"/>
+        <file path="core/hydra_log/hydra_log_firm.h"/>
+        <file path="core/hydra_log/hydra_log_firm_modules.h"/>
+        <file path="core/hydra_log/hydra_log_soft.c"/>
+        <file path="core/hydra_log/hydra_log_soft.h"/>
+        <file path="core/hydra_service/hydra_service.h"/>
+    </folder>
+    <folder name="id">
+        <file path="core/id/id.c"/>
+        <file path="core/id/id.h"/>
+        <file path="core/id/id_slt_entry.h"/>
+    </folder>
+    <folder name="include">
+        <file path="core/include/bits.h"/>
+        <file path="core/include/dwarf_constants.h"/>
+        <file path="core/include/faultids.h"/>
+        <file path="core/include/hal_macros_divert.h"/>
+        <file path="core/include/hal_utils.h"/>
+        <file path="core/include/intx.h"/>
+        <file path="core/include/kaldwarfregnums.h"/>
+        <file path="core/include/macros.h"/>
+        <file path="core/include/memory_map.h"/>
+        <file path="core/include/panicids.h"/>
+        <file path="core/include/patch.h"/>
+        <file path="core/include/pbc.h"/>
+        <file path="core/include/types.h"/>
+    </folder>
+    <folder name="include_fw">
+        <file path="core/include_fw/assert.h"/>
+        <file path="core/include_fw/hal_macros_divert.h"/>
+    </folder>
+    <folder name="int">
+        <file path="core/int/clear_sw_interrupt.c"/>
+        <file path="core/int/configure_interrupt.c"/>
+        <file path="core/int/configure_sw_interrupt.c"/>
+        <file path="core/int/configure_sw_interrupt_raw.c"/>
+        <file path="core/int/generate_sw_interrupt.c"/>
+        <file path="core/int/init_int.c"/>
+        <file path="core/int/int.h"/>
+        <file path="core/int/int_private.h"/>
+        <file path="core/int/swint.h"/>
+        <file path="core/int/swint_demux.c"/>
+        <file path="core/int/swint_private.h"/>
+        <file path="core/int/unconfigure_sw_interrupt.c"/>
+    </folder>
+    <folder name="io">
+        <file path="core/io/io.h"/>
+        <file path="core/io/io_defs.h"/>
+        <file path="core/io/io_map.h"/>
+        <file path="core/io/io_slt_entry.h"/>
+    </folder>
+    <folder name="io_aura_d01">
+        <file path="core/io/aura/d01/io/io.h"/>
+        <file path="core/io/aura/d01/io/io_defs.h"/>
+        <file path="core/io/aura/d01/io/io_map.h"/>
+    </folder>
+    <folder name="io_aura_d01_pio">
+        <file path="core/io/aura/d01/pio_ctrl_sys_io/io_defs.h"/>
+        <file path="core/io/aura/d01/pio_ctrl_sys_io/io_map_8051.h"/>
+    </folder>
+    <folder name="ipc">
+        <file path="core/ipc/ipc.h"/>
+        <file path="core/ipc/ipc_bluestack.c"/>
+        <file path="core/ipc/ipc_deep_sleep.c"/>
+        <file path="core/ipc/ipc_fault_panic.c"/>
+        <file path="core/ipc/ipc_init.c"/>
+        <file path="core/ipc/ipc_malloc.c"/>
+        <file path="core/ipc/ipc_mmu.c"/>
+        <file path="core/ipc/ipc_msg_types.h"/>
+        <file path="core/ipc/ipc_pio.c"/>
+        <file path="core/ipc/ipc_prim.h"/>
+        <file path="core/ipc/ipc_private.h"/>
+        <file path="core/ipc/ipc_recv.c"/>
+        <file path="core/ipc/ipc_sched.c"/>
+        <file path="core/ipc/ipc_sched.h"/>
+        <file path="core/ipc/ipc_send.c"/>
+        <file path="core/ipc/ipc_stream.c"/>
+        <file path="core/ipc/ipc_test.c"/>
+        <file path="core/ipc/ipc_test_tunnel.c"/>
+        <file path="core/ipc/ipc_trap_api.c"/>
+    </folder>
+    <folder name="isp_router">
+        <file path="core/isp_router/isp_router.h"/>
+    </folder>
+    <folder name="itime">
+        <file path="core/itime/itime.h"/>
+    </folder>
+    <folder name="itime_kal">
+        <file path="core/itime_kal/itime_kal.c"/>
+        <file path="core/itime_kal/itime_kal.h"/>
+        <file path="core/itime_kal/itime_kal_private.h"/>
+    </folder>
+    <folder name="kal_utils">
+        <file path="core/kal_utils/kal_utils.h"/>
+    </folder>
+    <folder name="led">
+        <file path="core/led/led.c"/>
+        <file path="core/led/led.h"/>
+        <file path="core/led/led_appcmd.c"/>
+        <file path="core/led/led_appcmd.h"/>
+        <file path="core/led/led_private.h"/>
+        <file path="core/led/led_sched.h"/>
+    </folder>
+    <folder name="longtimer">
+        <file path="core/longtimer/get_deci_time.c"/>
+        <file path="core/longtimer/get_milli_time.c"/>
+        <file path="core/longtimer/get_second_time.c"/>
+        <file path="core/longtimer/longtimer.c"/>
+        <file path="core/longtimer/longtimer.h"/>
+        <file path="core/longtimer/longtimer_private.h"/>
+        <file path="core/longtimer/longtimer_test.c"/>
+    </folder>
+    <folder name="memprot">
+        <file path="core/memprot/memprot.c"/>
+        <file path="core/memprot/memprot.h"/>
+        <file path="core/memprot/memprot_private.h"/>
+        <file path="core/memprot/memprot_test.c"/>
+    </folder>
+    <folder name="mmu">
+        <file path="core/mmu/memmap.h"/>
+        <file path="core/mmu/mmu.h"/>
+        <file path="core/mmu/mmu_proc_port.h"/>
+    </folder>
+    <folder name="nfc">
+        <file path="nfc/nfc/nfc_faultids.h"/>
+        <file path="nfc/nfc/nfc_panicids.h"/>
+    </folder>
+    <folder name="panic">
+        <file path="core/panic/panic.c"/>
+        <file path="core/panic/panic.h"/>
+        <file path="core/panic/panic_comms.c"/>
+        <file path="core/panic/panic_on_assert.c"/>
+        <file path="core/panic/panic_preserved.h"/>
+        <file path="core/panic/panic_private.h"/>
+    </folder>
+    <folder name="pio">
+        <file path="core/pio/init_pio.c"/>
+        <file path="core/pio/pio.h"/>
+        <file path="core/pio/pio_get_levels_mask.c"/>
+        <file path="core/pio/pio_private.h"/>
+        <file path="core/pio/pio_set_directions_mask.c"/>
+        <file path="core/pio/pio_set_internal_owners_mask.c"/>
+        <file path="core/pio/pio_set_levels_mask.c"/>
+    </folder>
+    <folder name="piodebounce">
+        <file path="core/piodebounce/piodebounce.c"/>
+        <file path="core/piodebounce/piodebounce.h"/>
+        <file path="core/piodebounce/piodebounce_itime.h"/>
+        <file path="core/piodebounce/piodebounce_private.h"/>
+        <file path="core/piodebounce/piodebounce_sched.h"/>
+    </folder>
+    <folder name="pioint">
+        <file path="core/pioint/pioint.h"/>
+        <file path="core/pioint/pioint_configure.c"/>
+        <file path="core/pioint/pioint_init.c"/>
+        <file path="core/pioint/pioint_private.h"/>
+    </folder>
+    <folder name="pl_timers">
+        <file path="core/pl_timers/pl_timers.c"/>
+        <file path="core/pl_timers/pl_timers.h"/>
+        <file path="core/pl_timers/pl_timers_private.h"/>
+    </folder>
+    <folder name="pmalloc">
+        <file path="core/pmalloc/init_pmalloc.c"/>
+        <file path="core/pmalloc/pcopy.c"/>
+        <file path="core/pmalloc/pfree.c"/>
+        <file path="core/pmalloc/pfree_set_free_list_ptr.c"/>
+        <file path="core/pmalloc/pmalloc.c"/>
+        <file path="core/pmalloc/pmalloc.h"/>
+        <file path="core/pmalloc/pmalloc_available.c"/>
+        <file path="core/pmalloc/pmalloc_config.c"/>
+        <file path="core/pmalloc/pmalloc_config_P0.h"/>
+        <file path="core/pmalloc/pmalloc_config_P1.h"/>
+        <file path="core/pmalloc/pmalloc_debug.h"/>
+        <file path="core/pmalloc/pmalloc_debug_check_block.c"/>
+        <file path="core/pmalloc/pmalloc_debug_validate_free_list.c"/>
+        <file path="core/pmalloc/pmalloc_debug_validate_pool_control.c"/>
+        <file path="core/pmalloc/pmalloc_private.h"/>
+        <file path="core/pmalloc/pmalloc_set_monitor_limits.c"/>
+        <file path="core/pmalloc/pmalloc_trace.h"/>
+        <file path="core/pmalloc/prealloc.c"/>
+        <file path="core/pmalloc/prightsize.c"/>
+        <file path="core/pmalloc/psizeof.c"/>
+        <file path="core/pmalloc/xpcopy.c"/>
+        <file path="core/pmalloc/xpmalloc.c"/>
+        <file path="core/pmalloc/xpmalloc_buffer.c"/>
+        <file path="core/pmalloc/xprealloc.c"/>
+        <file path="core/pmalloc/xzpmalloc.c"/>
+        <file path="core/pmalloc/zpmalloc.c"/>
+    </folder>
+    <folder name="sched">
+        <file path="core/sched/runlevels.h"/>
+        <file path="core/sched/sched.h"/>
+    </folder>
+    <folder name="sched_oxygen">
+        <file path="core/sched_oxygen/sched_oxygen.c"/>
+        <file path="core/sched_oxygen/sched_oxygen.h"/>
+        <file path="core/sched_oxygen/sched_oxygen_cancel.c"/>
+        <file path="core/sched_oxygen/sched_oxygen_priority.h"/>
+        <file path="core/sched_oxygen/sched_oxygen_private.h"/>
+    </folder>
+    <folder name="slt">
+        <file path="core/slt/slt.h"/>
+        <file path="core/slt/slt_data.c"/>
+        <file path="core/slt/slt_entry.c"/>
+        <file path="core/slt/slt_private.h"/>
+    </folder>
+    <folder name="subres">
+        <file path="core/subres/subres.h"/>
+    </folder>
+    <folder name="timed_event">
+        <file path="core/timed_event/rtime.h"/>
+        <file path="core/timed_event/rtime_types.h"/>
+        <file path="core/timed_event/timed_event.h"/>
+        <file path="core/timed_event_oxygen/timed_event_oxygen.h"/>
+    </folder>
+    <folder name="utils">
+        <file path="core/utils/utils.h"/>
+        <file path="core/utils/utils_bit.h"/>
+        <file path="core/utils/utils_event.h"/>
+        <file path="core/utils/utils_fault_panic.h"/>
+        <file path="core/utils/utils_fsm.h"/>
+        <file path="core/utils/utils_jobq.h"/>
+        <file path="core/utils/utils_patch.h"/>
+        <file path="core/utils/utils_set.h"/>
+        <file path="core/utils/utils_sll.h"/>
+        <file path="core/utils/utils_strdup.h"/>
+    </folder>
+    <configurations defaultKit="kitres://{7f10f105-91f8-4254-a833-600c9dcad611}">
+        <configuration name="makefile_project" kit="kitres://{7f10f105-91f8-4254-a833-600c9dcad611}" options="clean|build|default">
+            <devkitConfiguration>makefile_project</devkitConfiguration>
+            <devkitPath>C:/qtil/ADK_QCC512x_QCC302x_WIN_6.2.43</devkitPath>
+            <devkitGroup>kitres://{BBAC163C-41BE-4ce7-B236-236F15FF18CA}</devkitGroup>
+            <deployProject></deployProject>
+            <devkitRevision>1519148132</devkitRevision>
+            <property name="BUILD_ARGUMENTS">RELEASE=qcc512x_qcc302x_lib</property>
+            <property name="BUILD_TYPE">MAKEFILE</property>
+            <property name="CHIP_TYPE">qcc3400_d01</property>
+            <property name="CLEAN_ARGUMENTS">RELEASE=qcc512x_qcc302x_lib clean</property>
+            <property name="DBG_CORE"></property>
+            <property name="DBS"></property>
+            <property name="DEBUGTRANSPORT"></property>
+            <property name="DEFS"></property>
+            <property name="HW_VARIANT"></property>
+            <property name="INCPATHS"></property>
+            <property name="LIBPATHS"></property>
+            <property name="LIBS"></property>
+            <property name="MAKEFILE_TO_CALL">Makefile</property>
+            <property name="OUTPUT"></property>
+            <property name="OUTPUT_TYPE"></property>
+            <property name="PRESERVED_LIBS"></property>
+            <property name="PRIVATE_DEFS"></property>
+            <property name="PRIVATE_INCPATHS"></property>
+            <property name="STRIP_SYMBOLS"></property>
+            <property name="SUBSYSTEM_NAME"></property>
+            <property name="SW_VARIANT"></property>
+            <property name="devkit_group"></property>
+        </configuration>
+    </configurations>
+</project>

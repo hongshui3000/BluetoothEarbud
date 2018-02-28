@@ -1,0 +1,63 @@
+
+
+
+
+
+
+
+
+
+
+
+primary_service {
+    uuid : 0xFE8F,
+    name : "BROADCAST_SERVICE",
+
+    characteristic {
+        uuid : 0x0000BCA4D10211E19B2300025B00A5A5,
+        name : "BROADCAST_VERSION",
+        flags : [ FLAG_IRQ ],
+        properties : [ read ],
+        value : 0x0
+    },
+
+    characteristic {
+        uuid : 0x0000BCA7D10211E19B2300025B00A5A5,
+        name : "BROADCAST_ADDRESS",
+        flags : [ FLAG_IRQ, FLAG_DYNLEN ],
+        properties : [ read ],
+        value : 0x0
+    },
+
+    characteristic {
+        uuid : 0x0000BCA5D10211E19B2300025B00A5A5,
+        name : "BROADCAST_STATUS",
+        flags : [ FLAG_IRQ, FLAG_DYNLEN ],
+        properties : [ read, write ],
+        value : 0x0
+    },
+
+    characteristic {
+        uuid : 0x0000BCACD10211E19B2300025B00A5A5,
+        name : "BROADCAST_SECURITY_KEY",
+        flags : [ FLAG_IRQ, FLAG_ENCR_R ],
+        properties : [ read ],
+        value : 0x0
+    },
+
+    characteristic {
+        uuid : 0x0000BCA6D10211E19B2300025B00A5A5,
+        name : "BROADCAST_STREAM_SERVICE_RECORDS",
+        flags : [ FLAG_IRQ, FLAG_DYNLEN ],
+        properties : [ read ],
+        value : 0x0
+    },
+
+    characteristic {
+        uuid : 0x0000BCA8D10211E19B2300025B00A5A5,
+        name : "BROADCAST_IDENTIFIER",
+        flags : [ FLAG_IRQ, FLAG_DYNLEN ],
+        properties : [ read ],
+        value : 0x0
+    }
+},

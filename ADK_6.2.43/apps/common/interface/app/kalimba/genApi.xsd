@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<!-- Copyright (c) 2016 Qualcomm Technologies International, Ltd. -->
+<!--   %%version -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://www.w3schools.com"
+xmlns="http://www.w3schools.com"
+elementFormDefault="qualified">
+
+  <!-- ********************************************************** -->
+  <!-- Top level document stuff -->
+  <xs:element name="doc">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="docInfo" type="docType" minOccurs="0"/>
+        <xs:group ref="symbolGroup" maxOccurs ="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="title"      type="xs:string"/>
+      <xs:attribute name="info"       type="xs:string"/>
+      <xs:attribute name="matlabRoot" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <!-- ********************************************************** -->
+
+  <!-- ********************************************************** -->
+  <!-- Base types -->
+  <xs:complexType name="docType" mixed="true">
+    <xs:choice>
+      <xs:group ref="faces" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+    <xs:attribute name="type" default="text">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="text|xml"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  <!-- format types used for html/xml output, e.g. in info -->
+  <xs:group name="faces">
+    <xs:choice>
+      <xs:element name="b">
+        <xs:complexType mixed="true">
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:group ref="faces" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="i">
+        <xs:complexType mixed="true">
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:group ref="faces" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="tt">
+        <xs:complexType mixed="true">
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:group ref="faces" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:choice>
+  </xs:group>
+
+
+  <xs:complexType name="symbolType">
+    <xs:sequence>
+      <xs:element name="name"    type="xs:string"/>
+      <xs:element name="info"    type="docType"/>
+      <xs:element name="comment" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="preprocType">
+    <xs:sequence>
+      <xs:element name="name"    type="xs:string" minOccurs="0"/>
+      <xs:element name="info"    type="xs:string" minOccurs="0"/>
+      <xs:element name="comment" type="xs:string" minOccurs="0"/>
+      <xs:element name="value"   type="xs:string" minOccurs="0"/>
+      <xs:element name="type"    type="xs:string" minOccurs="0"/>
+      <xs:element name="test"    type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="containerType">
+    <xs:complexContent>
+      <xs:extension base="symbolType">
+        <xs:sequence>
+          <xs:element name="instance" type="xs:string"  minOccurs="0"/>
+          <xs:element name="size"    type="xs:integer" minOccurs="0"/>
+          <xs:element name="members">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:group ref="symbolGroup" maxOccurs ="unbounded"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="valueType">
+    <xs:complexContent>
+      <xs:extension base="symbolType">
+        <xs:sequence>
+          <xs:element name="value" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- ********************************************************** -->
+
+
+  <!-- ********************************************************** -->
+  <!-- User types, what we want people to use -->
+  <!-- Group for all symbols -->
+  <xs:group name="symbolGroup">
+    <xs:choice>
+        <!-- General -->
+        <xs:element name="general">
+          <xs:complexType>
+            <xs:complexContent>
+              <xs:extension base="symbolType">
+                <xs:sequence>
+                  <xs:element name="subtype" type="xs:string"/>
+                  <xs:element name="size"    type="xs:integer" minOccurs="0"/>
+                </xs:sequence>
+              </xs:extension>
+            </xs:complexContent>
+          </xs:complexType>
+        </xs:element>
+        <!-- List define and required children -->
+        <xs:element name="listDefine">
+          <xs:complexType>
+            <xs:complexContent>
+              <xs:extension base="symbolType">
+                <xs:sequence>
+                  <xs:element name="members">
+                    <xs:complexType>
+                      <xs:choice minOccurs="1" maxOccurs="unbounded">
+                        <xs:element name="listEntry" type="valueType"/>
+                        <xs:element name="listNumEls" type="symbolType"/>
+                      </xs:choice>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:extension>
+            </xs:complexContent>
+          </xs:complexType>
+        </xs:element>
+        <!-- Enumeration and required children -->
+        <xs:element name="enum">
+          <xs:complexType>
+            <xs:complexContent>
+              <xs:extension base="symbolType">
+                <xs:sequence>
+                  <xs:element name="valuesRequired" type="xs:boolean" default="false" minOccurs="0"/>
+                  <xs:element name="members">
+                    <xs:complexType>
+                      <xs:choice minOccurs="1" maxOccurs="unbounded">
+                        <xs:element name="enumEntry" type="valueType"/>
+                      </xs:choice>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:extension>
+            </xs:complexContent>
+          </xs:complexType>
+        </xs:element>
+
+        <!-- preprocessor commands all very simple -->
+        <xs:element name="define"   type="preprocType"/>
+        <xs:element name="endif"    type="preprocType"/>
+        <xs:element name="hashElif" type="preprocType"/>
+        <xs:element name="hashElse" type="preprocType"/>
+        <xs:element name="hashIf"   type="preprocType"/>
+        <xs:element name="ifdef"    type="preprocType"/>
+        <xs:element name="ifndef"   type="preprocType"/>
+
+        <!-- Pure containers -->
+        <xs:element name="struct" type="containerType"/>
+        <xs:element name="union"  type="containerType"/>
+
+        <!-- Typedef -->
+      <xs:element name="typedef">
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="symbolType">
+              <xs:choice>
+                <xs:element name="alias" type="xs:string"/>
+                <xs:element name="members">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:group ref="symbolGroup" maxOccurs ="unbounded"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:choice>
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+
+        <!-- Banner -->
+        <xs:element name="banner">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="text" type="docType"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+    </xs:choice>
+  </xs:group>
+
+  <!-- ********************************************************** -->
+</xs:schema>

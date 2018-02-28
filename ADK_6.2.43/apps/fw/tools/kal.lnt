@@ -1,0 +1,404 @@
+// Copyright (c) 2016 Qualcomm Technologies International, Ltd.
+//   %%version
+// FILE
+//  kal.lnt  -  compiler options for PC-lint/Flexelint for kalcc
+//
+// DESCRIPTION
+//  Compiler adaptation file for PC-lint/Flexelint to process source code
+//  intended for use with the Kalimba toolchain.
+//
+//  This file was originally produced by Steven Singer for the BlueCore
+//  firmware, but has been heavily customised several times.
+//
+// Start with all messages enabled (and then turn off some below)
+
+-w4
+//////////////////////////////////////////////////////////////////////////////
+// Architecture definition
+
+// Ints and pointers have standard sizes
+-sb8            // 8 bit bytes (and chars)
+-ss2            // sizeof(short) = 2
+-si4            // sizeof(int) = 4
+-sl4            // sizeof(long) = 4
+-sll8           // sizeof(long long) = 8 (GCC only)
+-spD4           // sizeof(data *) = 4
+-spP4           // sizeof(function *) = 4
+
+// No alignment constraints
+-al1            // Arbitrary 'long' alignment
+-all1           // Arbitrary 'long long' alignment (GCC only)
+-apP1           // Aribtrary 'function *' alignment
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Compiler setup
+
+// ANSI(-ish) compiler
+-A(C90)
+
+// Library header files recognised by name only
+// Avoid errors on:
+//  - va_list in stdarg.h (10,19)
+//  - Unnamed parameters in prototypes (955,960)
+//  - #undef usage. (961)
+//  - Macro redefined (kalcc defines NULL in stddef.h and string.h) (760,962)
+//  - Unary operatior in macros. (973)
+//  - Unrecognised pragmas. (975)
+//  - Ellipsis (...) in stdio (1916)
++libclass(angle)
++libh(assert.h, ctype.h, errno.h, float.h, limits.h, math.h, setjmp.h, target/pdiff.h, target/size.h, target/wchar.h, target/stdarg.h)
+// Treat the auto-generated register declarations as library files
++libh(io/io.h, io/io_defs.h, io/io_map.h, hal/hal_macros.h)
+
+// Stuff written in assembler rather than C needs to be a lib file too
++libh(optim/optim.h)
+-elib(10,19,760,955,960,961,962,973,975,1916)
+
+// So do the bluestack headers
++libh(bluestack/att_prim.h, bluestack/dm_prim.h, bluestack/l2cap_prim.h, bluestack/rfcomm_prim.h, bluestack/sdc_prim.h, bluestack/sds_prim.h)
++libh(bluestack/bluetooth.h)
++libh(dmlib/dmlib.h)
+
+// GCC and Norcroft use special function-style qualifiers to declare
+// pseudo-functions for generating special op-codes
+-D__asm__()=
+
+// kalcc defines various things
+-D__ptrdiff_t=int
+-D"__size_t=unsigned int"
+-D__wchar_t=int
+
+// Lint doesn't understand _Pragma
+-D_Pragma(x)=
+
+// GCC defines special preprocessor symbols giving type sizes
+// And we get those as part of the build system. Included in the command line.
+
+// 'interrupt' is not a reserved word
+-rw(interrupt)
+
+// Definition of offsetof does some evil stuff with NULL pointers
+-emacro(413,offsetof)
+-emacro(545,offsetof)
+
+// Implicit conversions are allowed between NULL (0) and arbitrary pointers
+--emacro((610), NULL)
+--emacro((611), NULL)
+--emacro((910), NULL)
+--emacro((916), NULL)
+--emacro((918), NULL)
+
+// Use UNIX convention for include paths: start from directory containing
+// source file rather than the current working directory
++fdi
+
+// We can have some large macros if we have PIO debugging switched on.
+// Double macro storage, then double it again.
++macros
++macros
+
+//////////////////////////////////////////////////////////////////////////////
+// Build system preferences
+
+// Pick one of the following:
+-zero           // Keep going and collect all errors at the end
+//-zero(400)    // Keep going if we get just informational or warning messages
+//-zero(700)    // Keep going if we get just informational messages
+
+// Do not add extra informational messages duplicating locations or references
+-e830           // Location cited in prior message
+-e831           // Reference cited in prior message
+-e900           // Omit count of messages produced
+
+// Temporary removals
+// These two warn about padding required either within structs
+// or to bring total struct size up to a multiple of 4
+-e958
+-e959
+
+// Do not worry about uninitialised globals
+// (it seems impossible to suppress them on a per-occurrence basis)
+// especially since initialising them to zero explicitly wastes CONST space
+-e728
+-e729
+
+// Don't worry about global enums that aren't referenced.  Their members
+// probably are.
+-e758
+
+// Include extra information in .lob files
++fod            // Include declared (but not defined/referenced) symbols
++fce            // Continue processing file after #error
+
+// Format messages to simplify automatic processing by tools
+-hSFbr^4        // Always prefix mesages by "File <f>, Line <l>"
+-width(0)       // Do not wrap long lines
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Warning levels for ANSI functions based on our normal use
+
+// The following functions exhibit variable return modes. That is, they may
+// equally-usefully be called for a value as called just for their effects.
+// Accordingly we inhibit Warning 534 for these functions.
+//
+//  Feel free to add to or subtract from this list.
+-esym(534,memcpy,memmove,memset)
+-esym(534,printf,puts,sprintf,strcat,strcpy)
+-esym(534,strncat,strncpy)
+
+//////////////////////////////////////////////////////////////////////////////
+// Stylistic issues
+
+-DPCLINT=1      // Allow source code to be tweaked for PC-lint
+
++fsc            // String constants are not writeable
+
+-e441           // for clause irregularity: loop variable 'index' not found in 2nd for expression (9.00d)
+-e443           // for clause irregularity: variable 'end' initialized in 1st expression does not match 'iep' modified in 3rd (9.00d)
+-e502           // ~ is often (safely) used on signed types
+-e506           // Constant boolean expressions are often used in macros
+-e522           // Highest operation, function 'foo', lacks side-effects (9.00d)
+-e537           // Repeated includes are okay (header guards are used)
+-e641           // Enums are converted to integers when writing to registers
+-e652           // Macro implementations of prototyped functions are allowed
+-e655           // Bitwise operations used on enums for register masks
+-e701           // Signed left shifts are safe (int)
+-e703           // Signed left shifts are safe (long)
+-e717           // 'do { ... } while(0)' is common in macros
+-e731           // XOR implemented as comparison between boolean expressions
+// HERE - It would be nice to re-enable e740...
+-e740           // Pointers are cast without going through void * or char *
+-e766           // Unnecessary #include (no referenced symbols)
+-e769           // Many enum values are defined but not used (io_defs.h)
+-e778           // Macro arithmetic sometimes yields a zero constant result
+-e788           // Switch on enum may omit some values when default provided
+-e793           // ANSI limit of 127 enum constants exceeded
+-e820           // Extra set of brackets round an assignment makes a boolean
+-e826           // Casts are used from 'uint8 *' or 'uint16 *' to larger types
+-e835           // A zero has been given as left argument to operator '<<'         (9.00d)
+-e840           // Use of nul character in a string literal                        (9.00d)
+-e845           // The right argument to operator '|' is certain to be 0           (9.00d)
+-e849           // Symbol 'foo' has same enumerator value '3' as enumerator 'bar'  (9.00d)
+-e904           // Return statement before end of function 'foo'                   (9.00d)
+-e911           // Implicit promotion to int is common
+-e912           // Do not bother with a suffixes for small integer literals
+-e915           // Implicit arithmetic conversion is common
+-e917           // Implicit prototype coercion (e.g. int to short) is common
+-e92?           // Do not warn about safe casts
+-e930           // Can explicitly cast to or from enum types
+-e931           // Expressions with side-effects are normally safe
+-e935           // Structs with 'int' fields do not need binary compatibility
+-e941           // Macro arithmetic sometimes yields a zero constant result
+-e944           // Arithmetic sometimes yield a zero result at run-time
+-e946           // Relationship tests are applied to pointers
+-e947           // Subtract operator is applied to pointers
+-e948           // Operator '>' always evaluates to False (9.00d)
+-e952           // Using const in for non-pointer parameters obscures the API
+-e953           // Non-parameter variables are not always const qualified
+-e956           // Assume that multi-threaded code protects data appropriately
+-e1791          // No token on this line follows the 'return' keyword              (9.00d)
+// Some MISRA required rules are silly
+//-esym(960, 33, 42, 54, 59, 91, 98)       // flint-8.00t Misra 1998
+-esym(960, 12.4, 12.10, 14.3)              // flint-8.00x Misra 1998 & 2004
+-esym(960, 14.8, 14.9, 19.5, 19.12)        //       "            "
+-esym(960, 10.1, 10.3, 10.4, 10.5, 12.7)   // flint-8.00x Misra 2004
+-esym(960, 6.1, 6.2, 8.7, 10.6, 12.5, 15.3, 16.4, 16.9, 17.1, 17.4, 20.2)         // flint-9.00i Misra 2004
+-esym(961, 12.6, 12.13)                           // flint-9.00i MISRA 2004 
+-esym(960, 14.6, 18.4, 19.12)              //       "            "
+-esym(960, 8.5) // no object/function definitions in header files
+-esym(960, 9.3) // '=' should initialize either all enum members or only the first
+// Most MISRA advisory rules are silly
+//-esym(961, 18, 28, 40, 44, 47) // flint-8.00t Misra 1998
+-esym(961, 12.1)                 // flint-8.00x Misra 1998 & 2004
+-esym(961, 19.13)                // flint-8.00x Misra 2004
+-esym(961, 19.7)                 // flint-9.00d MISRA Advisory Rule 19.7, Function-like macro defined  (9.00d)
+-e964           // Header files are sometimes included indirectly
+-e966           // Header files are sometimes included indirectly
+-e970           // Intrinsic types are sometimes used directly
+-e971           // Sometimes 'char' is used without caring about [un]signed
+-e1960          // Violates MISRA C++ 2008 Required Rule 7-3-1, Global declaration  (9.00d)
+-e1963          // Violates MISRA C++ 2008 Advisory Rule 16-3-2, '#/##' operator used  (9.00d)
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Project functions
+
+// Transfer some useful properties from standard functions
+-function(exit, panic, panic_diatribe, __assert)
+-function(free, pfree, sfree)
+-function(malloc, xpmalloc, xzpmalloc, xsmalloc)
+-function(malloc(0), pmalloc, zpmalloc, smalloc)
+-function(malloc(1), pmalloc, zpmalloc, smalloc)
+-function(realloc, xprealloc, xsrealloc)
+-function(realloc(0), prealloc, srealloc)
+-function(realloc(1), prealloc, srealloc)
+-function(realloc(2), prealloc, srealloc)
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Specific problem workrounds
+
+// The source code exceeds some ANSI limits
+-esym(793, external identifiers)        // >3 (?) external identifiers
+-esym(793, conditional inclusion levels)// >3 (?) #if(n)def nesting
+-esym(793, macros in module)            // >1793 macros in station_signals.h
+-esym(793, identifiers in one block)    // >511 identifiers in io_map.h
+-esym(793, #include levels)             // >15 levels of #include nesting
+
+// Allow dummy symbol used to suppress Norcroft errors for empty source files
+-esym(14, suppress_no_external_declaration_in_translation_unit_whinges)
+-esym(15, suppress_no_external_declaration_in_translation_unit_whinges)
+
+// Do not warn about unnecessary #includes of private header files
+-efile(766, *_private.h)
+
+// We expect repeated inclusion of these files
+-efile(451, assert.h)
+
+// The interrupt vector table and default handler are defined in assembler
+-esym(526, irq_branch_table, irq_null_handler)
+
+// Spurious C++ (operator new) warnings generated
+-e1548
+
+// Try more inter-function dependecy checking
+-passes(4)
+
+// We have a typedef for Booleans
+-strong(b,bool)
+
+// Some lines are really long
++linebuf
+
+// Enum used only for compilation check and not referenced
+-esym(758, task_end_id_t)
+// Enum used only as an intermediate for getting a value as
+// otherwise lint complains
+-esym(758, *_queue_id_with_tasks)
+-esym(758, task_id_*_queues)
+
+
+// Allow unused debug symbols in output
+-esym(552, vco_best_ftrim)
+-esym(552, vco_best_error)
+-esym(552, swatchdog_ticks)
+-esym(552, panic_seg_fault_enum)
+-esym(552, rame_rx_unsupported_modulation)
+-esym(550, just_handled_suspension_cfm)
+-esym(552, rame_debug_n_held)
+-esym(552, rame_debug_n_unconditional)
+-esym(552, rame_debug_conditional_held)
+-esym(552, pt_alive)
+-esym(552, dorm_no_deep_sleep_reason)
+-esym(552, preserved_panic)
+-esym(552, ptest_panic_code)
+-esym(552, ptest_panic_arg)
+-esym(552, htol_state)
+-esym(552, htol_sub_state)
+
+// This symbol is sometimes never used.
+-esym(552, utils_fsm_init_req_type)
+
+// Lint thinks we don't use these, but we do
+-esym(552, pmalloc_length)
+-esym(552, pmalloc_owner)
+-esym(552, pmalloc_requests)
+
+// Allow these structures to be unused
+-esym(753, compile_time_assert_*)
+-esym(754, compile_time_assert_*)
+-esym(758, compile_time_assert_*)
+
+// Allow these enums be unused
+-esym(758, sdl_states_enum_*)
+-esym(758, patch_mib_int_func)
+-esym(758, patch_mib_string_func)
+-esym(758, panic_seg_fault_enum)
+
+// GCC has messed up stddef.h, but we don't care (lint 9.00d)
+-efile(451, stddef.h)
+-efile(967, stddef.h)
+-efile(451, string.h)
+-efile(451, limits.h)
+-efile(808, pdiff.h)
+// hal_macros.h is full of sign losses
+// Unfortunately, lint doesn't regard this as a file based message
+// so we can't suppress it that way. Pile of poo.
+// -efile(732, hal/hal_macros.h)
+
+// We know that this macro has a constant value (for us).
+--emacro((774), HYDRA_SW_PATCH_POINT_ACTIVE)
+
+//////////////////////////////////////////////////////////////////////////////
+// Extend some error messages
+
+// Provide guidance on how to fix some problems
+-append(534, - Use "(void) function()" if return value is being ignored deliberately)
+-append(648, - Fix by explicitly masking the value before shifting)
+-append(713, - Ensure that this is not an error (that the value can fit within the constraints of a signed quantity) and then use a cast to the target type)
+-append(732, - Ensure that this is not an error (that the assigned value is never negative) and then use a cast to the target type)
+-append(737, - Ensure that this is not an error (that the signed value could never be negative and that the unsigned value can fit within the constrains of a signed quantity) and then use a cast to the target type)
+
+
+//////////////////////////////////////////////////////////////////////////////
+// "Temporary" suppression directives until the worst problems have been fixed
+
+// These header files have many problems.
++libh(gen/xap/ccp_prim.h)
++libh(gen/xap/mib_prim.h)
+
+// Mostly for the benefit of the ghastly hal_macros.h:
+// Don't warn about unbracketed macros in library files.
+-elibsym(773)
+// Don't warn about redundant macro definitions in library files.
+// I don't really understand the difference between these two.
+-elibsym(760)
+-elibsym(962)
+
+// Safe code, but possibly inefficient
+-e714           // External symbol defined but not referenced
+-e768           // Global struct or union member not referenced
+-e757           // Global symbol defined but not referenced
+-e919           // Implicit conversion to higher precision type
+
+// Scope of definition or declaration could be reduced
+-e765           // Symbol could be made static
+-e759           // Declaration could be moved out of header
+
+// Code that really should be improved
+-e526           // Reference to undefined symbol (other processor or assembler)
+-e620           // Suspicious constant (prefer use of upper-case "L")
+-e747           // Significant prototype coercion
+-e818           // Pointer parameter could be declared as pointing to const
+-e846           // Signedness of bit-field is implementation defined        (9.00d) 
+-e954           // Pointer variable could be declared as pointing to const
+-e957           // Function defined without a prototype in scope
+-e967           // Header file 'foo' does not have a standard include guard (9.00d)
+// Use of continue anywhere, or break outside of switch
+//-esym(960, 57, 58)
+-esym(960, 14.5)
+// Use of #undef, or if/elsif without else
+//-esym(961, 60, 92) 
+-esym(960, 14.10)
+-esym(960, 19.6)
+
+// These are new in lint 9.00d, and we seem to get them even though we
+// don't deserve them.  Not sure whats going on here?
+-e843         // Variable 'foo' could be declared as const                     (9.00d)
+-e844         // Pointer variable 'foo' could be declared as pointing to const (9.00d)
+
+// Lint complains about stack usage, but gives no details and refuses
+// to be suppressed at the point of occurrence
+// All it contains is a cryptic reference to +stack
+// which is not in the manual
+-e974
+
+// When we enable various debug options such as SMALLOC_TRACE_OWNER_PC_ONLY
+// lint (correctly) complains we have a macro called "smalloc" for the actual
+// malloc function and a structure field shared.smalloc. It doesn't bite so
+// we ignore it
+-esym(123, smalloc)
+
+

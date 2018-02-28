@@ -1,0 +1,38 @@
+
+
+
+
+
+
+
+
+primary_service {
+    uuid : 0x1814,
+    name : "RUNNING_SPEED_AND_CADENCE_SERVICE",
+
+
+
+        characteristic {
+            uuid : 0x2A53,
+            name : "RUNNING_SPEED_AND_CADENCE_MEASUREMENT",
+            flags : [ FLAG_IRQ, FLAG_DYNLEN ],
+            properties : [ notify ],
+            value : 0x0000,
+
+            client_config
+            {
+                name : "RUNNING_SPEED_AND_CADENCE_CLIENT_CONFIG",
+                flags : FLAG_IRQ
+            }
+        },
+
+
+
+        characteristic {
+            uuid : 0x2A54,
+            name : "RSC_FEATURE",
+            properties : [ read ],
+            size_value : 0x02,
+            value : 0x0000
+            }
+    }

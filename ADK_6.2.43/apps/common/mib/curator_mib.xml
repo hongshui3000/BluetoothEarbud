@@ -1,0 +1,5574 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<metadata_list  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="HydraMeta.xsd">
+
+  <!-- Curator -->
+  <metadata subsystem_name="curator" subsystem_alias="system" subsystem_id="0" version="0">
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+#define NUMBER_OF_PIOS_MINUS_1 31
+<!--
+#endif /*(NUMBER_OF_PIOS == 32)*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+#define NUMBER_OF_PIOS_MINUS_1 71
+<!--
+#endif /*(NUMBER_OF_PIOS == 72)*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+#define NUMBER_OF_PIOS_MINUS_1 95
+<!--
+#endif /*(NUMBER_OF_PIOS == 96)*/
+-->
+   <config_element name="StubInt" psid="1">
+     <label>Dummy integer MIB entry</label>
+     <description_user>
+A MIB integer entry that can be harmlessly read or written, e.g.,
+for testing.
+     </description_user>
+     <type>int32</type>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="StubStr" psid="2">
+     <label>Dummy string MIB entry</label>
+     <description_user>
+A MIB string entry that can be harmlessly read or written, e.g.,
+for testing.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>0</range_min>
+     <range_max>128</range_max>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="ChipVersion" psid="3">
+     <label>Chip hardware major version number</label>
+     <description_user>
+The numeric identifier for the chip management subsystem silicon version.
+
+See the description of ChipRevision
+     </description_user>
+     <type>uint16</type>
+     <function function_name="mibgetfn_common" type="get" />
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="ChipRevision" psid="4">
+     <label>Chip hardware minor version number</label>
+     <description_user>
+The numeric identifier for the chip management subsystem silicon
+revision (as returned by the chip's GBL_CHIP_VERSION hardware register).
+Other than being different for each design variant (but not for
+alternative packaging options), the particular values returned do not
+have any significance to the host, but the combination of ChipVersion
+and ChipRevision determine which software builds will run on the chip.
+     </description_user>
+     <type>uint16</type>
+     <function function_name="mibgetfn_common" type="get" />
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="FirmwareBuildNumber" psid="5">
+     <label>Numeric firmware build identifier</label>
+     <description_user>
+Each published firmware build has a unique numeric identifier and
+a unique textual (string) identifier.  The number and the string
+both uniquely identify the firmware build.
+
+This variable gives the numeric build identifier.  The value is
+normally expressed in decimal.
+
+The corresponding textual identifier is available via
+FirmwareBuildString.
+     </description_user>
+     <type>uint32</type>
+     <function function_name="mibgetfn_common" type="get" />
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="PioDirection" psid="6">
+     <label>Control the directions of the PIO lines</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <description_user>
+The chip's PIO lines can be configured as either Inputs or Outputs.
+This key holds a bitmask where bit 0 represents PIO[0], bit 1 represents
+PIO[1], and so on.
+
+Set a bit high to configure the corresponding PIO as an ouput.
+
+Set a bit low to configure the corresponding PIO as an input.
+     </description_user>
+     <type>uint32</type>
+<!--
+#endif
+-->
+
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <description_user>
+The chip's PIO lines can be configured as either Inputs or Outputs.
+This keys holds 12 octets giving 6 16-bit bitmask where bit 0 of ith bitmask
+represents PIO[0+16*i],bit 1 represents PIO[1+16*i], and so on.
+
+Set a bit high to configure the corresponding PIO as an ouput.
+
+Set a bit low to configure the corresponding PIO as an input.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>12</range_min>
+     <range_max>12</range_max>
+<!--
+#endif /* NUMBER_OF_PIOS == 96 */
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <description_user>
+The chip's PIO lines can be configured as either Inputs or Outputs.
+
+The key holds 9 octets where bit 0 of the nth 8-bit bitmask represents PIO[0+8*n], bit 1
+represents PIO[1+8*n], and so on.
+
+Set a bit high to configure the corresponding PIO as an ouput.
+
+Set a bit low to configure the corresponding PIO as an input.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>9</range_min>
+     <range_max>9</range_max>
+<!--
+#endif /* NUMBER_OF_PIOS == 72 */
+-->
+      <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="PioDrive" psid="7">
+     <label>Control the directions of the PIO lines</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <description_user>
+When a PIO is configured as an output using the PioDirection key, its
+logical level can then be set using this key.
+The key holds a bitmask where bit 0 represents PIO[0], bit 1 represents
+PIO[1], and so on.
+
+Set a bit high to drive the corresponding PIO high.
+
+Set a bit low to drive the corresponding PIO low.
+     </description_user>
+     <type>uint32</type>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <description_user>
+When a PIO is configured as an output using the PioDirection key, its
+logical level can then be set using this key.
+This keys holds 12 octets giving 6 16-bit bitmask where bit 0 of ith 16-bit bitmask represents PIO[0+16*i],
+bit 1 represents PIO[1+16*i], and so on.
+
+Set a bit high to drive the corresponding PIO high.
+
+Set a bit low to drive the corresponding PIO low.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>12</range_min>
+     <range_max>12</range_max>
+<!--
+#endif /*(NUMBER_OF_PIOS == 96)*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <description_user>
+When a PIO is configured as an output using the PioDirection key, its
+logical level can then be set using this key.
+The key holds 9 octets where bit 0 of the nth 8-bit bitmask represents PIO[0+8*n], bit 1
+represents PIO[1+8*n], and so on.
+
+Set a bit high to drive the corresponding PIO high.
+
+Set a bit low to drive the corresponding PIO low.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>9</range_min>
+     <range_max>9</range_max>
+<!--
+#endif /*(NUMBER_OF_PIOS == 72)*/
+-->
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="PioStatus" psid="8">
+     <label>Read the status of the PIO lines</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <description_user>
+This key returns the state of the chip PIO
+lines 0 to 31 as bitmask.  It returns the
+state of PIO lines that are controlled by the firmware rather than the host,
+so host code may have to mask out bit positions it is not interested in.
+
+     </description_user>
+     <type>uint32</type>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <description_user>
+This key returns the state of the chip PIO
+lines 0 to 96 as bitmask. It holds 12 octets giving 6 16-bit bitmask where bit 0
+of ith 16-bit bitmask represents PIO[0+16*i],bit 1 represents PIO[1+16*i]. It returns the
+state of PIO lines that are controlled by the firmware rather than the host,
+so host code may have to mask out bit positions it is not interested in.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>12</range_min>
+     <range_max>12</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <description_user>
+This key returns the state of the chip PIO lines 0 to 71 as a bitmask. It holds
+10 octets giving 5 16-bit bitmask where bit 0 of ith 16-bit bitmask represents
+PIO[0+16*i],bit 1 represents PIO[1+16*i]. Note that bits 72 thru 79 are reserved.
+It returns the state of PIO lines that are controlled by the firmware rather than
+the host, so host code may have to mask out bit positions it is not interested in.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>10</range_min>
+     <range_max>10</range_max>
+<!--
+#endif
+-->
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="PioPullEnable" psid="9">
+     <label>Enable the pulls of the PIO lines</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <description_user>
+This key allows pulls of the PIO lines to be enabled.
+
+The key holds a bitmask where bit 0 represents PIO[0], bit 1 represents
+PIO[1], and so on.
+
+Set a bit high to enable the pull.
+
+Set a bit low to disable the pull.
+
+     </description_user>
+     <type>uint32</type>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <description_user>
+This key allows pulls of the PIO lines to be enabled.
+
+The key holds a 12 octets giving 6 16-bit bitmasks where bit 0 of ith 16-bit bitmask
+represents PIO[0+16*i], bit 1 represents PIO[1+16*i], and so on.
+
+Set a bit high to enable the pull.
+
+Set a bit low to disable the pull.
+
+Some PIOs do not have the configurable PULL ENABLE. The values
+set by this mib key for those PIOs without configurable PULL ENABLE are
+ignored by the curator. Also a bit low for those PIOs without configurable PULL ENABLE
+is reported by this mib key.
+
+     </description_user>
+     <type>octet_string</type>
+     <range_min>12</range_min>
+     <range_max>12</range_max>
+<!--
+#endif /*(NUMBER_OF_PIOS == 96)*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <description_user>
+This key allows pulls of the PIO lines to be enabled.
+
+The key holds 9 octets where bit 0 of the nth 8-bit bitmask represents PIO[0+8*n], bit 1
+represents PIO[1+8*n], and so on.
+
+Set a bit high to enable the pull.
+
+Set a bit low to disable the pull.
+
+Some PIOs do not have the configurable PULL ENABLE. The values set by this mib key for
+those PIOs without configurable PULL ENABLE are ignored by the curator. Also a bit low
+for those PIOs without configurable PULL ENABLE is reported by this mib key.
+
+     </description_user>
+     <type>octet_string</type>
+     <range_min>9</range_min>
+     <range_max>9</range_max>
+<!--
+#endif /*(NUMBER_OF_PIOS == 72)*/
+-->
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="PioPullDirection" psid="10">
+     <label>Set the pull direction of the PIO lines</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <description_user>
+This key allows the pull direction of the PIO lines to be specified.
+
+The key holds a bitmask where bit 0 represents PIO[0], bit 1 represents
+PIO[1], and so on.
+
+Set a bit high to set the pull to a pull up.
+
+Set a bit low sets the pull to a pull down.
+
+     </description_user>
+     <type>uint32</type>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <description_user>
+This key allows the pull direction of the PIO lines to be specified.
+
+The key holds a 12 octets giving 6 16-bit bitmasks where bit 0 of ith 16-bit bitmask
+represents PIO[0+16*i], bit 1 represents PIO[1+16*i], and so on.
+
+Set a bit high to set the pull to a pull up.
+
+Set a bit low to set the pull to a pull down.
+
+Some PIOs do not have the configurable PULL DIRECTION. If the PIO does not the configurable PULL DIRECTION,
+the value set by this mib key for that PIO is ignored by the curator. A bit low for that PIO is reported
+by this mib key.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>12</range_min>
+     <range_max>12</range_max>
+<!--
+#endif /*(NUMBER_OF_PIOS == 96)*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <description_user>
+This key allows the pull direction of the PIO lines to be specified.
+
+The key holds 9 octets where bit 0 of the nth 8-bit bitmask represents PIO[0+8*n], bit 1
+represents PIO[1+8*n], and so on.
+
+Set a bit high to set the pull to a pull up.
+
+Set a bit low to set the pull to a pull down.
+
+Some PIOs do not have the configurable PULL DIRECTION. If the PIO does not the configurable PULL DIRECTION,
+the value set by this mib key for that PIO is ignored by the curator. A bit low for that PIO is reported
+by this mib key.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>9</range_min>
+     <range_max>9</range_max>
+<!--
+#endif /*(NUMBER_OF_PIOS == 72)*/
+-->
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="PioStickyEnable" psid="11">
+     <label>Set the sticky behaviour of the PIO lines</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <description_user>
+This key allows the &quot;sticky&quot; property of the PIO lines to be
+specified.
+
+The key holds a bitmask where bit 0 represents PIO[0], bit 1 represents
+PIO[1], and so on.
+
+Set a bit high to enable the sticky behaviour.
+
+Set a bit low to disable the sticky behaviour
+
+     </description_user>
+     <type>uint32</type>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <description_user>
+This key allows the &quot;sticky&quot; property of the PIO lines to be
+specified.
+
+The key holds 12 octets giving 6 16-bit bitmasks where bit 0 of ith 16-bit bitmask
+represents PIO[0+16*i], bit 1 represents PIO[1+16*i], and so on.
+
+Set a bit high to enable the sticky behaviour.
+
+Set a bit low to disable the sticky behaviour.
+
+Some PIOs do not have the ability to configure the sticky enable property.
+The values set by this mib key for those PIOs without configurable STICKY ENABLE
+are ignored by the curator. Also a bit low for those PIOs without configurable STICKY ENABLE
+is reported by this mib key.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>12</range_min>
+     <range_max>12</range_max>
+<!--
+#endif /*(NUMBER_OF_PIOS == 96)*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <description_user>
+This key allows the &quot;sticky&quot; property of the PIO lines to be
+specified.
+
+The key holds 9 octets where bit 0 of the nth 8-bit bitmask represents PIO[0+8*n], bit 1
+represents PIO[1+8*n], and so on.
+
+Set a bit high to enable the sticky behaviour.
+
+Set a bit low to disable the sticky behaviour.
+
+Some PIOs do not have the ability to configure the sticky enable property.
+The values set by this mib key for those PIOs without configurable STICKY ENABLE
+are ignored by the curator. Also a bit low for those PIOs without configurable STICKY ENABLE
+is reported by this mib key.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>9</range_min>
+     <range_max>9</range_max>
+
+<!--
+#endif /*(NUMBER_OF_PIOS == 72)*/
+-->
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="PioProtectMask" psid="12">
+     <label>Divides PIO ownership between the host and the chip</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <description_user>
+This key allows the host to see which PIOs are reserved by the on-chip
+firmware.
+
+It can only be read, not written.
+
+The key holds a bitmask where bit 0 represents PIO[0], bit 1 represents
+PIO[1], and so on.
+
+If the bit corresponding to a PIO is high, it has been reserved by the
+on-chip firmware. This is very likely as a consequence of setting
+another MIB key to specify this PIO as being used in the feature
+controlled by that MIB key.
+
+If a PIO is allocated to the chip, the host may not attempt to modify it.
+
+     </description_user>
+     <type>uint32</type>
+<!--
+#endif /*(NUMBER_OF_PIOS == 32)*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <description_user>
+This key allows the host to see which PIOs are reserved by the on-chip
+firmware.
+
+It can only be read, not written.
+
+The key holds 12 octects giving 6 16-bit bitmasks where bit 0 of ith 16-bit bitmask
+represents PIO[0+16*i], bit 1 represents PIO[1+16*i], and so on.
+
+If the bit corresponding to a PIO is high, it has been reserved by the
+on-chip firmware. This is very likely as a consequence of setting
+another MIB key to specify this PIO as being used in the feature
+controlled by that MIB key.
+
+If a PIO is allocated to the chip, the host may not attempt to modify it.
+
+     </description_user>
+     <type>octet_string</type>
+     <range_min>12</range_min>
+     <range_max>12</range_max>
+<!--
+#endif /* (NUMBER_OF_PIOS == 96) */
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <description_user>
+This key allows the host to see which PIOs are reserved by the on-chip
+firmware.
+
+It can only be read, not written.
+
+The key holds 9 octets where bit 0 of the nth 8-bit bitmask represents PIO[0+8*n],
+bit 1 represents PIO[1+8*n], and so on.
+
+If the bit corresponding to a PIO is high, it has been reserved by the
+on-chip firmware. This is very likely as a consequence of setting
+another MIB key to specify this PIO as being used in the feature
+controlled by that MIB key.
+
+If a PIO is allocated to the chip, the host may not attempt to modify it.
+
+     </description_user>
+     <type>octet_string</type>
+     <range_min>9</range_min>
+     <range_max>9</range_max>
+<!--
+#endif /* (NUMBER_OF_PIOS == 72) */
+-->
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+<!--
+#if CHIP_HAS_PIO_PAD_CONTROL
+-->
+   <config_element name="PioDriveStrength" psid="13">
+     <label>Allows setting of PIO drive strength</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <description_user>
+When a PIO is configured as an output, this key allows the drive strength
+of the PIO to be specified.
+
+This key contains one octet per PIO on the chip starting at PIO[0] and
+ending with PIO[NUMBER_OF_PIOS_MINUS_1].
+     </description_user>
+<!--
+#endif /* (NUMBER_OF_PIOS == 32) */
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <description_user>
+When a PIO is configured as an output, this key allows the drive strength
+of the PIO to be specified.
+
+This key contains one octet per PIO on the chip starting at PIO[0] and
+ending with PIO[NUMBER_OF_PIOS_MINUS_1].
+
+The value 0xFF is reported if the PIO is not
+allowed to configure the drive strength. The curator also ignores the value
+set by this mib key if the drive strength of that PIO is not configurable.
+     </description_user>
+<!--
+#endif /* (NUMBER_OF_PIOS == 96) */
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <description_user>
+For the set method the key holds 18 octets with each PIO being represented as two
+bits. PIO[0] is bits 1:0 of the first octet, PIO[1] bits 3:2, PIO[2] bits 5:4 and
+so on.
+
+The get method returns 18 octets with two bits for each of the 72 PIOs. A value of zero is
+reported if the PIO is not allowed to configure the drive strength. The curator
+also ignores the value set by this mib key if the drive strength of that PIO is
+not configurable.
+     </description_user>
+<!--
+#endif /*(NUMBER_OF_PIOS == 72) */
+-->
+     <type>octet_string</type>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <range_min>32</range_min>
+     <range_max>32</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <range_min>18</range_min>
+     <range_max>18</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <range_min>96</range_min>
+     <range_max>96</range_max>
+<!--
+#endif
+-->
+     <function_list>
+       <function function_name="mibgetfn_pio_drive_strength" type="get" />
+       <function function_name="mibsetfn_pio_drive_strength" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="PioPullStrength" psid="14">
+     <label>Allows setting of PIO pull strength</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <description_user>
+This key allows the pull strength of the PIO to be specified.
+
+It contains one octet per PIO on the chip starting at PIO[0] and
+ending with PIO[NUMBER_OF_PIOS_MINUS_1].
+     </description_user>
+<!--
+#endif /*(NUMBER_OF_PIOS == 32)*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <description_user>
+This key allows the pull strength of the PIO to be specified.
+
+It contains one octet per PIO on the chip starting at PIO[0] and
+ending with PIO[NUMBER_OF_PIOS_MINUS_1].
+
+The value 0xFF is reported if the PIO is not
+allowed to configure the pull strength. The curator also ignores the value
+set by this mib key if the pull strength for that PIO is not configurable.
+     </description_user>
+<!--
+#endif /*(NUMBER_OF_PIOS == 96)*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <description_user>
+The key holds 9 octets where bit 0 of the nth 8-bit bitmask represents PIO[0+8*n], bit 1
+represents PIO[1+8*n], and so on.
+
+The get method returns 9 octets with one bit for each of the 72 PIOs. A value of zero is
+reported if the PIO is not allowed to configure the pull strength. The curator
+also ignores the value set by this mib key if the pull strength of that PIO is
+not configurable.
+     </description_user>
+<!--
+#endif /*(NUMBER_OF_PIOS == 72)*/
+-->
+     <type>octet_string</type>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <range_min>32</range_min>
+     <range_max>32</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <range_min>9</range_min>
+     <range_max>9</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <range_min>96</range_min>
+     <range_max>96</range_max>
+<!--
+#endif
+-->
+<!--
+-->
+     <function_list>
+       <function function_name="mibgetfn_pio_pull_strength" type="get" />
+       <function function_name="mibsetfn_pio_pull_strength" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_PIO_PAD_CONTROL */
+-->
+
+<!--
+#if CHIP_HAS_PIO_MUX_CONTROL
+-->
+   <config_element name="PioMuxSetting" psid="15">
+     <label>Allows setting of PIO MUX</label>
+     <description_user>
+This key allows the setting of the hardware multiplexor values for all
+PIOs.  It may be used to switch PIOs between the normal PIO state and
+various other dedicated capabilities.  The setting 0 indicates that the
+PIO is controlled by the standard PIO hardware.  Other settings are specific
+to each chip revision, and to each PIO, as is the default value of each
+multiplexor.
+
+Note that the value read from the chip reflects the current setting
+of the multiplexor.  This may be useful if making changes as a write
+will always update the multiplexor setting for all PIOs.
+
+Some capabilities can also be controlled by resource management.  This
+is preferable where possible as by that means PIOs can be controlled
+individually; furthermore, the resource manager performs sanity checking
+on the configuration.
+
+This key contains one octet per PIO on the chip starting at PIO[0] and
+ending with PIO[NUMBER_OF_PIOS_MINUS_1].
+     </description_user>
+     <type>octet_string</type>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <range_min>32</range_min>
+     <range_max>32</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <range_min>72</range_min>
+     <range_max>72</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <range_min>96</range_min>
+     <range_max>96</range_max>
+<!--
+#endif
+-->
+     <function_list>
+       <function function_name="mibgetfn_pio_mux_setting" type="get" />
+       <function function_name="mibsetfn_pio_mux_setting" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_PIO_MUX_CONTROL */
+-->
+
+   <config_element name="PioSubsystemAllocation" psid="16">
+     <label>Allows allocation of PIO pins to different subsystems</label>
+     <description_user>
+This key contains one octet per PIO on the chip starting at PIO[0] and
+ending with PIO[NUMBER_OF_PIOS_MINUS_1].  Each octet specifies the subsystem, in the
+addressing units used by the hardware, that will own the PIO.
+     </description_user>
+     <type>octet_string</type>
+<!--
+#if defined(CHIP_A7CA)
+-->
+     <default>[00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 01 01 01 ]</default>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <range_min>32</range_min>
+     <range_max>32</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <range_min>72</range_min>
+     <range_max>72</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <range_min>96</range_min>
+     <range_max>96</range_max>
+<!--
+#endif
+-->
+     <function_list>
+       <function function_name="mibgetfn_pio_subsystem_allocation" type="get" />
+       <function function_name="mibsetfn_pio_subsystem_allocation" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="FirmwareBuildString" psid="17">
+     <label>Textual firmware build identifier</label>
+     <description_user>
+Each published firmware build has a unique numeric identifier and
+a unique textual (string) identifier.  The number and the string
+both uniquely identify the firmware build.
+
+This variable gives the textual build identifier.  The value is an
+ASCII string.
+
+The corresponding numeric identifier is available via
+FirmwareBuildNumber.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>0</range_min>
+     <range_max>128</range_max>
+     <function function_name="mibgetfn_common" type="get" />
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="ResourceDependencies" psid="18">
+     <label>Array of pairs of resource identifiers specifying dependencies</label>
+     <description_user>
+The string consists of an arbitrary number of sets of four octets.
+Each set encodes two unsigned 16-bit numbers, with the more
+significant octet first within each number.  These pairs of numbers
+correspond to hardware resources (type CCP_RESOURCE_ID).  Each pair
+specifies that the first resource depends on the second resource,
+i.e. whenever the first resource is requested, the second resource
+must first be acquired.
+
+Both resources must be known to the firmware, i.e. must be compiled
+into the resource database.  Not all resources are necessarily known
+to all versions of the chip management subsystem firmware.
+
+This is used to specify run-time dependency information for resources.
+For example, to specify that a certain piece of hardware
+(CCP_RESOURCE_ID_WONDAWARE) depends on PIOs 3 and 4, the string would
+contain the four resource IDs:
+CCP_RESOURCE_ID_WONDAWARE CCP_RESOURCE_ID_PIO3
+CCP_RESOURCE_ID_WONDAWARE CCP_RESOURCE_ID_PIO4
+
+Failure to write this key, for example because there was not enough
+memory to store the dependency information or because one of the
+resource identifiers was not present in the firmware, causes the
+dependency information to be empty.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>4</range_min>
+     <range_max>128</range_max>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+
+   <config_element name="ChipWatchdogIntervals" psid="19">
+     <label>Array of three 16-bit watchdog timing intervals</label>
+     <description_user>
+A list of 6 octets giving 3 16-bit numbers. This format is strict;
+the representation must be exactly 12 base-16 digits.
+Each number represents a time interval in milliseconds.
+All times are in milliseconds, but the underlying count-down register uses
+a clock that has a +- 10% inaccuracy. Be generous with error margins!
+Set all three numbers to zero to disable the watchdog completely,
+ie to [0000 0000 0000].
+The defaults are min=1000(ms), max=6000(ms), timeout=10000(ms).
+The numbers are (in order):
+
+watchdog_period_min - The minimum time in ms between watchdog kicks.
+
+watchdog_period_max - The maximum time in ms between watchdog kicks.
+
+watchdog_timeout    - The time in ms after which the watchdog will reset
+the processor.  As the low power clock that manages the timeout may
+be inaccurate at high temperature, it is recommended that this value
+be at least 1.5 times watchdog_period_max plus 1 second.
+
+The values here apply if any of the chips other subsystems (providing
+features such as Apps, Bluetooth, WLAN and Audio) are active.  If this
+is not the case the value of ChipInactiveWatchdogIntervals is used
+which has the same defaults.
+
+The watchdog minimum and maximum periods also control the minimum and
+maximum time when the chip will perform monitoring of the AUX PLL
+frequency and AUX block temperature.
+     </description_user>
+     <type>octet_string</type>
+<!--
+#if defined(CHIP_AMBER)
+-->
+     <default>[03E8 1770 36B0]</default>
+     <description_internal>
+The defaults for Amber are the values we've used with the standard config
+for A07 for patch bundles v8 to v14 at least. See CUR-2308.
+The comment in those config files says:
+We have doubled the timeout to 14 secs, because we are extremely paranoid
+about the unreliability of the Janitor 64kHz clock.  We need to be prepared
+for it to run 50% out, possibly more.
+     </description_internal>
+<!--
+#else
+-->
+     <default>[03E8 1770 2710]</default>
+<!--
+#endif
+-->
+     <range_min>6</range_min>
+     <range_max>6</range_max>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+
+<!--
+#ifdef INSTALL_CLK_REQ
+-->
+
+   <config_element name="ClockRequestEnable" psid="20">
+     <label>PIO driven for external clock request</label>
+     <description_user>
+This key represents the PIO which is driven for an external clock
+request. A value of -1 disables the request, which is the default.
+Note:
+
+- If enabled, this key must be set to a different PIO from
+ClockRequestEnableExternal.
+
+- This key is only intended for static boot-time configuration.
+Run-time changes are not honoured.
+     </description_user>
+     <type>int16</type>
+     <default>-1</default>
+     <is_internal>false</is_internal>
+     <range_min>-1</range_min>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <range_max>31</range_max>
+<!--
+#endif /*NUMBER_OF_PIOS == 32*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <range_max>71</range_max>
+<!--
+#endif /*NUMBER_OF_PIOS == 72*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <range_max>95</range_max>
+<!--
+#endif /*NUMBER_OF_PIOS == 96*/
+-->
+   </config_element>
+
+   <config_element name="ClockRequestEnableExternal" psid="21">
+     <label>PIO on which external clock requests are received</label>
+     <description_user>
+A value of -1 disables requests, which is the default.
+Note:
+
+- If enabled, must be set to a different PIO from ClockRequestEnable.+
+
+- If ClockRequestEnable is not enabled, this key has no effect
+
+- This key is only intended for static boot-time configuration.
+Run-time changes are not honoured.
+     </description_user>
+     <type>int16</type>
+     <default>-1</default>
+     <is_internal>false</is_internal>
+     <range_min>-1</range_min>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <range_max>31</range_max>
+<!--
+#endif /*NUMBER_OF_PIOS == 32*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <range_max>71</range_max>
+<!--
+#endif /*NUMBER_OF_PIOS == 72*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <range_max>95</range_max>
+<!--
+#endif /*NUMBER_OF_PIOS == 96*/
+-->
+   </config_element>
+<!--
+#endif /* INSTALL_CLK_REQ */
+-->
+
+   <config_element name="SubsystemWatchdogDefault" psid="22">
+     <label>Default timing parameters for subsystem watchdog</label>
+     <description_user>
+An array of six octets giving three 16-bit numbers.  The numbers
+represents the default timing parameters for all subsystems, as
+described below.  The value is only read at startup.  The defaults may be
+overridden on a per-subsystem basis by using the
+SubsystemWatchdogOverride MIB entry.  All times are in milliseconds.
+The defaults are min=1000(ms), max=6000(ms), timeout=200(ms).
+All three numbers may be set to zero to disable the watchdog completely,
+i.e. the full value becomes [0000 0000 0000] (the format is strict).
+The three numbers represent (in order):
+
+watchdog_period_min - The minimum time in ms between watchdog pings.
+
+watchdog_period_max - The maximum time in ms between watchdog pings.
+
+watchdog_timeout    - The timeout in ms after which the subsystem is restarted
+if no response to a ping was received.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>6</range_min>
+     <range_max>6</range_max>
+     <default>[03E8 1770 00C8]</default>
+     <is_internal>true</is_internal>
+   </config_element>
+
+
+   <config_element name="SubsystemWatchdogOverride" psid="23">
+     <label>Array of array of four 16-bit subsystem watchdog timing overrides</label>
+     <description_user>
+A list of N*8 octets giving N*4 16-bit numbers.
+Each group of 4 numbers represents a time interval override set.
+All times are in milliseconds.
+Set the last three numbers to zero to disable the watchdog for
+a particular subsystem, ie to [nnnn 0000 0000 0000]. When the "get"
+method is invoked, ALL N (for whatever N is for the current system)
+current settings (which may still be defaults) are returned.
+The numbers are (in order):
+
+subsystem_id        - The bus address of the subsystem.
+
+watchdog_period_min - The minimum time in ms between watchdog pings.
+
+watchdog_period_max - The maximum time in ms between watchdog pings.
+
+watchdog_timeout    - The ping timeout in ms used to restart the subsystem.
+     </description_user>
+     <type>octet_string</type>
+<!--
+#if defined (CHIP_AMBER)
+-->
+     <default>[0004 07D0 0FA0 07D0 0003 07D0 1770 076C ]</default>
+     <description_internal>
+The defaults for Amber are those that have been found to give reliable
+operation on testing of Amber A07. See CUR-3121 for further discussion
+     </description_internal>
+<!--
+#endif
+-->
+     <range_min>8</range_min>
+     <range_max>128</range_max>
+     <function_list>
+       <function function_name="mibsetfn_common" type="set" />
+       <function function_name="mibgetfn_common" type="get" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+
+
+<!--
+#if CHIP_HAS_PMU
+-->
+   <config_element name="Smps8MHzClockConfig" psid="24">
+     <label>Configuration for the SMPS 8 MHz clock on Amber etc.</label>
+     <description_user>
+This key provides the default configuration for the SMPS 8 MHz clock
+used for the core SMPS (clock 1), the PA SMPS (clock 2) and the PIO
+charge pump (clock 3).  Run-time configuration is also available via a
+CCP command.  This MIB attribute is only read once following chip boot.
+The value consists of four octets.  With the octets paired little-endian
+as sixteen bit words, the format is identical to the arguments of the
+CCP command.
+
+The first octet consists of the divisor to use for generating the clock when
+the input clock is 80 MHz.  Values 9, 10, 11 are valid.  The default is 10.
+The second octet consists of the divisor to use for generating the clock when
+the input clock is 240 MHz.  Values 27 to 34 inclusive are valid.  The
+default is 30.
+The third octet consists of
+
+- less significant nybble: the phase offset for clock 1
+
+- more significant nybble: the phase offset for clock 2
+
+The fourth octet consists of:
+
+- less significant nybble: the phase offset for clock 3
+
+- bit 4: if set, invert clock 1
+
+- bit 5: if set, invert clock 2
+
+- bit 6: if set, invert clock 3
+     </description_user>
+     <type>octet_string</type>
+     <range_min>4</range_min>
+     <range_max>4</range_max>
+     <default>[0a 1e 00 00]</default>
+     <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_PMU */
+-->
+
+   <config_element name="DeepSleepTimerCorrection" psid="25">
+     <label>Read only value of deep sleep timer correction</label>
+     <description_user>
+If the chip has been in deep sleep the main system clock,
+which is a microsecond timer with a range of 32 bits, needs to
+be corrected for the corresponding time.  This value gives the
+cumulative correction, which wraps after (2^32-1).
+     </description_user>
+     <type>uint32</type>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="ReferenceClockFrequency" psid="26">
+     <label>XTAL or TXCO reference frequency</label>
+     <description_user>
+       This key specifies the XTAL or TXCO reference frequency in kHz.
+       This is very much chip specific. However, there is also a
+       "we don't know" value: 0. If this is specified, the expectation
+       is that the chip will perform some sort of crystal frequency
+       measurement against another clock such as the crescendo FOSC in
+       order to determine the frequency of the supplied crystal
+     </description_user>
+     <type>uint32</type>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+<!--
+#ifdef CHIP_AMBER
+-->
+<!--
+#ifdef CHIP_REVISION_D01
+-->
+     <default>26000</default>
+<!--
+#else /* CHIP_BLAH */
+-->
+     <default>40000</default>
+<!--
+#endif /* CHIP_BLAH */
+-->
+<!--
+#elif defined(CHIP_A7CA)
+-->
+     <default>26000</default>
+<!--
+#elif defined(CHIP_AURA)
+-->
+     <default>32000</default>
+<!--
+#elif defined(CHIP_FAMILY_CRESCENDO)
+-->
+     <default>0</default>
+<!--
+#else
+-->
+<!--
+#error "Unknown default reference frequency"
+-->
+<!--
+#endif
+-->
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="DeepSleepWakeOnClock" psid="27">
+     <label>Use logic to wake from deep sleep if a clock is present</label>
+     <description_user>
+The chip contains logic allowing it to wake from sleep to perform
+tasks that do not require accurate scheduling if it detects that a
+clock has been provided.  Examples of such operations include Bluetooth
+inquiry and page scans.  This reduces the number of occasions when
+the chip explicitly needs to request a clock from the host.
+
+As the logic to detect a clock consumes an additional current in deep
+sleep, this behaviour is optional and may be turned off in cases where
+the gain is likely to be limited, in particular when the clock is
+controlled directly by the chip.
+     </description_user>
+     <type>boolean</type>
+     <default>false</default>
+     <is_internal>false</is_internal>
+     <description_internal>
+Also not relevant to chips without a janitor, such as A7CA
+     </description_internal>
+   </config_element>
+
+   <config_element name="BISTADCConfig" psid="28">
+      <label>Settings for configuring the BIST ADC for testing</label>
+      <description_user>
+This is only for testing purposes.  Currently just the lower 2 bits
+are used, to set the ADC mux.
+      </description_user>
+      <type>uint16</type>
+      <is_internal>true</is_internal>
+      <default>0</default>
+   </config_element>
+
+   <config_element name="ReadBISTADC" psid="29">
+     <label>Trigger an ADC read</label>
+     <description_user>
+This key only exists for testing purposes. The get function calls adc_read.
+     </description_user>
+     <type>uint16</type>
+     <is_internal>true</is_internal>
+     <function function_name="mibgetfn_read_bist_adc" type="get"/>
+   </config_element>
+
+<!--
+#if CHIP_HAS_SDIO_PIN_DRIVER_STRENGTH_CONTROLS
+-->
+    <config_element name="SdioPinDriveStrength" psid="30">
+      <label>Set the drive strength of the SDIO pins</label>
+      <description_user>
+This key allows the drive strength of the SDIO pins (excluding SDIO_CLK)
+to be limited. By default they are limited to 8mA.
+Values are:
+3 = Drive strength A (12 mA),
+2 = Drive Strength B (8 mA),
+1 = Drive Strength C (4 mA),
+0 = Drive Strength D (2 mA)
+      </description_user>
+      <type>uint16</type>
+      <is_internal>false</is_internal>
+      <function_list>
+        <function function_name="mibgetfn_common" type="get"/>
+        <function function_name="mibsetfn_common" type="set"/>
+      </function_list>
+    </config_element>
+
+    <config_element name="SdioPinSlewRateControlEnable" psid="31">
+      <label>Enable the slew rate control of the SDIO pins</label>
+      <description_user>
+This key allows the slew rate of the SDIO pins (excluding SDIO_CLK) to
+be limited for electrical compliance testing. By default the slew rate is
+limited. If this key is set to FALSE, the slew rate will not be limited.
+      </description_user>
+      <type>boolean</type>
+      <is_internal>false</is_internal>
+      <function_list>
+        <function function_name="mibgetfn_common" type="get"/>
+        <function function_name="mibsetfn_common" type="set"/>
+      </function_list>
+    </config_element>
+<!--
+#endif /* CHIP_HAS_SDIO_PIN_DRIVER_STRENGTH_CONTROLS */
+-->
+
+<!--
+#if CHIP_HAS_PIO_LOOPBACK
+-->
+   <config_element name="PioLoopback" psid="32">
+     <label>Control the loopback behaviour of the PIO lines</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <description_user>
+The PIO lines can separately be configured as normal inputs and outputs
+(the default) or as loopbacks for use only within the chip.  The loopback
+behaviour may be used for internal communication for any of the 32
+logical PIOs, even those that do not appear on chip pads.
+
+Set a bit high to configure the corresponding PIO for loopback.
+
+Set a bit low (the default) to configure the corresponding PIO for
+normal input and output.
+     </description_user>
+     <type>uint32</type>
+<!--
+#endif
+-->
+
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <description_user>
+The PIO lines can separately be configured as normal inputs and outputs
+(the default) or as loopbacks for use only within the chip.  The loopback
+behaviour may be used for internal communication for any of the 96
+logical PIOs, even those that do not appear on chip pads.
+This key holds 12 octets giving 6 16-bit bitmasks where bit 0 of the ith
+bitmask represents PIO[0+16*i], bit 1 represents PIO[1+16*i], and so on.
+
+Set a bit high to configure the corresponding PIO for loopback.
+
+Set a bit low (the default) to configure the corresponding PIO for
+normal input and output.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>12</range_min>
+     <range_max>12</range_max>
+<!--
+#endif
+-->
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_PIO_LOOPBACK */
+-->
+
+<!--
+#if CHIP_HAS_PMU
+-->
+   <config_element name="PmuVoltageMonitorConfig" psid="33">
+     <label>Configure voltage monitoring in the Power Management Unit</label>
+     <description_user>
+This is an octet string that contains values needed to configure the way
+voltage monitoring is handled by the Power Management Unit.
+
+The value is an array of unsigned 16-bit integers with the standard
+ordering convention.
+
+The first value is the time in milliseconds for which a minimum voltage
+must be sustained for the voltage to be considered stable.  This
+affects the response time before a new higher voltage is reported
+to a subsystem.
+
+The second value is the period in milliseconds with which the supply
+voltage is tested in deep sleep to ensure it is adequate to support
+normal operation.  If the voltage dips below the threshold even briefly,
+the chip is turned off.  The granularity of the timer is actually 4 ms
+and its value must be strictly less than 1000 ms while the value 0 turns
+the timer off.  Therefore, valid values are 0, 4, 8, ... 996, but values
+not divisible by 4 are silently rounded.
+
+An invalid value causes the chip to panic during initialisation.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>4</range_min>
+     <range_max>4</range_max>
+     <is_internal>true</is_internal>
+     <default>[01F4 000C]</default>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_PMU */
+-->
+
+<!--
+#if CHIP_HAS_JANITOR && !defined(DESKTOP_TEST_BUILD)
+-->
+   <config_element name="DebugOnWatchdogReset" psid="34">
+     <label>Spin forever on initialisation after a watchdog reset</label>
+     <description_user>
+This attribute is intended for debugging firmware.  Only set it on
+advice from the supplier.
+     </description_user>
+     <description_internal>
+When the value is true, the early initialisation code will check if a
+watchdog reset has taken place.  If it determines that it has, the code
+will spin forever, allowing the chip to be debugged via SPI or the
+transaction bridge.  Note that no other form of reset causes this
+behaviour.
+
+The value takes effect immediately, so it can be altered any time after
+chip initialisation.
+
+Owing to the nature of resets, this mechanism is not completely reliable:
+
+- it is possible (but highly unlikely) that the preserved block's magic
+number will accidentally be set to the code to enable this feature by a
+bogus write to memory.
+
+- the feature relies on the watchdog being handled by the Janitor firmware.
+This is the normal case but it is possible in some cases that the reset
+is promoted to a power-on reset, losing the information that it was
+caused by the watchdog (and possibly other state, too).
+     </description_internal>
+     <type>boolean</type>
+     <default>false</default>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_JANITOR && !defined(DESKTOP_TEST_BUILD) */
+-->
+
+   <config_element name="DeepSleepPioWake" psid="35">
+     <label>Mask of PIOs that wake the chip from deep sleep</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <description_user>
+Each bit corresponds to one of the 32 PIOs.  If any bit is high,
+then activity on that PIO causes the chip to wake from deep sleep.
+No arrangements are made for the chip to remain awake, so this is
+only useful when combined with additional signalling.
+
+By default, the PIO is assumed to be active high.  This can be
+changed with the MIB attribute DeepSleepPioInvert.
+     </description_user>
+     <type>uint32</type>
+     <default>0</default>
+<!--
+#endif /*(NUMBER_OF_PIOS == 32)*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <description_user>
+Array of five 16-bit mask of PIOs that wake the chip from deep sleep.
+Each bit corresponds to one of the 72 PIOs.
+The bit k of the ith 16-bit bitmask represents PIO[k+16*i].(Bits 72 to 79 reserved)
+If any bit is high, then activity on that PIO causes the chip to wake from deep sleep.
+No arrangements are made for the chip to remain awake, so this is
+only useful when combined with additional signalling.
+
+By default, the PIO is assumed to be active high.  This can be
+changed with the MIB attribute DeepSleepPioInvert.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>10</range_min>
+     <range_max>10</range_max>
+     <default>[0000 0000 0000 0000 0000]</default>
+<!--
+#endif /*(NUMBER_OF_PIOS == 72)*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <description_user>
+Array of six 16-bit mask of PIOs that wake the chip from deep sleep.
+Each bit corresponds to one of the 96 PIOs.
+The bit k of the ith 16-bit bitmask represents PIO[k+16*i].
+If any bit is high, then activity on that PIO causes the chip to wake from deep sleep.
+No arrangements are made for the chip to remain awake, so this is
+only useful when combined with additional signalling.
+
+By default, the PIO is assumed to be active high.  This can be
+changed with the MIB attribute DeepSleepPioInvert.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>12</range_min>
+     <range_max>12</range_max>
+     <default>[0000 0000 0000 0000 0000 0000]</default>
+<!--
+#endif /*(NUMBER_OF_PIOS == 96)*/
+-->
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="DeepSleepPioInvert" psid="36">
+     <label>Mask of PIOs that wake the chip from deep sleep when low</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <description_user>
+Each bit corresponds to one of the 32 PIOs.  For each bit:
+
+- If the corresponding bit in DeepSleepPioWake is 0, the bit is ignored.
+
+- Otherwise, if the bit is 0, the PIO causes wake from deep sleep when high.
+
+- Otherwise, the bit is 1 and the PIO causes wake from deep sleep when low.
+     </description_user>
+     <type>uint32</type>
+     <default>0</default>
+<!--
+#endif /*(NUMBER_OF_PIOS == 32)*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <description_user>
+Array of six 16-bit mask of PIOs that wake the chip from deep sleep when low.
+The bit k of the ith 16-bit bitmask represents PIO[k+16*i].
+Each bit corresponds to one of the 72 PIOs. (Bits 72 to 79 reserved). For each bit:
+
+- If the corresponding bit in DeepSleepPioWake is 0, the bit is ignored.
+
+- Otherwise, if the bit is 0, the PIO causes wake from deep sleep when high.
+
+- Otherwise, if the bit is 1, the PIO causes wake from deep sleep when low.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>10</range_min>
+     <range_max>10</range_max>
+     <default>[0000 0000 0000 0000 0000]</default>
+<!--
+#endif /*(NUMBER_OF_PIOS == 72)*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <description_user>
+Array of six 16-bit mask of PIOs that wake the chip from deep sleep when low.
+The bit k of the ith 16-bit bitmask represents PIO[k+16*i].
+Each bit corresponds to one of the 96 PIOs.  For each bit:
+
+- If the corresponding bit in DeepSleepPioWake is 0, the bit is ignored.
+
+- Otherwise, if the bit is 0, the PIO causes wake from deep sleep when high.
+
+- Otherwise, if the bit is 1, the PIO causes wake from deep sleep when low.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>12</range_min>
+     <range_max>12</range_max>
+     <default>[0000 0000 0000 0000 0000 0000]</default>
+<!--
+#endif /*(NUMBER_OF_PIOS == 96)*/
+-->
+     <is_internal>false</is_internal>
+   </config_element>
+
+<!--
+#if CHIP_HAS_XTAL_DRIVE
+-->
+   <config_element name="DeepSleepXtalLevel" psid="37">
+     <label>Drive level for crystal when used for deep sleep clock</label>
+     <description_user>
+This values is used to determine the level at which the crystal is
+driven when it is used for the deep sleep clock, i.e. when
+CuratorExternalSlowClock is 2.  The range is 0 to 15, with 0 being
+the highest drive level.
+     </description_user>
+     <type>uint16</type>
+     <default>8</default>
+     <range_min>0</range_min>
+     <range_max>15</range_max>
+     <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_XTAL_DRIVE */
+-->
+
+   <config_element name="DeepSleepSpiTimeout" psid="38">
+     <label>Timeout for SPI activity preventing deep sleep</label>
+     <description_user>
+Activity on the external SPI connection (not typically provided in
+production modules) causes the chip to stay awake from deep sleep.
+This attribute specifies the timeout after which deep sleep is allowed.
+The units are milliseconds.
+     </description_user>
+     <type>uint16</type>
+     <default>1000</default>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="EfuseOverride" psid="39">
+     <label> Pretend to set efuse bits </label>
+     <description_user>
+This key allows the user to pretend to set, but not clear, efuse bits for testing purposes.
+The bits set in this key or OR'd with the actual efuse bits and returned in any efuse query made of the Curator.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>0</range_min>
+     <range_max>32</range_max>
+     <function_list>
+       <function function_name="mibgetfn_efuse_override" type="get" />
+       <function function_name="mibsetfn_efuse_override" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+
+<!--
+#ifdef HOST_WAKE_MODULE_PRESENT
+-->
+
+   <config_element name="HostWakeMethod" psid="40">
+     <label>Indicate the method by which the host should be woken</label>
+     <description_user>
+This is a simple enumeration which can take three values:
+     0: use the primary host transport's native remote-wake mechanism
+     1: assert a positive voltage on a PIO
+     2: assert a negative voltage on a PIO
+The identity of the PIO and the duration are specified in other MIB keys.
+     </description_user>
+     <type>uint8</type>
+     <default>0</default>
+     <range_min>0</range_min>
+     <range_max>2</range_max>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="HostWakePIOPin" psid="41">
+     <label>Indicate the PIO to assert for out-of-band host wake</label>
+     <description_user>
+Sets the PIO that should be asserted to wake the host.  If the HostWakeMethod is 0,
+this key is not used.
+     </description_user>
+     <type>uint8</type>
+     <range_min>0</range_min>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <range_max>31</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+     <range_max>71</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+     <range_max>95</range_max>
+<!--
+#endif
+-->
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="HostWakePIODuration" psid="42">
+     <label>Indicate how long to assert the PIO for out-of-band host wake</label>
+     <description_user>
+Sets the duration of the PIO assert that should be used to wake the host.  A value of
+0 indicates that the assert should continue until the chip receives an "awake" message
+from the host.  Otherwise, the value is in microseconds.
+If the HostWakeMethod is 0, this key is not used.
+     </description_user>
+     <type>uint32</type>
+     <default>0</default>
+     <range_min>0</range_min>
+     <range_max>1000000</range_max>
+     <is_internal>false</is_internal>
+   </config_element>
+   
+<!--
+#endif /* HOST_WAKE_MODULE_PRESENT */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+   <config_element name="USBManufString" psid="43">
+     <label>USB Manufacturer string descriptor</label>
+     <description_user>
+Manufacturer string descriptor for Curator and Hub devices
+     </description_user>
+     <type>octet_string</type>
+     <range_min>0</range_min>
+     <range_max>128</range_max>
+     <format>unicode_string</format>
+<!--
+#ifdef CHIP_AMBER
+-->
+     <is_internal>true</is_internal>
+<!--
+#else
+-->
+     <is_internal>false</is_internal>
+<!--
+#endif
+-->
+   </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+   <config_element name="USBProductString" psid="44">
+     <label>USB Product string descriptor</label>
+     <description_user>
+Product string descriptor for Curator device
+     </description_user>
+     <type>octet_string</type>
+     <range_min>0</range_min>
+     <range_max>128</range_max>
+<!--
+#ifdef CHIP_AMBER
+-->
+     <is_internal>true</is_internal>
+<!--
+#else
+-->
+     <is_internal>false</is_internal>
+<!--
+#endif
+-->
+     <format>unicode_string</format>
+    </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+   <config_element name="USBSerialNumberString" psid="45">
+     <label>USB serial number string descriptor</label>
+     <description_user>
+Serial number string descriptor for Curator device
+     </description_user>
+     <type>octet_string</type>
+     <range_min>0</range_min>
+     <range_max>128</range_max>
+<!--
+#ifdef CHIP_AMBER
+-->
+     <is_internal>true</is_internal>
+<!--
+#else
+-->
+     <is_internal>false</is_internal>
+<!--
+#endif
+-->
+     <format>unicode_string</format>
+   </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+   <config_element name="USBConfigString" psid="46">
+     <label>USB configuration string descriptor</label>
+     <description_user>
+Configuration string descriptor for Curator device's single configuration
+     </description_user>
+     <type>octet_string</type>
+     <range_min>0</range_min>
+     <range_max>128</range_max>
+     <is_internal>true</is_internal>
+     <format>unicode_string</format>
+    </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+   <config_element name="USBVersion" psid="47">
+     <label>USB version number</label>
+     <description_user>
+USB version number supported, in binary-coded decimal
+     </description_user>
+     <type>uint16</type>
+     <!-- USB 2.0 -->
+     <default>0x200</default>
+     <is_internal>true</is_internal>
+    </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+   <config_element name="USBVendorID" psid="48">
+     <label>USB Vendor ID code</label>
+     <description_user>
+USB Vendor ID
+     </description_user>
+     <type>uint16</type>
+     <!-- This is CSR's VID-->
+     <default>0x0a12</default>
+     <is_internal>true</is_internal>
+    </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+   <config_element name="USBProductID" psid="49">
+     <label>The PID of the Curator device</label>
+     <description_user>
+Product ID of the Curator device.
+
+The HydraCore devices have PIDs in the 0x4000 range.  Each subsystem's
+"main" host transport device is 0x400n where n is the subsystem ID
+(0 for Curator, 1 for Bluecore, etc).  Other devices on the same
+subsystem are numbered 0x401n, 0x402n, etc.
+     </description_user>
+     <type>uint16</type>
+     <default>0x4000</default>
+<!--
+#ifdef CHIP_AMBER
+-->
+     <is_internal>true</is_internal>
+<!--
+#else
+-->
+     <is_internal>false</is_internal>
+<!--
+#endif
+-->
+    </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+   <config_element name="USBBCDDevice" psid="50">
+     <label>Binary-coded decimal device version number</label>
+     <description_user>
+This version number can be used to select a driver.  If it is not set here, the
+firmware will insert its build ID.  The value supplied should be in the form
+0xIJKL where I, J, K, L are in the range [0,9].
+Note: this number is used by both the Curator and the Hub devices, since they
+are part of the same firmware build.
+     </description_user>
+     <type>uint16</type>
+     <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+      <config_element name="USBLangID" psid="51">
+     <label>The USB language ID for string descriptors</label>
+     <description_user>
+In principle a device can support an arbitrary number of languages, but our firmware
+only supports up to one.  If this value is zero, string descriptors won't be returned
+even if they're set.  The values for English are the set {9 + n * 0x400 for n in [1,13]}.
+In particular, UK English is 0x0809 and US English is 0x0409. Since Microsoft
+Windows seems to ask for US English when reading serial number and product id,
+we are setting it to 0x0409 by default.
+     </description_user>
+     <type>uint16</type>
+     <default>0x0409</default>
+     <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+   <config_element name="USBDeviceClassCodes" psid="52">
+     <label>Class, subclass and protocol codes for the Curator</label>
+     <description_user>
+Octet 1 is the class code, octet 2 is the subclass and octet 3
+is the protocol code.
+
+Note: the hub's class codes are fixed by the standard so they are
+hard-coded in the firmware.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>3</range_min>
+     <range_max>3</range_max>
+     <is_internal>true</is_internal>
+     <default>[ff 00 00]</default>
+    </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+    <config_element name="USBMaxPower" psid="53">
+        <label>Maximum power drawn by a bus-powered device</label>
+        <description_user>
+Specify the maximum power drawn by the device if it is bus-powered.
+Expressed in units of 2mA.
+(See USB2.0 standard, table 9-10.)
+        </description_user>
+        <type>uint16</type>
+        <default>10</default>
+        <is_internal>true</is_internal>
+    </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+    <config_element name="USBHighSpeed" psid="54">
+        <label>Determines speed of operation of the USB</label>
+        <description_user>
+Set to false to run the USB device in full-speed mode.
+        </description_user>
+        <type>boolean</type>
+<!--
+#ifdef CHIP_AMBER
+-->
+        <is_internal>true</is_internal>
+<!--
+#else
+-->
+     	<is_internal>false</is_internal>
+<!--
+#endif
+-->
+        <default>false</default>
+    </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+   <config_element name="USBHubProductString" psid="55">
+     <label>USB product string descriptor for hub</label>
+     <description_user>
+USB hub product string descriptor
+     </description_user>
+     <type>octet_string</type>
+     <range_min>0</range_min>
+     <range_max>128</range_max>
+<!--
+#ifdef CHIP_AMBER
+-->
+     <is_internal>true</is_internal>
+<!--
+#else
+-->
+     <is_internal>false</is_internal>
+<!--
+#endif
+-->
+     <format>unicode_string</format>
+    </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+   <config_element name="USBHubSerialNumberString" psid="56">
+     <label>USB serial number string descriptor for hub</label>
+     <description_user>
+USB hub serial number string descriptor
+          </description_user>
+     <type>octet_string</type>
+     <range_min>0</range_min>
+     <range_max>128</range_max>
+<!--
+#ifdef CHIP_AMBER
+-->
+     <is_internal>true</is_internal>
+<!--
+#else
+-->
+     <is_internal>false</is_internal>
+<!--
+#endif
+-->
+     <format>unicode_string</format>
+    </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+   <config_element name="USBHubConfigString" psid="57">
+     <label>USB configuration string descriptor for hub</label>
+     <description_user>
+USB hub configuration string descriptor for the hub's single configuration
+     </description_user>
+     <type>octet_string</type>
+     <range_min>0</range_min>
+     <range_max>128</range_max>
+<!--
+#ifdef CHIP_AMBER
+-->
+     <is_internal>true</is_internal>
+<!--
+#else
+-->
+     <is_internal>false</is_internal>
+<!--
+#endif
+-->
+     <format>unicode_string</format>
+    </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+   <config_element name="USBHubProductID" psid="58">
+     <label>USB hub product ID</label>
+     <description_user>
+Product ID of the Curator device.
+
+The HydraCore devices have PIDs in the 0x4000 range.  Each subsystem's
+"main" host transport device is 0x400n where n is the subsystem ID
+(0 for Curator, 1 for Bluecore, etc).  Other devices on the same
+subsystem are numbered 0x401n, 0x402n, etc.
+     </description_user>
+     <type>uint16</type>
+     <!-- Just put a 0 for now -->
+     <default>0x4010</default>
+<!--
+#ifdef CHIP_AMBER
+-->
+     <is_internal>true</is_internal>
+<!--
+#else
+-->
+     <is_internal>false</is_internal>
+<!--
+#endif
+-->
+    </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+    <config_element name="USBHubMaxPower" psid="59">
+        <label>Maximum power drawn by the hub when acting as a bus-powered device</label>
+        <description_user>
+Specify the maximum power drawn by the device if it is bus-powered.
+Expressed in units of 2mA.
+(See USB2.0 standard, table 9-10.)
+        </description_user>
+        <type>uint16</type>
+        <default>20</default>
+<!--
+#ifdef CHIP_AMBER
+-->
+        <is_internal>true</is_internal>
+<!--
+#else
+-->
+     	<is_internal>false</is_internal>
+<!--
+#endif
+-->
+    </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+       <config_element name="USBPHYSelect" psid="60">
+      <label>Indicates the USB PHY the firmware should set up and use</label>
+      <description_user>
+The chip's USB hardware can operate with a variety of PHYs.  This key lets the
+user select which:
+0: HSIC
+1: External ULPI PHY
+2: Built-in full-speed PHY
+      </description_user>
+      <type>uint8</type>
+      <range_min>0</range_min>
+      <range_max>2</range_max>
+      <default>2</default>
+<!--
+#ifdef CHIP_AMBER
+-->
+      <is_internal>true</is_internal>
+<!--
+#else
+-->
+      <is_internal>false</is_internal>
+<!--
+#endif
+-->
+   </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+   <config_element name="USBSelfPowered" psid="61">
+     <label>Indicates whether the chip draws power from the USB or not</label>
+     <description_user>
+Set to TRUE if the chip has a separate power source.
+     </description_user>
+     <type>boolean</type>
+     <default>false</default>
+<!--
+#ifdef CHIP_AMBER
+-->
+     <is_internal>true</is_internal>
+<!--
+#else
+-->
+     <is_internal>false</is_internal>
+<!--
+#endif
+-->
+   </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+   <config_element name="HostTransportSelect" psid="62">
+     <label>Indicates the host transport to use (when an on-chip config is present)</label>
+     <description_user>
+The chip has a selection of HIF blocks.  This key lets the user select which one should
+be set up.  Obviously if configuration is delivered over the host transport, this key
+is meaningless (the SDIO will be used).  Values are:
+0: No explicit selection; use whichever transport activity happens on first. (Note that
+this involves having multiple HIF blocks powered until the host connects, which may be
+undesirable).
+2: SDIO
+3: USB
+(1 logically selects the UART, but this is not supported on the Curator at present).
+<!--
+#if defined(CHIP_FAMILY_CRESCENDO)
+-->
+For crescendo, SDIO device HW uses the same PIOs as APP SQIF 2 HW.
+The configuration of using two APP SQIFs and SDIO device at the same time is not supported.
+If the HostTransportSelect is "SDIO" or the SDIO device is connected to the curator,
+then the mib NumAppSqifs should not be 2.
+<!--
+#endif
+-->
+     </description_user>
+     <type>uint8</type>
+<!--
+#if defined(CHIP_FAMILY_CRESCENDO) || defined(CHIP_AURA)
+-->
+     <default>0</default>
+<!--
+#else
+-->
+     <default>2</default>
+<!--
+#endif
+-->
+     <range_min>0</range_min>
+     <range_max>3</range_max>
+     <is_internal>true</is_internal>
+   </config_element>
+
+<!--
+#ifdef HOSTIO_USB_DEBUG
+-->
+<!--
+#ifdef TRANSPORT_USB
+-->
+   <config_element name="USBRemoteWakeTrigger" psid="63">
+     <label>Trigger a remote wake signal from the hub, or pretend a device has raised one on a port</label>
+     <type>uint16</type>
+     <is_internal>true</is_internal>
+     <description_user>
+If this is set to 0, we raise remote wake signalling on the bus.  If it's set to a
+port ID (1 up to the number of ports), kick the port state machine to act as if a
+remote wake signal had been raised by the device on the port.
+
+Note: this key only exists for compliance testing.
+     </description_user>
+     <range_min>0</range_min>
+     <range_max>4</range_max>
+     <function_list>
+         <function function_name="mibgetfn_common" type="get" />
+         <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+   </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+<!--
+#endif
+-->
+
+<!--
+#ifdef I2C_MODULE_PRESENT
+-->
+   <config_element name="I2cFastMode" psid="64">
+      <label>Set the i2c bus to FAST or STANDARD mode.</label>
+      <description_user>
+      The i2c bus used for reading configuration from external EEPROM
+      devices can run in standard mode (100 kHz) or fast mode (400 kHz).
+      Setting this key in the first config file that gets loaded will speed
+      up accesses to later keys.
+      </description_user>
+      <type>boolean</type>
+      <function_list>
+         <function function_name="mibgetfn_common" type="get" />
+         <function function_name="mibsetfn_common" type="set" />
+      </function_list>
+      <default>true</default>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif
+-->
+
+<!--
+#ifdef INSTALL_SERIAL_FLASH
+-->
+<!--
+#if CHIP_HAS_SS_BT
+-->
+   <config_element name="SqifBTMaskROM" psid="66">
+      <label>Execute BlueTooth from serial flash instead of ROM</label>
+      <description_user>
+If true, the Bluetooth subsystem will be configured to run from
+an external serial flash. The chip will panic if no suitable
+serial flash is detected at boot-time. If False chip will ignore
+any attached serial flash and boot the subsystem from ROM.
+      </description_user>
+      <type>boolean</type>
+      <default>false</default>
+      <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_SS_BT */
+-->
+<!--
+#if CHIP_HAS_SS_AUDIO
+-->
+   <config_element name="SqifAudioMaskROM" psid="67">
+      <label>Execute Audio from serial flash instead of ROM</label>
+      <description_user>
+If true, the Audio subsystem will be configured to run from
+an external serial flash. The chip will panic if no suitable
+serial flash is detected at boot-time. If False chip will ignore
+any attached serial flash and boot the subsystem from ROM.
+      </description_user>
+      <type>boolean</type>
+      <default>false</default>
+      <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_SS_AUDIO */
+-->
+<!--
+#endif /* INSTALL_SERIAL_FLASH */
+-->
+<!--
+#if CHIP_HAS_SS_APPS
+-->
+   <config_element name="RunAppsFrom" psid="68">
+      <label>Selects where to fetch program code for the Apps system processor
+      firmware. Default is the Serial Flash 0</label>
+      <description_user>
+By default (value = 0) the Application subsystem system processor will boot
+using code fetched from the Serial Flash device 0.
+When this key is set to 1, the Application subsystem will be configured to run
+from TCM RAM when it is started instead of from an external serial flash.
+This is normally to be used along with KeepSubsystemsPowered to execute code
+that has already been written to the TCM and hasn't been lost through a power
+cycle. Specifically, you should set this to '1' if you are loading code with
+apps.fw.load("tcm") or apps.fw.load("tcmcache").
+When set to 2 the Application subsystem will be configured to fetch code and
+filesystems from the debugger subsystem if it is present. Address zero in the
+debugger will be aligned with address zero of the serial flash.
+      </description_user>
+      <type>int8</type>
+      <default>0</default>
+      <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_SS_APPS */
+-->
+
+<!--
+#if defined(SUPPORT_I2C_EEPROM)
+-->
+
+   <config_element name="Pio1EeWriteProtect " psid="69">
+      <label>Enable or disable PIO1 for EEPROM write protection</label>
+      <description_user>
+If true, PIO1 will be used for EEPROM write protection if EEPROM is detected.
+If false, PIO1 will not be used for EEPROM.
+      </description_user>
+      <type>boolean</type>
+      <function_list>
+         <function function_name="mibgetfn_common" type="get" />
+         <function function_name="mibsetfn_common" type="set" />
+      </function_list>
+      <default>true</default>
+      <is_internal>false</is_internal>
+   </config_element>
+
+<!--
+#endif /* SUPPORT_I2C_EEPROM */
+-->
+
+<!--
+#if CHIP_HAS_SS_APPS
+-->
+   <config_element name= "NumAppSqifs" psid="70">
+      <label>Configure how many SQIFs are available for APPs subsystem.</label>
+      <description_user>
+The number of SQIF devices (0, 1 or 2) available for use by the APPs subsystem.
+The APP SQIF 2 HW uses the same PIOs as the SDIO device HW. The configuration of
+using two APP SQIFs and SDIO device at the same time is not supported.
+If two APP SQIFs are to be used, then disconnect the SDIO device and set
+NumAppSqifs = 2 and HostTransportSelect = 0 for no explicit host transport selection or
+3 for USB.
+      </description_user>
+      <type>uint16</type>
+      <range_min>0</range_min>
+      <range_max>2</range_max>
+      <default>1</default>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_SS_APPS */
+-->
+<!--
+#if CHIP_HAS_JANITOR
+-->
+<!--
+#ifndef CHIP_AMBER
+-->
+   <config_element name= "DeepSleepBypassLDOHP" psid="71">
+      <label>Determine whether to leave the bypass LDO in high power
+      during deep sleep.</label>
+      <description_user>
+For some applications we may need the bypass LDO to provide power to
+3V3 devices such as sqifs, and in this case it will need to remain on
+during deep/sleep.
+      </description_user>
+      <type>boolean</type>
+      <default>false</default>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_AMBER */
+-->
+<!--
+#endif /* CHIP_HAS_JANITOR */
+-->
+
+<!--
+#if defined(INSTALL_SERIAL_FLASH)
+-->
+   <config_element name="QSPIModeOverrides" psid="72">
+       <label>Array of tuples indicating mode overrides for QSPI flash interfaces/</label>
+     <description_user>
+
+     </description_user>
+     <type>octet_string</type>
+<!--
+#if defined(CHIP_FAMILY_CRESCENDO)
+-->
+     <default>[01 03 02 03 03 03 04 01]</default>
+<!--
+#else
+/* Aura TODO: Define your default preferences. */
+-->
+     <default>[01 03 02 03 03 03]</default>
+<!--
+#endif
+-->
+     <range_min>0</range_min>
+     <range_max>8</range_max>
+     <function_list>
+       <function function_name="mibsetfn_common" type="set" />
+       <function function_name="mibgetfn_common" type="get" />
+     </function_list>
+     <description_internal>
+This array allows the overriding of the default QSPI flash (SQIF) modes for subsystems other
+than the Curator. The defaults are as follows:
+- Bluetooth, interface 1, QIO STR 80MHz.
+- Audio, interface 2, QIO STR 120MHz.
+- Apps bank 0, interface 3, QIO STR 120MHz.
+- Apps bank 1, interface 4, not initialised.
+Valid modes are as follows:
+- 1: Interface ignored i.e. not to be initialised.
+- 2: SPI mode. (Standard SPI, half duplex).
+- 3: QIO STR 80MHz (Quad IO, SDR, 80MHz).
+- 4: QIO STR 120MHz (Quad IO, SDR, 120MHz).
+- 5: QIO DTR 80MHz (Quad IO, DDR, 80MHz).
+The tuples are interface-mode pairs e.g. for Apps bank 0, to override as QIO DTR 80MHz,
+the array entry would be "03 04" (sans quotes, naturally).
+NOTE: specify only the modes listed above, but also reflect the capabilities of the
+target subsystem i.e. 120MHz modes are supported for Kalimba based subsystems only.
+     </description_internal>
+     <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* INSTALL_SERIAL_FLASH */
+-->
+
+<!--
+#if CHIP_HAS_CHARGER
+-->
+   <config_element name="DCDTimeout" psid="73">
+      <label>Set the number of milliseconds used for the data contact detect timeout.</label>
+      <description_user>When the USB cable is plugged in there is a delay between the VBUS
+line connecting and the data lines connecting. A timeout is used to state the max time
+between these two events. When the timeout occurs the firmware will assume the data lines
+have made contact.
+      </description_user>
+      <type>uint16</type>
+      <range_min>0</range_min>
+      <range_max>1000</range_max>
+      <default>600</default>
+      <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_CHARGER */
+-->
+
+<!--
+#if defined(CHIP_FAMILY_CRESCENDO)
+-->
+   <config_element name= "AuxPLLAlphaVcoConfig" psid="74">
+      <label> VCO configuration for AUX PLL. </label>
+      <description_user>
+Advanced settings for VCO in the AUX PLL.
+SET ONLY ON ADVICE FROM QUALCOMM
+      </description_user>
+      <type>octet_string</type>
+      <range_max>4</range_max>
+      <range_min>4</range_min>
+      <description_internal>
+An array of four octets giving two 16-bit numbers. The numbers give configuration
+values for the AUX_PLL_EMBEDDED_ALPHA_VCO1 and AUX_PLL_EMBEDDED_ALPHA_VCO2 registers.
+The values should be set based on XTAL frequency and bit 6 of the AuxPLLCoarseDacConfig
+MIB key that enables 1/2 steps.
+Note there is no default for this MIB key. The firmware checks if it's set, and if not
+sets default values depending on the xtal frequency.
+For Crescendo with 26MHz xtal and 1/2 step mode enabled, the default settings for
+these registers are equivalent to [0x6EC8 0x11CA], ie AUX_PLL_EMBEDDED_ALPHA_VCO1 = 0x6EC8 and
+AUX_PLL_EMBEDDED_ALPHA_VCO2 = 0x11CA.
+      </description_internal>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name= "AuxPLLCoarseDacConfig" psid="75">
+      <label> Coarse DAC configuration for the AUX PLL. </label>
+      <description_user>
+Advanced settings for the coarse DAC in the AUX PLL.
+SET ONLY ON ADVICE FROM QUALCOMM
+      </description_user>
+      <description_internal>
+It is a 16-bit number.
+The bits 0-5 is the coarse DAC offset from the calibrated value. It is in the format of the
+2's complement. The default value is 0.
+
+The bit 6 is to use half size mode if it is set. It is used
+to configure the AUX_ANA_CLK_CTRL1[7]. The default value is 1 (half step mode enabled).
+
+The bit 7 is to choose which COARSE DAC value should be used. If it is set, the coarse
+DAC value from efuse is used if the efuse bit EFUSE_BITFIELDS_AUX_PLL_COARSE_DAC_VALID
+is set. Otherwise, the curator PLL SW calibration or HW calibration
+should be used which is configured by the bit 8 of this mibkey.
+We should always apply the coarse DAC offset from bits 0 to 5 to HW/SW calibrated coarse DAC value.
+
+The bit 8 is to choose SW coarse DAC calibration or HW coarse DAC calibration.
+If it is set, the SW coarse DAC calibration is used. The default value is 0 (HW calibration).
+      </description_internal>
+      <type>uint16</type>
+      <default>64</default>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* defined(CHIP_FAMILY_CRESCENDO) */
+-->
+
+<!--
+#if CHIP_HAS_SS_APPS
+-->
+   <config_element name= "AutoStartApp" psid="76">
+      <label>Enable the curator to auto start the Apps P0 processor.</label>
+      <description_user>
+If it is TRUE, the curator auto starts the Apps P0 processor if possible. Note this requires
+a valid Apps P0 image to be present. If the key is FALSE, the curator will not auto start Apps.
+This key is designed to aid debugging.
+      </description_user>
+      <type>boolean</type>
+      <default>true</default>
+      <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_SS_APPS */
+-->
+
+<!--
+#if CHIP_APP_HAS_VARIABLE_PROCESSOR_CLOCK
+-->
+   <config_element name= "AppsProcsClkRate" psid="77">
+      <label>Defines the clock rate of both the Apps processors.</label>
+      <description_user>
+<!--
+#if defined(CHIP_AURA)
+-->
+Key values: 
+ 0 : use XTAL clock (32MHz)
+ 1 : use PLL clock (80MHz)
+Other values reserved.
+<!--
+#else
+-->
+If 0, both Apps processors are clocked at 120MHz. If the key is 1,
+both Apps processors are clocked at 80MHz. Other values are not supported yet.
+<!--
+#endif /* CHIP_AURA */
+-->
+      </description_user>
+      <type>uint16</type>
+      <default>0</default>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_APP_HAS_VARIABLE_PROCESSOR_CLOCK */
+-->
+
+<!--
+#if CHIP_AUDIO_HAS_VARIABLE_PROCESSOR_CLOCK
+-->
+   <config_element name= "AudioProcsClkRate" psid="78">
+<!--
+#if defined(CHIP_AURA)
+-->
+      <label> Defines the clock rates for the Audio processors and KCodec.</label>
+<!--
+#else
+-->
+      <label> Defines the clock rate of both the Audio processors.</label>
+<!--
+#endif /*defined(CHIP_AURA)*/
+-->
+      <description_user>
+<!--
+#if defined(CHIP_AURA)
+-->
+Bits 3:0 are used for the AUDIO CPU frequency selection. Bits 7:4 are for the
+KCODEC frequency selection.
+N.B. if an AOV frequency is selected for the AUDIO CPU, this will override the
+KCODEC selection as only one AOV frequency can be generated by the hardware.
+AUDIO CPU key values:
+ 0 : use XTAL clock (32MHz)
+ 1 : use PLL clock (80MHz)
+ 2 : use PLL_TURBO clock (120MHz)
+ 3 : use AOV XTAL/2 clock (16MHz)
+ 4 : use AOV XTAL/4 clock (8MHz)
+ 5 : use AOV XTAL/8 clock (4MHz)
+ 6 : use AOV XTAL/16 clock (2MHz)
+Other values 7..15 reserved.
+AUDIO KCODEC key values:
+ 0 : use XTAL clock (32MHz)
+ 1 : use AOV XTAL/2 clock (16MHz)
+ 2 : use AOV XTAL/4 clock (8MHz)
+ 3 : use AOV XTAL/8 clock (4MHz)
+ 4 : use AOV XTAL/16 clock (2MHz)
+Other values 5..15 reserved.
+<!--
+#else
+-->
+If 0, the Audio processor cores are clocked at 240MHz. If 1, the Audio
+processor cores are clocked at 120MHz. If 2, the Audio processor cores are clocked at 80MHz.
+Other values are not supported yet.
+<!--
+#endif /* CHIP_AURA */
+-->
+      </description_user>
+      <type>uint16</type>
+<!--
+#if defined(CHIP_AURA)
+-->
+      <default>2</default>
+<!--
+#else
+-->
+      <default>0</default>
+<!--
+#endif /* CHIP_AURA */
+-->
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* #if CHIP_AUDIO_HAS_VARIABLE_PROCESSOR_CLOCK */
+-->
+
+<!--
+#if CHIP_HAS_CHARGER
+-->
+   <config_element name= "ChargerIsUSB" psid="79">
+      <label>Set whether the charger is USB or not</label>
+      <description_user>
+When true, USB charger detection will take place to find out what type of USB charger is connected.
+When false, if a charger is plugged in Curator will assume it's a non-USB charger.
+      </description_user>
+      <type>boolean</type>
+      <default>true</default>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_CHARGER */
+-->
+
+<!--
+#if defined(INSTALL_SERIAL_FLASH)
+-->
+   <config_element name="QSPIFRAMLUTBaseParams" psid="80">
+       <label>The basic identifiers and parameters for the QSPIF RAM LUT entries.</label>
+     <type>octet_string</type>
+     <default>[00 FF FF FF 00 00 00 00 00 01 FF FF FF 00 00 00 00 00]</default>
+     <range_min>0</range_min>
+     <range_max>18</range_max>
+     <function_list>
+       <function function_name="mibsetfn_common" type="set" />
+       <function function_name="mibgetfn_common" type="get" />
+     </function_list>
+     <description_user>
+The octet fields are as follows:
+    - 0: RAM LUT entry number. 0 or 1.
+    - 1: JEDEC ID of the chip.
+    - 2: MEM ID of the chip, high octet.
+    - 3: MEM ID of the chip, low octet.
+    - 4: Size (k-words) of the chip, high octet.
+    - 5: Size (k-words) of the chip, low octet.
+    - 6: The number of mode octets used by the chip. 0 or 1.
+    - 7: The mode switch value of the chip.
+    - 8: The data tuning pattern used by the chip for high speed and Double
+         Transmission Rates; refer to data sheet for requirements. Only single
+         octet patterns are supported. If the chip does not require such a
+         pattern for tuning, this value must be set to 00.
+
+NOTE: Optionally, none, one or both RAM LUT entries may be set by this
+key as follows:
+
+
+    [00 00 00 00 00 00 00 00 00]
+      0  1  2  3  4  5  6  7  8
+      |
+      A
+
+    [00 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00]
+      0  1  2  3  4  5  6  7  8  0  1  2  3  4  5  6  7  8
+      |                          |
+      A                          B
+
+    A: Beginning of entry 0 key set.
+    B: Beginning of entry 1 key set.
+     </description_user>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="QSPIFRAMLUTSPIReadParams" psid="81">
+       <label>The SPI mode read parameters for RAM LUT entries.</label>
+     <type>octet_string</type>
+     <default>[00 03 00 01 03 00]</default>
+     <range_min>0</range_min>
+     <range_max>6</range_max>
+     <function_list>
+       <function function_name="mibsetfn_common" type="set" />
+       <function function_name="mibgetfn_common" type="get" />
+     </function_list>
+     <description_user>
+The octet fields are as follows:
+    - 0: RAM LUT entry number. 0 or 1.
+    - 1: SPI mode read command.
+    - 2: Input clock divider. By default, the input clock runs at a frequency
+         of 80MHz. This is a 4bit field, where a value of 0 equates to division
+         by 1, a value of 1 equates to division by 2, and so on.
+
+NOTE: Optionally, none, one or both RAM LUT entries may be set by this
+key as follows:
+
+    [00 00 00]
+      0  1  2
+      |
+      A
+
+    [00 00 00 01 00 00]
+      0  1  2  0  1  2
+      |        |
+      A        B
+
+    A: Beginning of entry 0 key set.
+    B: Beginning of entry 1 key set.
+     </description_user>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="QSPIFRAMLUTSPIConfVector" psid="82">
+       <label>The SPI mode configuration vector for RAM LUT entries.</label>
+     <description_user>
+Configuration vectors for putting RAM LUT QSPIF chips into SPI mode. These vectors
+consist of series of commands to be written over the QSPI interface to the flash
+chip to configure it. Chip select is asserted before each series of commands is sent
+and released thereafter. These variable length vectors are TLV encoded as follows:
+
+    [Total number of commands][Length of command 0][Command 0 octet stream]
+    [Length of command 1][Command 1 octet stream]...[Length of command N]
+    [Command N octet stream]
+
+    e.g.
+
+    [04 01 06 02 81 0b 01 06 02 61 ff]
+      |  |  |  |  |     |  |  |  |
+      A  B  C  D  E     F  G  H  I
+
+    A: Total number of commands.
+    B: Length of command 0.
+    C: Command 0 octet stream.
+    D: Length of command 1.
+    E: Command 1 octet stream.
+    F: Length of command 2.
+    G: Command 2 octet stream.
+    H: Length of command 3.
+    I: Command 3 octet stream.
+
+NOTE: Only C, E, G and I are written to the flash chip.
+
+The field format of this key is, then, as follows:
+
+    0: RAM LUT entry number. 0 or 1.
+    1: The length of the vector. 0 to 32.
+    2: The configuration vector, as described above. Maximum length is 32 octets.
+
+NOTE: Optionally, none, one or both RAM LUT entries may be set by this
+key as follows:
+
+    [00 0b 04 01 06 02 81 0b 01 06 02 61 ff]
+      0  1  2
+      |
+      A
+
+    [00 0b 04 01 06 02 81 0b 01 06 02 61 ff 01 06 02 01 50 02 31 00]
+      0  1  2                                0  1  2
+      |                                      |
+      A                                      B
+
+    A: Entry 0 key.
+    B: Entry 1 key.
+     </description_user>
+     <type>octet_string</type>
+     <default>[00 00]</default>
+     <range_min>0</range_min>
+     <range_max>68</range_max>
+     <function_list>
+       <function function_name="mibsetfn_common" type="set" />
+       <function function_name="mibgetfn_common" type="get" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="QSPIFRAMLUTFastReadParams" psid="83">
+       <label>The fast mode read parameters for RAM LUT entry 0.</label>
+     <description_user>
+This key defines the hardware parameters for setting QSPI flash interfaces into
+a fast read mode e.g. QIO, DTR etc. The octet fields are as follows:
+    - 0: RAM LUT entry number. 0 or 1.
+    - 1: The mode to be configured. One of:
+        - 03: 80MHz clock source, QIO (1-4-4), STR.
+        - 04: 120MHz clock source, QIO (1-4-4), STR.
+        - 05: 80MHz clock source, QIO (1-4-4), DTR.
+    - 2: The fast read command. Refer to QSPI flash datasheet.
+    - 3: Input clock divider, 0 to 15.
+    - 4: Latency cycles required for the specified read mode. Refer to QSPI flash datasheet.
+
+NOTE: Optionally, none, one or both RAM LUT entries may be set by this
+key as follows:
+
+    [00 03 eb 00 06]
+      0  1  2  3  4
+      |
+      A
+
+    [00 00 00 00 00 01 00 00 00 00]
+      0  1  2  3  4  0  1  2  3  4
+      |              |
+      A              B
+
+    A: Beginning of entry 0 key set.
+    B: Beginning of entry 1 key set.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>0</range_min>
+     <range_max>10</range_max>
+     <default>[00 00 00 00 00 01 00 00 00 00]</default>
+     <function_list>
+       <function function_name="mibsetfn_common" type="set" />
+       <function function_name="mibgetfn_common" type="get" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="QSPIFRAMLUTFastConfVector" psid="84">
+       <label>The SPI mode configuration vector for RAM LUT entry 0.</label>
+     <description_user>
+Configuration vectors for putting RAM LUT QSPIF chips into a fast read mode. These
+vectors consist of series of commands to be written over the QSPI interface to the flash
+chip to configure it. Chip select is asserted before each series of commands is sent
+and released thereafter. These variable length vectors are TLV encoded as follows:
+
+    [Total number of commands][Length of command 0][Command 0 octet stream]
+    [Length of command 1][Command 1 octet stream]...[Length of command N]
+    [Command N octet stream]
+
+    e.g.
+
+    [04 01 06 02 81 0b 01 06 02 61 ff]
+      |  |  |  |  |     |  |  |  |
+      A  B  C  D  E     F  G  H  I
+
+    A: Total number of commands.
+    B: Length of command 0.
+    C: Command 0 octet stream.
+    D: Length of command 1.
+    E: Command 1 octet stream.
+    F: Length of command 2.
+    G: Command 2 octet stream.
+    H: Length of command 3.
+    I: Command 3 octet stream.
+
+NOTE: Only C, E, G and I are written to the flash chip.
+
+The field format of this key is, then, as follows:
+
+    0: RAM LUT entry number. 0 or 1.
+    1: The length of the vector. 0 to 32.
+    2: The configuration vector, as described above. Maximum length is 32 octets.
+
+NOTE: Optionally, none, one or both RAM LUT entries may be set by this
+key as follows:
+
+    [00  0b 04 01 06 02 81 0b 01 06 02 61 ff]
+      0   1  2
+      |
+      A
+
+    [00 0b 04 01 06 02 81 0b 01 06 02 61 ff 01 06 02 01 50 02 31 00]
+      0  1  2                               0   1  2
+      |                                     |
+      A                                     B
+
+    A: Entry 0 key.
+    B: Entry 1 key.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>0</range_min>
+     <range_max>68</range_max>
+     <default>[00 00]</default>
+     <function_list>
+       <function function_name="mibsetfn_common" type="set" />
+       <function function_name="mibgetfn_common" type="get" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="QSPIFRAMLUTWriteCmds" psid="85">
+       <label>The write command parameters for QSPI flash RAM LUT entries.</label>
+     <description_user>
+ The set of write-related commands for RAM LUT QSPI flash chips. The field format
+ of this key is as follows:
+
+    0: RAM LUT entry number. 0 or 1.
+    1: The write command. Refer to QSPI flash datasheet.
+    2: The write enable command. Refer to QSPI flash datasheet.
+
+NOTE: Optionally, none, one or both RAM LUT entries may be set by this
+key as follows:
+
+    [00 03 06]
+      0  1  2
+      |
+      A
+
+    [00 03 06 01 13 06]
+      0  1  2  0  1  2
+      |        |
+      A        B
+
+    A: Beginning of entry 0 key set.
+    B: Beginning of entry 1 key set.
+     </description_user>
+     <type>octet_string</type>
+     <default>[00 02 06 01 02 06]</default>
+     <range_min>0</range_min>
+     <range_max>6</range_max>
+     <function_list>
+       <function function_name="mibsetfn_common" type="set" />
+       <function function_name="mibgetfn_common" type="get" />
+     </function_list>
+     <description_internal>
+     </description_internal>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="QSPIFRAMLUTEraseCmds" psid="86">
+       <label>The erase commands for QSPI flash RAM LUT entries.</label>
+     <description_user>
+ The set of erase-related commands for RAM LUT QSPI flash chips. The field format
+ of this key is as follows:
+
+    0: RAM LUT entry number. 0 or 1.
+    1: The sector erase command. Refer to QSPI flash datasheet.
+    2: The full chip command. Refer to QSPI flash datasheet.
+
+NOTE: Optionally, none, one or both RAM LUT entries may be set by this
+key as follows:
+
+    [00 d8 60]
+      0  1  2
+      |
+      A
+
+    [00 d8 60 01 dc 60]
+      0  1  2  0  1  2
+      |        |
+      A        B
+
+    A: Beginning of entry 0 key set.
+    B: Beginning of entry 1 key set.
+     </description_user>
+     <type>octet_string</type>
+     <default>[00 d8 60 01 d8 60]</default>
+     <range_min>0</range_min>
+     <range_max>6</range_max>
+     <function_list>
+       <function function_name="mibsetfn_common" type="set" />
+       <function function_name="mibgetfn_common" type="get" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="QSPIFRAMLUTStatusReadParams" psid="87">
+     <label>The status register parameters for the QSPI flash RAM LUT entries.</label>
+     <description_user>
+The set of status register related commands for RAM LUT QSPI flash chips.
+The field format of this key is as follows:
+
+    0: RAM LUT entry number. 0 or 1.
+    1: The busy (WIP) mask. Refer to QSPI flash datasheet.
+    2: The busy clear value i.e. when masked with WIP mask (1), reveals the
+       operation is complete.
+    3: The write enabled latch (WREN). Refer to QSPI flash datasheet.
+    4: The octet width of the register. Refer to QSPI flash datasheet.
+
+NOTE: Optionally, none, one or both RAM LUT entries may be set by this
+key as follows:
+
+    [00 01 00 02 01]
+      0  1  2  3  4
+      |
+      A
+
+    [00 02 00 01 01 01 02 00 01 01]
+      0  1  2  3  4  0  1  2  3  4
+      |              |
+      A              B
+
+    A: Beginning of entry 0 key set.
+    B: Beginning of entry 1 key set.
+     </description_user>
+     <type>octet_string</type>
+     <default>[00 02 00 01 01 01 02 00 01 01]</default>
+     <range_min>0</range_min>
+     <range_max>10</range_max>
+     <function_list>
+       <function function_name="mibsetfn_common" type="set" />
+       <function function_name="mibgetfn_common" type="get" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="QSPIFRAMLUTStatusReadVector" psid="88">
+     <label>The command vectors to read status registers for RAM LUT QSPI flash chips.</label>
+     <description_user>
+Vectors of commands used to read the status register of RAM LUT QSPI flash chips. These
+vectors consist of series of commands to be written over the QSPI interface to the flash
+chip to read the status register. Chip select is asserted before each series of commands
+is sent and released thereafter. These variable length vectors are TLV encoded as follows:
+
+    [Total number of commands][Length of command 0][Command 0 octet stream]
+    [Length of command 1][Command 1 octet stream]...[Length of command N]
+    [Command N octet stream]
+
+    e.g.
+
+    [01 01 05]
+      |  |  |
+      A  B  C
+
+    A: Total number of commands.
+    B: Length of command 0.
+    C: Command 0 octet stream.
+
+NOTE: Only C is written to the flash chip.
+
+The field format of this key is, then, as follows:
+
+    0: RAM LUT entry number. 0 or 1.
+    1: The length of the configuration vector.
+    2: The configuration vector, as described above.
+
+NOTE: Optionally, none, one or both RAM LUT entries may be set by this
+key as follows:
+
+    [00 03 01 01 05]
+      0  1  2
+      |
+      A
+
+    [00 03 01 01 05 01 03 01 01 05]
+      0  1  2        0  1  2
+      |              |
+      A              B
+
+    A: Entry 0 key.
+    B: Entry 1 key.
+     </description_user>
+     <type>octet_string</type>
+     <default>[00 03 01 01 05 01 03 01 01 05]</default>
+     <range_min>0</range_min>
+     <range_max>20</range_max>
+     <function_list>
+       <function function_name="mibsetfn_common" type="set" />
+       <function function_name="mibgetfn_common" type="get" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="QSPIFRAMLUTDPDCmds" psid="89">
+       <label>The Deep Power Down commands for RAM LUT QSPI flash chips.</label>
+     <description_user>
+The set of commands used to instruct the RAM LUT QSPI flash chips to enter and
+exit deep power down mode.
+
+NOTE: Optionally, none, one or both RAM LUT entries may be set by this
+key as follows:
+
+    [00 b9 ab]
+      0  1
+      |
+      A
+
+    [00 b9 ab 01 00 00]
+      0  1     0  1
+      |        |
+      A        B
+
+    A: Entry 0 key.
+    B: Entry 1 key.
+
+NOTE: If a QSPI flash chip does not support deep power down, the values
+for that entry should be set to 00. This is a reserved value. e.g.
+
+    [00 00 00 01 00 00]
+
+     </description_user>
+     <type>octet_string</type>
+     <default>[00 b9 ab 01 b9 ab]</default>
+     <range_min>0</range_min>
+     <range_max>6</range_max>
+     <function_list>
+       <function function_name="mibsetfn_common" type="set" />
+       <function function_name="mibgetfn_common" type="get" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="QSPIFRAMLUTResetVector" psid="90">
+       <label>The vector to reset RAM LUT QSPI flash chips.</label>
+     <description_user>
+The variable length vector of commands to reset RAM LUT QSPI flash chips to
+POR state. Chip select is asserted before each series of commands is sent and
+released thereafter. These variable length vectors are TLV encoded as follows:
+
+    [Total number of commands][Length of command 0][Command 0 octet stream]
+    [Length of command 1][Command 1 octet stream]...[Length of command N]
+    [Command N octet stream]
+
+    e.g.
+
+    [02 01 66 01 99]
+      |  |  |  |  |
+      A  B  C  D  E
+
+    A: Total number of commands.
+    B: Length of command 0.
+    C: Command 0 octet stream.
+
+NOTE: Only C and E are written to the flash chip.
+
+The field format of this key is, then, as follows:
+    0: RAM LUT entry number. 0 or 1.
+    1: The length of the vector. 0 to 8.
+    2: The reset vector, as described above. Maximum length is 8 octets.
+
+NOTE: Optionally, none, one or both RAM LUT entries may be set by this
+key as follows:
+
+    [00 05 02 01 66 01 99]
+      0  1  2
+      |
+      A
+
+    [00 05 02 01 66 01 99 01 05 02 01 66 01 99]
+      0  1  2              0  1  2
+      |                    |
+      A                    B
+
+    A: Entry 0 key.
+    B: Entry 1 key.
+     </description_user>
+     <type>octet_string</type>
+     <default>[00 05 02 01 66 01 99 01 05 02 01 66 01 99]</default>
+     <range_min>0</range_min>
+     <range_max>68</range_max>
+     <function_list>
+       <function function_name="mibsetfn_common" type="set" />
+       <function function_name="mibgetfn_common" type="get" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* INSTALL_SERIAL_FLASH */
+-->
+
+<!--
+#if CHIP_HAS_SS_APPS
+-->
+   <config_element name= "ResetOnAppPanicOrWatchdog" psid="91">
+      <label>Reset the chip when the Application subsystem panics or has a watchdog timeout.</label>
+      <description_user>
+If it is TRUE, the chip is reset and will reboot when the application
+subsytem reports a panic or the watchdog for it times out. If the debugger
+is connected the chip will not reset and insted will remain in a state
+where the failure can be diagnosed. This key may need to be set to FALSE
+to diagnose problems that are provoked when the debugger is not connected
+to the chip.
+      </description_user>
+      <type>boolean</type>
+      <default>true</default>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_SS_APPS */
+-->
+
+<!--
+#if CHIP_HAS_NFC
+-->
+   <config_element name= "EnableNFC" psid="92">
+      <label>Enable NFC</label>
+      <description_user>
+Set to false to disable NFC.
+      </description_user>
+      <type>boolean</type>
+      <default>true</default>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name= "NFCOverloadEnableMask" psid="93">
+      <label>Enable for current, voltage and temeperature overloads for NFC</label>
+      <description_user>
+     The value contains a bit configuration for enabling or disabling
+     different types of NFC overload conditions. A set bit enables the
+     detection of that overload condition.
+
+     It is a 16-bit quantity in which the bits have the following meaning.
+     Bit-0: Current overload enable.
+     Bit-1: Voltage overload enable.
+     Bit-2: Temperature overload enable.
+     Bit3 to Bit-15: Reserved.
+      </description_user>
+      <type>uint16</type>
+      <default>0x0007</default>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_NFC */
+-->
+
+   <config_element name= "SqifEnableChipSelect1" psid="94">
+      <label>Enable the second Chip Select line on the relevant interfaces.</label>
+      <description_user>
+This is a bit field, a '1' in a specific bit means the CS1 line for that interface will be used.
+Bit 0 is for the Apps 0 SQIF, bit 1 is for the Apps 1 SQIF and bit 2 is for the Audio SQIF.
+      </description_user>
+      <type>uint16</type>
+      <default>0</default>
+      <is_internal>false</is_internal>
+   </config_element>
+
+<!--
+#ifdef INSTALL_SERIAL_FLASH
+-->
+   <config_element name= "EnableAudioSqif" psid="95">
+      <label>Enable the Audio SQIF when Audio is running from ROM.</label>
+      <description_user>
+This key is dependent upon SqifAudioMaskROM, if SqifAudioMaskROM is true then we will ignore
+EnableAudioSqif as Audio will already be running from SQIF. If SqifAudioMaskROM if false then
+we will check EnableAudioSqif, if this is true we will enable the Audio SQIF.
+      </description_user>
+      <type>boolean</type>
+      <default>false</default>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* INSTALL_SERIAL_FLASH */
+-->
+
+<!--
+#if CHIP_HAS_PWM_OUTPUTS
+-->
+   <config_element name= "AudioPWMSlewRates" psid="96">
+      <label>Set slew rates for PWM audio outputs.</label>
+      <description_user>
+There are 2 bits for each PWM channel, bits 0-1 are for channel 0, bits 2-3 for channel 1, this
+continues until bits 14-15 which are for channel 7.
+      </description_user>
+      <type>uint16</type>
+      <default>0</default>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_PWM_OUTPUTS */
+-->
+
+<!--
+#if CHIP_HAS_MCLK_PLL
+-->
+   <config_element name= "MclkPLLAlphaVcoConfig" psid="97">
+      <label> VCO configuration for MCLK PLL. </label>
+      <description_user>
+Advanced settings for VCO in the MCLK PLL.
+SET ONLY ON ADVICE FROM QUALCOMM
+      </description_user>
+      <type>octet_string</type>
+      <range_max>4</range_max>
+      <range_min>4</range_min>
+      <description_internal>
+An array of four octets giving two 16-bit numbers. The numbers give configuration
+values for the AUX_PLL_EMBEDDED_ALPHA_VCO1 and AUX_PLL_EMBEDDED_ALPHA_VCO2 registers.
+The values should be set based on XTAL frequency and bit 6 of the MclkPLLCoarseDacConfig
+MIB key that enables 1/2 steps.
+Note there is no default for this MIB key. The firmware checks if it's set, and if not
+sets default values depending on the xtal frequency.
+For Crescendo with 26MHz xtal and 1/2 step mode disabled, the default settings for
+these registers are equivalent to [0x6EFF 0x2567], ie AUX_PLL_EMBEDDED_ALPHA_VCO1 = 0x6EFF and
+AUX_PLL_EMBEDDED_ALPHA_VCO2 = 0x2567.
+      </description_internal>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name= "MclkPLLCoarseDacConfig" psid="98">
+      <label> Coarse DAC configuration for the MCLK PLL. </label>
+      <description_user>
+Advanced settings for the coarse DAC in the MCLK PLL.
+SET ONLY ON ADVICE FROM QUALCOMM
+      </description_user>
+      <description_internal>
+It is a 16-bit number.
+The bits 0-5 is the coarse DAC offset from the calibrated value. It is in 2's
+complement format. The default value is 0.
+
+The bit 6 is to use half size mode if it is set. It is used
+to configure the AUX_ANA_CLK_CTRL1[7]. The default value is 0 (half size mode disabled).
+
+The bit 7 is not used.
+
+The bit 8 is to choose the SW coarse DAC calibration or HW coarse DAC calibration.
+If it is set, the SW coarse DAC calibration is used. The default value is 0 (HW calibration).
+      </description_internal>
+      <type>uint16</type>
+      <default>0</default>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /*#if CHIP_HAS_MCLK_PLL */
+-->
+
+<!--
+#if CHIP_HAS_CHARGER
+-->
+   <config_element name= "BrownoutDetectionDisable" psid="99">
+      <label>Disable/Enable brownout (under voltage) detection.</label>
+      <description_user>
+      Brownout occurs when the battery voltage drops below the minimum operating threshold
+      voltage. When this key is set to false, borwnout detection gets enabled in the chip and
+      the FW/HW can take evasive actions (such as turning the chip off) to prevent any further damage to the
+      Li-ion battery. When set to true (not recommended) brownout detection gets disabled.
+      </description_user>
+      <type>boolean</type>
+      <default>false</default>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name= "BypassLdoForce3v3" psid="100">
+      <label>Force bypass LDO output to 3v3.</label>
+      <description_user>
+      When running from battery, by default, the bypass LDO output voltage is lowered to 2v9 volts.
+      When this key is set the bypass LDO output is forced to 3v3 volts when running from
+      battery. This can be particularly useful for the scenario where certain peripherals
+      which require 3v3 volts are powered by the bypass LDO.
+      </description_user>
+      <type>boolean</type>
+      <default>false</default>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_CHARGER */
+-->
+
+<!--
+#if CHIP_HAS_JANITOR
+-->
+   <config_element name= "DisableUnexpectedResetDetect" psid="101">
+      <label>Disables the detection of an unexpected reset.</label>
+      <description_user>
+A Protection circuit will reset the device if internal voltages drop too low, this may be
+caused by an ESD strike. The act of resetting the chip will restart any failed power
+supplies, and bring the chip up cleanly. If the reset is signalled as unexpected the user
+code may attempt to recover any ongoing BT conection.
+
+Janitor bootrom automatically re-arms this reset protection.
+      </description_user>
+      <type>boolean</type>
+      <is_internal>false</is_internal>
+      <function_list>
+        <function function_name="mibsetfn_common" type="get"/>
+        <function function_name="mibsetfn_common" type="set"/>
+      </function_list>
+    </config_element>
+<!--
+#endif /* CHIP_HAS_JANITOR */
+-->
+
+<!--
+#if defined(CHIP_FAMILY_CRESCENDO) || defined(CHIP_AURA)
+-->
+   <config_element name= "MclkPllAdjustMultiplier" psid="102">
+      <label>Set the multiplier to be used when adjusting the MCLK PLL frequency.</label>
+      <description_user>
+<!--
+#if defined(CHIP_AURA)
+-->
+When the MCLK PLL's frequency is adjusted a number of steps is specified. This MIB key allows
+us to alter the size of 1 step. 1 step (Hz) = MclkPllAdjustMultiplier * 4.096*10^-3.
+<!--
+#else
+-->
+When the MCLK PLL's frequency is adjusted a number of steps is specified. This MIB key allows
+us to alter the size of 1 step. 1 step (Hz) = MclkPllAdjustMultiplier * 6.1035*10^-3.
+<!--
+#endif /*defined(CHIP_AURA)*/
+-->
+      </description_user>
+      <type>uint16</type>
+<!--
+#if defined(CHIP_AURA)
+-->
+      <default>4882</default>
+<!--
+#else
+-->
+      <default>3280</default>
+<!--
+#endif /*defined(CHIP_AURA)*/
+-->
+      <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name= "MclkPllAdjustCoarseDacKick" psid="103">
+      <label>Set the number to increment/decrement the coarse DAC by when the fine DAC approaches
+the end of its range.</label>
+      <description_user>
+When the MCLK PLL's frequency is adjusted far enough for the fine DAC to reach the edge (10% or 90%)
+of its range the coarse DAC must be kicked. This MIB key allows us to kick it up/down by a specified
+amount.
+      </description_user>
+      <type>uint16</type>
+      <default>2</default>
+      <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* defined(CHIP_FAMILY_CRESCENDO) || defined(CHIP_AURA) */
+-->
+
+<!--
+#if defined(INSTALL_SERIAL_FLASH)
+-->
+   <config_element name="QSPICalOverrides" psid="104">
+       <label>Array of 15 octets representing the interval boundaries for the pad calibration overrides</label>
+     <description_user>
+The SQIF hardware has 16 taps to the receive delay line. Depending on the speed of the silicon one of 
+the 16 taps is chosen to ensure the data lines are read at the right time. That means that the 16 
+available taps will split the space of possible silicon speeds into 16 intervals. The speed of the 
+silicon is measured during pad calibration.
+
+The general case looks like: [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o] which means:
+0x00 &lt;= speed &lt; a, tap = 0
+a &lt;= speed &lt; b, tap = 1
+b &lt;= speed &lt; c, tap = 2
+c &lt;= speed &lt; d, tap = 3
+d &lt;= speed &lt; e, tap = 4
+e &lt;= speed &lt; f, tap = 5
+f &lt;= speed &lt; g, tap = 6
+g &lt;= speed &lt; h, tap = 7
+h &lt;= speed &lt; i, tap = 8
+i &lt;= speed &lt; j, tap = 9
+j &lt;= speed &lt; k, tap = 10
+k &lt;= speed &lt; l, tap = 11
+l &lt;= speed &lt; m, tap = 12
+m &lt;= speed &lt; n, tap = 13
+n &lt;= speed &lt; o, tap = 14
+o &lt;= speed &lt;= 0x3F, tap = 15
+We can also say that at any point the 15 numbers must satisfy the condition:
+0x00 &lt;= a &lt;= b &lt;= c &lt;= d &lt;= e &lt;= f &lt;= g &lt;= h &lt;= i &lt;= j &lt;= k &lt;= l &lt;= m &lt;= n &lt;= o &lt;= 0x3F
+If two adjacent boundaries are equal this means that the interval they define is of length 0 which 
+in turn means that the associated tap is not used.
+     </description_user>
+     <type>octet_string</type>
+     <default>[00 00 00 00 00 00 00 00 00 3f 3f 3f 3f 3f 3f]</default>
+     <range_min>15</range_min>
+     <range_max>15</range_max>
+     <function_list>
+       <function function_name="mibsetfn_common" type="set" />
+       <function function_name="mibgetfn_common" type="get" />
+     </function_list>
+     <description_internal>
+     </description_internal>
+     <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* INSTALL_SERIAL_FLASH */
+-->
+
+   <config_element name= "AudioSqifAddressOffset" psid="105">
+      <label>Offset within the audio SQIF that the code should run from</label>
+      <description_user>
+Multiple audio firmware images may be placed in the flash device. This key 
+allows one of the images to be selected by providing the offset within the
+flash device where it is stored.
+      </description_user>
+      <type>uint32</type>
+      <is_internal>true</is_internal>
+   </config_element>
+   
+   <config_element name= "AudioSqifDecryptControl" psid="106">
+      <label>Whether the audio firmware in the flash device is encrypted</label>
+      <description_user>
+The firmware in the audio flash device may be encrypted using a key that is
+stored in the e-fuse of the device. Setting this key to non-zero enables the
+decryption using the nonce value from the key AudioSqifDecryptNonce.
+The lower 16-bits of this value are written to the READ_DECRYPT_CONTROL
+register and the upper 16 bits to the READ_DECRYPT_IMAGE_ADDRESS_MASK.
+      </description_user>
+      <type>uint32</type>
+      <is_internal>true</is_internal>
+   </config_element>
+   
+   <config_element name= "AudioSqifDecryptNonce" psid="107">
+      <label>The nonce value to use to decrypt the audio flash image</label>
+      <description_user>
+The firmware in the audio flash device may be encrypted using a key that is
+stored in the e-fuse of the device. This key holds the nonce value 
+to be used to decrypt it when enabled by the key AudioSqifDecryptControl.
+The key should be sixteen octets (128 bits) with the first octet being the
+least significant byte when represented as a 128-bit number.
+      </description_user>
+      <type>octet_string</type>
+      <is_internal>true</is_internal>
+   </config_element>
+   
+   <config_element name= "ChargerInsertionDebounceTime" psid="108">
+      <label>Debounce time for charger insertion in milliseconds.</label>
+      <description_user>
+This is a simple delay when VCHG goes high, it happens before USB charger detection. If
+ChargerIsUSB is false then this is the only debouncing, if it is true then the USB charger
+detection includes additional USB debouncing.
+      </description_user>
+      <type>uint16</type>
+      <default>100</default>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name= "ChargerRemovalDebounceTime" psid="109">
+      <label>Debounce time for charger removal in milliseconds.</label>
+      <description_user>
+This is a simple delay when VCHG goes low. It provides the only debouncing on charger
+removal, regardless of the value of ChargerIsUSB.
+      </description_user>
+      <type>uint16</type>
+      <default>100</default>
+      <is_internal>false</is_internal>
+   </config_element>
+
+<!--
+#if !CHIP_HAS_AMBER_LIKE_AUDIO_SUBSYSTEM
+-->
+   <config_element name="AudioAddressMap" psid="110">
+      <label>Audio subsystem address map setup</label>
+      <description_user>
+This controls how the audio subsystem's internal address map is set up.
+This must match what the audio firmware was built to expect; if it does
+not, the audio firmware will not execute correctly.
+
+It has no relation to the physical location of the audio firmware in the
+Flash device.
+      </description_user>
+      <description_internal>
+This controls which NVMEM window in the audio subsystem's address space
+the Curator sets audio firmware up to boot from. See the audio memory map
+document, CS-205120-SP.
+
+This exists to allow scenarios where an audio firmware image boots from
+SQIF but calls into ROM (so both are visible in the audio address map
+simultaneously). Both will have a valid SLT; among other things, this key
+tells Curator which one to look at.
+
+We expect that future audio firmware for CSRA68100 (Crescendo) will be
+built such that with SqifAudioMaskROM=false, this should be 0, and with
+SqifAudioMaskROM=true, this should be 1.
+
+The valid range reflects what Curator can cope with, not the set of
+NVMEM windows available in hardware.
+
+Don't try changing this at runtime.
+
+This isn't supported on Amber/A7CA; while such shenanigans would be
+possible in principle, there's no pressing need and subsym isn't up to
+it on these platforms.
+
+The audio firmware actually publishes this information in its SLT, so
+Curator could read it from there, rather than needing to be told via this
+MIB key. But it doesn't, yet. If it learns how to, the system would
+automatically do The Right Thing and this MIB key could be retired.
+      </description_internal>
+      <type>uint16</type>
+      <default>0</default>
+      <range_min>0</range_min>
+      <range_max>1</range_max>
+      <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_AMBER_LIKE_AUDIO_SUBSYSTEM */
+-->
+
+<!--
+#if defined(INSTALL_SERIAL_FLASH)
+-->
+   <config_element name="QSPIFWIPWaitTimeout" psid="111">
+       <label>The upper bound for QSPIF WIP polling loops.</label>
+     <description_user>
+Some QSPIF operations legitimately take long times to complete. However, if it
+transpires that, for example, a user has set incorrect QSPIFRAMLUTStatusParams
+such that the mask to indicate that the WIP bit is no longer set is wrong, there
+should be an upper time bound after which the check will timeout. This MIB key
+represents this upper bound as a period of seconds.
+     </description_user>
+     <type>uint16</type>
+     <default>150</default>
+     <is_internal>false</is_internal>
+     <function_list>
+       <function function_name="mibsetfn_common" type="set" />
+       <function function_name="mibgetfn_common" type="get" />
+     </function_list>
+   </config_element>
+
+<!--
+#endif /* defined(INSTALL_SERIAL_FLASH) */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+    <config_element name="USBHubDeviceRemovable" psid="112">
+        <label>Value for the DeviceRemovable field of the USB hub class descriptor</label>
+        <description_user>
+USB2.0 standard, section 11.23.2.1 "Hub Descriptor", offset 7 "DeviceRemovable".
+Bit 0 is reserved (0), bit 1 corresponds to port 1,
+bit 2 to port 2, bit 3 to port 3 and bit 4 to port 4.
+Each bit can be either 0 - device is removable or 1 - device is non-removable.
+Default value makes all 4 internal devices non-removable.
+        </description_user>
+        <type>uint16</type>
+        <default>0x1e</default>
+<!--
+#ifdef CHIP_AMBER
+-->
+        <is_internal>true</is_internal>
+<!--
+#else
+-->
+        <is_internal>false</is_internal>
+<!--
+#endif
+-->
+    </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!-- CSR ENGINEERS SHOULD USE THIS GAP IN THE LOW IDS TO ADD NEW MIB KEYS ABOVE HERE
+     SCSC ENGINEERS SHOULD USE THE GAP IN THE HIGH IDS INSTEAD -->
+
+   <config_element name="PanicOnFault" psid="1000">
+     <label>Halt the system on any fault</label>
+     <description_user>
+When the chip's firmware detects a problem that implies that it
+cannot continue operation (for example, running out of pool memory) it
+normally calls panic().  This halts the firmware, and may reboot it.
+By contrast, when the chip's firmware encounters a problem that
+it can survive (for example, detecting a received corrupt packet) it
+normally calls fault(), which can cause a fault report
+message to be created.
+
+If this MIB entry is set to TRUE, the firmware calls panic()
+when it would normally call fault().
+
+Only set this for system debugging.
+
+See PanicOnFaultExceptions, which sets exceptions to PanicOnFault.
+     </description_user>
+     <type>boolean</type>
+     <default>false</default>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="PanicOnFaultExceptions" psid="1001">
+     <label>List of fault ids treated the opposite to PanicOnFault</label>
+     <description_user>
+An array of eight octets giving a list of four 16-bit fault ids.
+Each 16-bit fault id will be treated the opposite to PanicOnFault (see below).
+Fault ids not required must be set to 0000 ie. FAULT_NONE or "not a fault".
+If this MIB key is not set curator behaves as if it were [0000 0000 0000 0000].
+
+If PanicOnFault is true this is a whitelist ie. all faults cause a panic
+except for the fault ids in this list.
+
+If PanicOnFault is false this is a blacklist ie. only the fault ids in
+this list cause a panic.
+
+Only set this for system debugging.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>8</range_min>
+     <range_max>8</range_max>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="CuratorExternalSlowClock" psid="1002">
+     <label>Use external system clock during deep sleep</label>
+     <description_user>
+The chip is able to use an external slow clock via a dedicated input,
+or to use a divided down crystal oscillator.  This is recommended when
+deep sleep is to be used for low power modes of radio protocols, in
+particular Bluetooth sniff.
+
+When the variable is set to 0, the internal slow clock is used.
+
+When this variable is set to 1, an external slow clock supplied
+via a dedicated input is used for timing in deep sleep.  Currently
+this is assumed to be at 32 kHz.
+
+When this variable is set to 2, the crystal is used in a
+low power mode.  The crystal frequency given by the MIB attribute
+ReferenceClockFrequency is divided internally to provide a slow clock.
+     </description_user>
+     <description_internal>
+This value is ignored for emulator builds, where the internal slow clock
+is a jittered version of the fast clock but otherwise accurate, and
+where an external slow clock is not usually provided or needed.  If
+it should be necessary to debug an external slow clock using the emulator
+changes to the code will be necessary.
+     </description_internal>
+     <type>uint16</type>
+<!--
+#if defined(CHIP_FAMILY_CRESCENDO)
+-->
+     <default>2</default>
+<!--
+#else
+-->
+     <default>1</default>
+<!--
+#endif
+-->
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="CuratorDeepSleepConfig" psid="1003">
+     <label>Deep sleep mode choice</label>
+     <description_user>
+There are three possible approaches to deep sleep.
+
+0: Do not do it.
+
+1: Do it whenever possible.
+
+2: Only do it when the chip management subsystem is the only subsystem
+that is running (note, however, other subsystems may still be powered).
+     </description_user>
+     <description_internal>
+This value is ignored on chips without a Janitor
+     </description_internal>
+     <type>uint16</type>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <default>
+<!--
+#if defined(CHIP_AMBER) || defined(CHIP_FAMILY_CRESCENDO) || defined(CHIP_AURA)
+-->
+       1
+<!--
+#endif
+-->
+/*
+ * Default this to disabled for A7CA
+ * Unknown chips will fault here (and force use to fix)
+ */
+<!--
+#if defined(CHIP_A7CA)
+-->
+       0
+<!--
+#endif
+-->
+     </default>
+     <range_min>0</range_min>
+     <range_max>2</range_max>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="CuratorDeepSleepWakeupDelay" psid="1006">
+     <label>Wake up from deep sleep delay</label>
+     <description_user>
+The wake-up delay is usually 8 slow clock cycles (1 ms). This
+is based on the time taken for the digital clock to stabilise when
+requested at the end of deep sleep. Some experiment went into
+this.  The hardware default is 40 if no value is supplied by the
+firmware, which is safe but unnecessarily long. This is the major
+contribution to the latency for waking up.
+
+The range for this value is 0 to 127 (a signed 8-bit number), but note
+that there is some intrinsic latency between starting the clock and
+waking the rest of the chip of the order of one or two 8 kHz cycles.
+This is taken into account, but it means very low values are not useful.
+     </description_user>
+     <type>int8</type>
+     <range_min>0</range_min>
+     <range_max>127</range_max>
+     <default>8</default>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="KeepSubsystemsPowered" psid="1007">
+     <label>Power on subsystems for debuggging</label>
+     <description_user>
+Setting this causes all subsystems to be kept powered all the time.
+This gives a debugger access to a subsystem when it would
+normally be powered off. This lets an xIDE user set breakpoints in a
+project before the subsystem would normally be powered up. Setting this
+also disables the watchdog of the subsystem.
+     </description_user>
+     <type>boolean</type>
+     <default>false</default>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="PatchSpareValue1" psid="1009">
+     <label>Spare MIB key 1 for use when patching, value only</label>
+     <description_user>
+This MIB key is not used in standard builds, but may be used by
+patch code.  It must be retrieved by standard MIB calls.
+     </description_user>
+     <type>uint32</type>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="PatchSpareValue2" psid="1010">
+     <label>Spare MIB key 2 for use when patching, value only</label>
+     <description_user>
+This MIB key is not used in standard builds, but may be used by
+patch code.  It must be retrieved by standard MIB calls.
+     </description_user>
+     <type>uint32</type>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="PatchSpareFunction1" psid="1011">
+     <label>Spare MIB key 1 for use when patching, calls patch function</label>
+     <description_user>
+This MIB key is not used in standard builds, but may be used by
+patch code.  It is passed to a function that may have a software patch.
+     </description_user>
+     <type>uint32</type>
+     <function_list>
+       <function function_name="mibgetfn_patch" type="get" />
+       <function function_name="mibsetfn_patch" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="PatchSpareFunction2" psid="1012">
+     <label>Spare MIB key 2 for use when patching, calls patch function</label>
+     <description_user>
+This MIB key is not used in standard builds, but may be used by
+patch code.  It is passed to a function that may have a software patch.
+     </description_user>
+     <type>uint32</type>
+     <function_list>
+       <function function_name="mibgetfn_patch" type="get" />
+       <function function_name="mibsetfn_patch" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+
+<!--
+#ifdef INSTALL_LPC
+-->
+   <config_element name="LpcSpeedLimit" psid="1016">
+     <label>Limit on LPC speed/mode</label>
+     <description_user>
+Set limit on LPC mode: 0 = SLOW, 1 = SAFE, 2=FAST.
+     </description_user>
+     <type>uint16</type>
+     <default>0</default>
+     <range_min>0</range_min>
+     <range_max>2</range_max>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="LpcLinkAssignment" psid="1017">
+     <label>Assign LPC links to subsystems (or not).</label>
+     <description_user>
+Assigns LPC links to specified subsystems, or none.
+
+0xFF = unassigned.
+
+0xNN = system_bus number (not lpc_master).
+     </description_user>
+     <type>octet_string</type>
+     <range_min>1</range_min>
+     <range_max>16</range_max>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="LpcLinkWidth" psid="1018">
+     <label>Set LPC link data widths.</label>
+     <description_user>
+Sets LPC link widths. 0 (if unassigned), 1, 2, 4 or 8.
+The values must agree with LpcLinkAssignment and LpcPinAssignment.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>1</range_min>
+     <range_max>16</range_max>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="LpcPinAssignment" psid="1019">
+     <label>Assign LPC pins to LPC roles (or not).</label>
+     <description_user>
+This key sets LPC pin modes.
+It contains one octet per PIO on the chip starting at PIO[0] and ending
+with PIO[31].
+0 = normal (non-LPC) function, 1 = 1st LPC role, 2 = 2nd LPC role, etc.
+Note that what each LPC &quot;role&quot; is depends on each specific chip's LPC pin mux.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>32</range_min>
+     <range_max>32</range_max>
+          <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* INSTALL_LPC */
+-->
+
+   <config_element name="AIO0Mux" psid="1020">
+     <label>Connect AIO0 to mux bus</label>
+     <description_user>
+This key is used to attach Analogue IO pin AIO0 to the internal
+multiplexor bus.
+     </description_user>
+     <type>boolean</type>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="AIO1Mux" psid="1021">
+     <label>Connect AIO1 to mux bus</label>
+     <description_user>
+This key is used to attach Analogue IO pin AIO1 to the internal
+multiplexor bus.
+     </description_user>
+     <type>boolean</type>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="AIO2Mux" psid="1022">
+     <label>Connect AIO2 to mux bus</label>
+     <description_user>
+This key is used to attach Analogue IO pin AIO2 to the internal
+multiplexor bus.
+     </description_user>
+     <type>boolean</type>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="SystemResourceDependencies" psid="1023">
+     <label>Array of pairs of resource identifiers specifying system dependencies</label>
+     <description_user>
+This key has an identical format to ResourceDependencies.
+It is used to specify dependencies at the system level which are
+typically set at compile time.  It is therefore not expected that
+the value is set at run time unless the system dependencies are
+known to be different from those in the defaults.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>4</range_min>
+     <range_max>128</range_max>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+
+<!--
+#ifdef INSTALL_LPC
+-->
+   <config_element name="LpcOffsets" psid="1024">
+     <label>LPC Program Offsets</label>
+     <description_user>
+Array of offsets (64k units) of the subsystem's firmware in LPC.
+The number of offsets must match the number of subsystems.
+This allows more than one image to reside in the same LPC.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>1</range_min>
+     <range_max>16</range_max>
+     <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* INSTALL_LPC */
+-->
+
+   <config_element name="SystemResourceNonDependencies" psid="1025">
+     <label>Array of pairs of resource identifiers specifying system dependencies to be removed</label>
+     <description_user>
+This key has an identical format to ResourceDependencies.  It is
+used to specify dependencies at the system level which are compiled into
+the system, but are to be ignored at run time.  In each pair of resource
+identifiers, the resource given by the first identifier no longer
+depends on the resource given by the second.  No error is reported if
+the first identifier did not previously depend on the second (though
+clearly this setting is not useful).  A pair of values within the array
+also overrides any corresponding dependency set by the
+ResourceDependencies or the SystemResourceDependencies key.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>4</range_min>
+     <range_max>128</range_max>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>false</is_internal>
+   </config_element>
+
+<!--
+#ifdef INSTALL_LPC
+-->
+   <config_element name="CuratorLpcWakeupDelay" psid="1026">
+     <label>Delay between re-enabling LPC and using the LPC clock.</label>
+     <description_user>
+This value is a multiple of slow clock cycles (nominally 1/8 ms).
+If the chip management subsystem is running from LPC, the delay is
+applied between enabling the clock to the LPC module and enabling the
+main digital clock that causes the chip management subsystem to start
+running.
+
+The range for this value is 0 to 127 (a signed 8-bit number).
+
+Although this key is still used, it is redundant as the chip management
+subsystem checks internally to ensure the LPC is re-enabled correctly.
+     </description_user>
+     <type>int8</type>
+     <range_min>0</range_min>
+     <range_max>127</range_max>
+     <!-- 24 ~= 3 ms is quite a lot but I've seen occasional crashes
+          with 16. -->
+     <default>24</default>
+     <is_internal>true</is_internal>
+   </config_element>
+<!--
+#endif /* INSTALL_LPC */
+-->
+
+   <config_element name="UartPinsConfig" psid="1027">
+     <label>PIO configuration needed for UART pins</label>
+     <description_user>
+The value is an octet string consisting of four octets, each describing
+one of the four UART pins, in the order RTS, CTS, data TX, data RX.  The
+format is strict.  An invalid format causes the firmware to panic.
+
+Each octet can have one of the following values:
+
+0-0x7f: Use this value as the PIO for this UART pin.  Note that valid
+values are constrained by packages and modules as well as chip
+hardware. The resource for the configured PIO will be acquired with
+the UART_WITH_PIOS resource and the hardware will be configured
+appropriately.
+
+0x80: Do not connect this pin. The UART hardware will be set to an unused
+PIO for this function. The PIO will not be routed to pins, however care
+needs to be taken if several pins are disabled as they will all use
+the same default unused pin and so may interact. To prevent this the
+controlling subsytem should separately set the CTS pin to be ignored
+and the RTS to drive a zero if they are not required.
+
+If the configured PIO requires additional resources, such as configuration
+of voltage level at the pad, these are handled automatically.  Note that
+in such cases if a voltage level was previously configured, for example as
+a resource dependency during subsystem boot, it is assumed to be suitable.
+Otherwise, VDD_PADS is used.
+     </description_user>
+     <type>octet_string</type>
+     <range_min>4</range_min>
+     <range_max>4</range_max>
+#if defined(CHIP_AMBER)
+     <default>[03 19 1a 1b]</default>
+#elif defined(CHIP_FAMILY_CRESCENDO)
+     <default>[18 19 1a 1b]</default>
+#elif defined(CHIP_AURA)
+     <default>[18 19 1a 1b]</default>
+#else
+     <default>[80 80 80 80]</default>
+#endif
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="DeepSleepVoltageReduction" psid="1028">
+     <label>Voltage reduction when chip is in deep sleep</label>
+     <description_user>
+The value is in millivolts, and indicates the reduction that is to be
+applied to the voltage regulated by the Power Management Unit while the
+chip is in deep sleep.  Values are rounded down to the next lower
+usable voltage reduction for the hardware.
+
+Currently the value is in steps of 50 mV and the maximum useful value
+in normal operation is 250 mV.  The values 300 mV and 350 mV are
+accepted but are only valid for testing.
+     </description_user>
+     <type>uint16</type>
+     <range_min>0</range_min>
+     <range_max>350</range_max>
+     <default>250</default>
+     <is_internal>true</is_internal>
+   </config_element>
+
+<!--
+#if CHIP_HAS_JANITOR
+-->
+
+   <config_element name="DeepSleepRam" psid="1029">
+     <label>Whether the chip's RAMs and ROMs should be put into deep sleep mode</label>
+     <description_user>
+If true, the chip's RAMs and ROMs are put into deep sleep mode when the
+chip is in deep sleep.
+     </description_user>
+     <description_internal>
+The same digital feature covers both RAMs and ROMs, despite the name
+of the key.
+     </description_internal>
+     <type>boolean</type>
+     <default>true</default>
+     <is_internal>true</is_internal>
+   </config_element>
+
+<!--
+#endif /* CHIP_HAS_JANITOR */
+-->
+
+<!--
+#if CHIP_HAS_XTAL_DRIVE
+-->
+   <config_element name="XtalLoadCapacitance" psid="1030">
+      <label>The capacitance for driving a crystal providing the raw clock</label>
+
+<!--
+#ifdef CHIP_FAMILY_CRESCENDO
+-->
+      <description_user>
+If the chip's fast clock is provided by a crystal, this value is used
+to set the capacitative load.  It is configured for each module design
+separately.
+
+There are four possible values for the load:
+The coarse capacitance will be 0.4pF * n
+
+      </description_user>
+      <description_internal>
+This is an unsigned integer -- default is approproximately half of the allowed range
+      </description_internal>
+      <type>uint16</type>
+      <range_min>0</range_min>
+      <range_max>31</range_max>
+      <default>11</default>
+<!--
+#else
+-->
+      <description_user>
+If the chip's fast clock is provided by a crystal, this value is used
+to set the capacitative load.  It is configured for each module design
+separately.
+
+There are four possible values for the load:
+
+- 0: Minimum (parasitic only) capacitance
+
+- 1: 8 pF
+
+- 2: 9 pF
+
+- 3: 10 pF
+      </description_user>
+      <description_internal>
+The default is appropriate for the 38.4 MHz crystals in use
+with Amber R01 modules.
+      </description_internal>
+      <type>uint16</type>
+      <range_min>0</range_min>
+      <range_max>3</range_max>
+      <default>1</default>
+<!--
+#endif /* CHIP_FAMILY_CRESCENDO */
+-->
+      <function_list>
+      <function function_name="mibgetfn_common" type="get" />
+      <function function_name="mibsetfn_common" type="set" />
+      </function_list>
+
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="XtalFreqTrim" psid="1031">
+      <label>Fine frequency trim for a crystal providing the raw chip clock</label>
+      <description_user>
+If the chip's fast clock is provided by a crystal, this value is used
+as a fine trim for the crystal frequency.  It may be set for each
+individual chip to compensate for process variations.
+
+Note the fine trim for the crystal is also updated by the
+temperature compensation mechanism if this is in use.  See
+XtalTemperatureLookupTable.
+      </description_user>
+
+<!--
+#ifdef CHIP_FAMILY_CRESCENDO
+-->
+      <description_internal>
+The HW treats this as a 2s complement signed integer, so the default (0) is mid-range.
+The valid range for HW is -16 to 15.
+      </description_internal>
+      <type>int16</type>
+      <range_min>-16</range_min>
+      <range_max>15</range_max>
+      <default>AUX_ANA_XTAL_TRIM_FINE_DEFAULT</default>
+<!--
+#else
+-->
+      <description_internal>
+The default is not particularly scientifically chosen:
+it's a value that's been seen to work on one board so is
+somewhere in the range of useful values.
+
+The valid range of this MIB is -77...177. The large numbers
+are interpreted by the firmware as two's complement negative numbers.
+
+How this MIB key is used depends on whether the "WLAN Ref VCO min freq" efuse
+bits, bit 80-71, are set. Typically these are set on BGA-64 and WLCSP-71
+parts, but not set on BGA-169 or WLCSP-114 parts.
+
+If they are not set, the crystal trim applied is the value of the MIB key
+and the valid range is 0...127.
+
+If these efuse bits are set, they are used to calculate an initial
+efuse based crystal trim of:
+efuse_trim = (56x + 2380 - ( x/5 )^2 ) >> 8
+where x = Efuse bits 87:80.
+
+The crystal trim is then set to:
+crystal_trim = efuse_trim + MIB - MIB default (50)
+In this case the valid range of the MIB depends on efuse_trim. It
+must be ensured that crystal_trim stays in the range 0...127.
+
+      </description_internal>
+      <type>int16</type>
+      <default>AUX_ANA_XTAL_TRIM_FINE_DEFAULT</default>
+<!--
+#endif /* CHIP_FAMILY_CRESCENDO */
+-->
+   <function_list>
+     <function function_name="mibgetfn_common" type="get" />
+     <function function_name="mibsetfn_common" type="set" />
+   </function_list>
+
+   <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_XTAL_DRIVE */
+-->
+
+   <config_element name="PioDirectionElements" psid="1032">
+      <label>Set whether individual PIOs are input or output</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+      <description_user>
+This key sets individual elements corresponding to entries in PioDirection.
+This may be used to avoid changing values for PIOs inadvertently.
+The value is an array of pairs of octets.  The first octet in each pair
+is the number of a PIO, currently from 0 to 31.  The second octet
+is 0 to set the PIO to input, 1 to set it to output.
+
+The key cannot be read; use PioDirection to read the values for all PIOs.
+      </description_user>
+<!--
+#endif /*NUMBER_OF_PIOS == 32*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+      <description_user>
+This key sets individual elements corresponding to entries in PioDirection.
+This may be used to avoid changing values for PIOs inadvertently.
+The value is an array of pairs of octets.  The first octet in each pair
+is the number of a PIO, currently from 0 to 95.  The second octet
+is 0 to set the PIO to input, 1 to set it to output.
+The maximum PIOs can be configured by this mib are 64 PIOs. If there are more than 64 PIOs
+to be configured, they should be defined by two of this mib keys and
+included seperately by two different configuration files.
+
+The key cannot be read; use PioDirection to read the values for all PIOs.
+      </description_user>
+<!--
+#endif /*NUMBER_OF_PIOS == 96*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+      <description_user>
+This key sets individual elements corresponding to entries in PioDirection.
+This may be used to avoid changing values for PIOs inadvertently.
+The value is an array of pairs of octets.  The first octet in each pair
+is the number of a PIO, currently from 0 to 71.  The second octet
+is 0 to set the PIO to input, 1 to set it to output.
+The maximum PIOs can be configured by this mib are 64 PIOs. If there are more than 64 PIOs
+to be configured, they should be defined by two of this mib keys and
+included seperately by two different configuration files.
+
+The key cannot be read; use PioDirection to read the values for all PIOs.
+      </description_user>
+<!--
+#endif /*NUMBER_OF_PIOS == 72*/
+-->
+      <type>octet_string</type>
+      <range_min>2</range_min>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+      <range_max>64</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+      <range_max>128</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+      <range_max>128</range_max>
+<!--
+#endif
+-->
+      <function_list>
+         <function function_name="mibgetfn_pio_elements" type="get" />
+         <function function_name="mibsetfn_pio_elements" type="set" />
+      </function_list>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="PioDriveElements" psid="1033">
+      <label>Set whether individual PIOs are high or low</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+      <description_user>
+This key sets individual elements corresponding to entries in PioDrive.
+This may be used to avoid changing values for PIOs inadvertently.
+The value is an array of pairs of octets.  The first octet in each pair
+is the number of a PIO, currently from 0 to 31.  The second octet
+is 0 to set the PIO low, or 1 to set the PIO high.
+
+The key cannot be read; use PioDrive to read the values for all PIOs.
+      </description_user>
+<!--
+#endif /*NUMBER_OF_PIOS == 32*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96) || (NUMBER_OF_PIOS == 72)
+-->
+      <description_user>
+This key sets individual elements corresponding to entries in PioDrive.
+This may be used to avoid changing values for PIOs inadvertently.
+The value is an array of pairs of octets.  The first octet in each pair
+is the number of a PIO, currently from 0 to NUMBER_OF_PIOS_MINUS_1.  The second octet
+is 0 to set the PIO low, or 1 to set the PIO high.
+The maximum PIOs can be configured by this mib are 64 PIOs. If there are more than 64 PIOs
+to be configured, they should be defined by two of this mib keys and
+included seperately by two different configuration files.
+
+The key cannot be read; use PioDrive to read the values for all PIOs.
+      </description_user>
+<!--
+#endif /*NUMBER_OF_PIOS == 96 || (NUMBER_OF_PIOS == 72)*/
+-->
+      <type>octet_string</type>
+      <range_min>2</range_min>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+      <range_max>64</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+      <range_max>128</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+      <range_max>128</range_max>
+<!--
+#endif
+-->
+      <function_list>
+         <function function_name="mibgetfn_pio_elements" type="get" />
+         <function function_name="mibsetfn_pio_elements" type="set" />
+      </function_list>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="PioMuxSettingElements" psid="1034">
+      <label>Set the hardware multiplexor for individual PIOs</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+      <description_user>
+This key sets individual elements corresponding to entries in PioMuxSetting.
+This may be used to avoid changing values for PIOs inadvertently.
+The value is an array of pairs of octets.  The first octet in each pair
+is the number of a PIO, currently from 0 to 31.  The second octet
+is the multiplexor setting, which is specific to the hardware.
+
+The key cannot be read; use PioMuxSetting to read the values for all PIOs.
+      </description_user>
+<!--
+#endif /*NUMBER_OF_PIOS == 32*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96) ||(NUMBER_OF_PIOS == 72)
+-->
+      <description_user>
+This key sets individual elements corresponding to entries in PioMuxSetting.
+This may be used to avoid changing values for PIOs inadvertently.
+The value is an array of pairs of octets.  The first octet in each pair
+is the number of a PIO, currently from 0 to NUMBER_OF_PIOS_MINUS_1.  The second octet
+is the multiplexor setting, which is specific to the hardware.
+The maximum PIOs can be configured by this mib are 64 PIOs. If there are more than 64 PIOs
+to be configured, they should be defined by two of this mib keys and
+included seperately by two different configuration files.
+
+The key cannot be read; use PioMuxSetting to read the values for all PIOs.
+      </description_user>
+<!--
+#endif /*NUMBER_OF_PIOS == 96 || NUMBER_OF_PIOS == 72*/
+-->
+      <type>octet_string</type>
+      <range_min>2</range_min>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+      <range_max>64</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+      <range_max>128</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+      <range_max>128</range_max>
+<!--
+#endif
+-->
+      <function_list>
+         <function function_name="mibgetfn_pio_elements" type="get" />
+         <function function_name="mibsetfn_pio_elements" type="set" />
+      </function_list>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="PioSubsystemAllocationElements" psid="1035">
+      <label>Set the subsystem owner for individual PIOs</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+      <description_user>
+This key sets individual elements corresponding to entries in
+PioSubsystemAllocation.  This may be used to avoid changing values for
+PIOs inadvertently.  The value is an array of pairs of octets.  The
+first octet in each pair is the number of a PIO, currently from 0 to 31.
+The second octet is the subsystem to which the PIO is to be allocated.
+
+The key cannot be read; use PioSubsystemAllocation to read the values for
+all PIOs.
+      </description_user>
+<!--
+#endif /*NUMBER_OF_PIOS == 32*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+      <description_user>
+This key sets individual elements corresponding to entries in
+PioSubsystemAllocation.  This may be used to avoid changing values for
+PIOs inadvertently.  The value is an array of pairs of octets.  The
+first octet in each pair is the number of a PIO, currently from 0 to 95.
+The second octet is the subsystem to which the PIO is to be allocated.
+The maximum PIOs can be configured by this mib are 64 PIOs. If there are more than 64 PIOs
+to be configured, they should be defined by two of this mib keys and
+included seperately by two different configuration files.
+
+The key cannot be read; use PioSubsystemAllocation to read the values for
+all PIOs.
+      </description_user>
+<!--
+#endif /*NUMBER_OF_PIOS == 96*/
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+      <description_user>
+This key sets individual elements corresponding to entries in
+PioSubsystemAllocation.  This may be used to avoid changing values for
+PIOs inadvertently.  The value is an array of pairs of octets.  The
+first octet in each pair is the number of a PIO, currently from 0 to 71.
+The second octet is the subsystem to which the PIO is to be allocated.
+The maximum PIOs can be configured by this mib are 64 PIOs. If there are more than 64 PIOs
+to be configured, they should be defined by two of this mib keys and
+included seperately by two different configuration files.
+
+The key cannot be read; use PioSubsystemAllocation to read the values for
+all PIOs.
+      </description_user>
+<!--
+#endif /*NUMBER_OF_PIOS == 72*/
+-->
+      <type>octet_string</type>
+      <range_min>2</range_min>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+      <range_max>64</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+      <range_max>128</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+      <range_max>128</range_max>
+<!--
+#endif
+-->
+      <function_list>
+         <function function_name="mibgetfn_pio_elements" type="get" />
+         <function function_name="mibsetfn_pio_elements" type="set" />
+      </function_list>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="HighPowerWakeOnClock" psid="1036">
+      <label>Power configuration needed for waking if clock present</label>
+      <description_user>
+This determines the power configuration used by the logic that allows
+wake from deep sleep if a clock is present.  It is only used if
+DeepSleepWakeOnClock is true.
+
+If the value is true, the wake circuit requires high power operation,
+else it does not.  This value should only be set if advice is given that
+it is needed.
+      </description_user>
+      <type>boolean</type>
+      <default>true</default>
+      <is_internal>true</is_internal>
+   </config_element>
+
+<!--
+#if CHIP_HAS_CURATOR_XTAL_TEMP_COMP
+-->
+   <config_element name="XtalTemperatureLookupTable" psid="1037">
+      <label>Lookup table for compensating crystal for temperature</label>
+      <description_user>
+If this MIB key is set, temperature compensation may be performed
+on the crystal that supplies the system clock.  The value gives
+an array of mappings from temperature to the internal units used
+for determining the capacitance fine trim applied to the crystal.
+
+Each entry consists of a pair of octets supplying two 8-bit integers.
+The first entry is a signed integer giving a temperature in degrees
+Celsius; the second entry is an unsigned number of which 7 bits are
+valid giving the fine trim to apply at that temperature.  The
+temperatures must be strictly monotonically increasing, however the fine
+trims are not required to be so.
+
+Outside the range of the minimum and maximum temperature given,
+no extrapolation is performed: the corresponding fine trim for the
+minimum temperature is used for all lower temperatures,
+and that for the maximum temperature is used for all higher temperatures.
+
+Within the range of the temperatures in the table, piecewise linear
+interpolation is performed between adjacent temperature values to
+determine the appropriate fine trim.
+
+This key must be set for temperature compensation to be performed.
+      </description_user>
+      <type>octet_string</type>
+      <is_internal>false</is_internal>
+      <range_min>0</range_min>
+      <range_max>128</range_max>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_CURATOR_XTAL_TEMP_COMP*/
+-->
+
+<!--
+#if CHIP_HAS_CURATOR_TEMPERATURE_SENSOR
+-->
+   <config_element name="CuratorTemperatureMultiplier" psid="1038">
+      <label>Multiplicative factor for curator temperature measurement.</label>
+      <description_user>
+This value is used to multiply the raw temperature reading derived
+from the hardware in the chip's AUX or PMU macro to give a value where
+differences between readings are in degrees Celsius.  The value
+CuratorTemperatureAddition is added to the result to convert to degrees
+Celsius.
+
+This value is a signed 32-bit integer in two's complement representation.
+It represents a fixed point number found by shifting right by 16 bits.
+Hence the top 16 bits of the number stored in the MIB represent the integer
+part of the resulting number while the lower 16 bits a fractional part.
+For example, 0x000A0000 represents the integer 10 and 0xFFFFC000
+represents -1/4.
+
+This key must be set for temperature compensation to be performed.
+      </description_user>
+      <type>int32</type>
+      <function_list>
+         <function function_name="mibgetfn_common" type="get" />
+         <function function_name="mibsetfn_common" type="set" />
+      </function_list>
+      <default>0x018E0000</default>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="CuratorTemperatureAddition" psid="1039">
+      <label>Additive constant for the curator temperature measurement.</label>
+      <description_user>
+This value is added to the result of using the MIB attribute
+CuratorTemperatureMultiplier to give a temperature in degrees Celsius
+from the chip's AUX or PMU macro.
+
+The value is 16-bit signed integer: there is no fractional part as
+the temperature accuracy is not expected to be better than one
+degree Celsius.
+
+The default is zero: this allows a value of CuratorTemperatureMultiplier
+to be set and a reading performed to compare the measured temperature
+with the known ambient temperature in order to set the correct value
+of CuratorTemperatureAddition.
+
+This key must be set for temperature compensation to be performed.
+      </description_user>
+      <type>int16</type>
+      <function_list>
+         <function function_name="mibgetfn_common" type="get" />
+         <function function_name="mibsetfn_common" type="set" />
+      </function_list>
+      <!-- We may update this default, in which case change
+           the documentation above that says why the default is zero. -->
+      <default>122</default>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="CuratorTemperatureReading" psid="1040">
+      <label>Read the temperature in degrees Celsius form the AUX/PMU macro</label>
+      <description_user>
+This attribute is readonly.  It gives the value of the temperature
+in the chip's AUX/PMU macro which the curator can measure in degrees Celsius.  For this to be possible,
+the MIB attributes CuratorTemperatureMultiplier and CuratorTemperatureAddition
+must be set in order to convert the value from the hardware units.
+      </description_user>
+      <type>int16</type>
+      <function function_name="mibgetfn_common" type="get"/>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_CURATOR_TEMP_SENSOR*/
+-->
+
+<!--
+#if CHIP_HAS_CURATOR_XTAL_TEMP_COMP
+-->
+   <config_element name="XtalTemperatureTimeConstant" psid="1041">
+      <label>Time constant modelling crystal temperature behaviour</label>
+      <description_user>
+This value is used in a model of the temperature behaviour of the
+module on which the chip is mounted.  It is used to filter an estimate of the
+instantaneous temperature in part of the chip in order to extrapolate
+based on the temperature response of the PCB.
+
+The model gives the filtered temperature at time n+1 based on the temperature
+estimate at time n and the instantaneous temperature T_i as:
+
+  T_n+1 = (1 - K * delta_t) T_n + K * delta_t * T_i
+
+K is the value stored in this MIB attribute in reciprocal seconds: the
+value is expected to be of order 0.1.  delta_t is the time between
+measurement n and measurement n + 1 in seconds.  The measurements are
+initialised assuming T_(n=0) = T_i.
+
+The format of this constant is the same as that of
+AuxTemperatureMultiplier: it is a 32-bit signed value in two's
+complement representation to be shifted right by 16 places to
+generate a fixed point number.
+
+This value must be set for temperature compensation to be performed.
+However, filtering can be turned off by setting the integer part of
+the constant to a negative value.
+      </description_user>
+      <type>int32</type>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="XtalTemperatureExtrapolationMultiplier" psid="1042">
+      <label>Multiplicative factor for extrapolating crystal temperature</label>
+      <description_user>
+This value is used in combination with XtalTemperatureExtrapolationAddition
+to estimate the temperature of the crystal.  The formula is
+  T_xtal = T_WLAN - K (T_AUX - T_WLAN) - C
+where K is XtalTemperatureExtrapolationMultiplier, C is
+XtalTemperatureExtrapolationAddition, and the temperatures T_WLAN and
+T_AUX for the WLAN subsystem and AUX macro respectively have already
+undergone any filtering.
+
+The format of this constant is the same as that of
+AuxTemperatureMultiplier: it is a 32-bit signed value in two's
+complement representation to be shifted right by 16 places to
+generate a fixed point number.
+
+This value must be set for temperature compensation to be performed.
+      </description_user>
+      <type>int32</type>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="XtalTemperatureExtrapolationAddition" psid="1043">
+      <label>Additive constant for extrapolating crystal temperature</label>
+      <description_user>
+This value is used in combination with XtalTemperatureExtrapolationMultiplier
+to deduce the temperature of the crystal.  It has the same format.
+
+This value must be set for temperature compensation to be performed.
+      </description_user>
+      <type>int32</type>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="XtalTemperaturePeriod" psid="1044">
+      <label>Period of crystal temperature compensation mechanism</label>
+      <description_user>
+If the crystal temperature compensation mechanism is in use, and WLAN
+is not active but Bluetooth is, this key determines the period between
+temperature measurements made to the AUX macro.  If the WLAN subsystem
+is active then the period is determined instead by WLAN activity.
+
+A range of two values is given as 16-bit numbers, giving the minimum and
+maximum periods within which the temperature should be measured, similar
+to the ranges used by the watchdog MIB attributes. The values are in
+milliseconds.  The defaults are 3000 and 10000.
+
+The value is ignored if temperature compensation is not in use.
+      </description_user>
+      <type>octet_string</type>
+      <range_min>4</range_min>
+      <range_max>4</range_max>
+      <default>[0BB8 2710]</default>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#if CHIP_HAS_SS_WLAN
+-->
+   <config_element name="WlanTemperatureMultiplier" psid="1045">
+      <label>Multiplicative factor for WLAN temperature measurement</label>
+      <description_user>
+This value is used to multiply the temperature reading passed from the
+WLAN subsystem.  The format is identical to AuxTemperatureMultiplier.
+
+This value does not need to be set: if it is not set, the system assumes
+no scaling factor is needed for readings from the WLAN subsystem.
+      </description_user>
+      <type>int32</type>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="WlanTemperatureAddition" psid="1046">
+      <label>Additive constant for WLAN temperature measurement</label>
+      <description_user>
+This value is used to multiply the temperature reading passed from the
+WLAN subsystem.  The format is identical to AuxTemperatureAddition.
+
+This value does not need to be set: if it is not set, the system assumes
+no additive correction is needed for readings from the WLAN subsystem.
+      </description_user>
+      <type>int16</type>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_SS_WLAN */
+-->
+<!--
+#endif /* CHIP_HAS_CURATOR_XTAL_TEMP_COMP */
+-->
+
+   <config_element name="HaltAllSubsystemsOnPanic" psid="1047">
+      <label>Halt all subsystems if anyone panics.</label>
+      <description_user>
+      If any subsystem panics all running subsystems will be halted promptly
+      and put into CRASHED_WAITING state.
+
+      This supports debugging or coredumping of the state of all subsystems
+      when one of them panics.
+
+      It applies to both explicit panics and watchdog timeouts.
+
+      It does not affect the state of subsystems that were not running at the
+      time of the panic.
+      </description_user>
+      <type>boolean</type>
+      <default>false</default>
+      <is_internal>false</is_internal>
+   </config_element>
+
+<!--
+#if CHIP_HAS_CURATOR_TEMPERATURE_SENSOR
+-->
+
+   <config_element name="MaxTemperatureAwakePFM" psid="1048">
+      <label>Max temp at which core SMPS can run in PFM mode when awake</label>
+      <description_user>
+      If set, specifies a value in degrees Celsius.  If the chip detects
+      that its AUX macro has become hotter than this, the core SMPS
+      will be forced to run in PWM mode when the chip is not in deep
+      sleep.
+      </description_user>
+      <type>int16</type>
+      <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="MaxTemperatureDeepSleepULPWLANOff" psid="1049">
+      <label>Max temp at which core SMPS uses ULP in deep sleep, no WLAN</label>
+      <description_user>
+      If set, specifies a value in degrees Celsius.  If the chip detects
+      that its AUX macro has become hotter than this, and the WLAN
+      subsystem is not powered, the core SMPS will be not be put into
+      ULP mode during deep sleep.
+      </description_user>
+      <type>int16</type>
+      <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="MaxTemperatureDeepSleepULPWLANOn" psid="1050">
+      <label>Max temp at which core SMPS uses ULP in deep sleep, WLAN on</label>
+      <description_user>
+      If set, specifies a value in degrees Celsius.  If the chip detects
+      that its AUX macro has become hotter than this, and the WLAN
+      subsystem is powered (whether or not its radio is actually in
+      use), the core SMPS will be not be put into ULP mode during deep
+      sleep.
+      </description_user>
+      <type>int16</type>
+      <is_internal>true</is_internal>
+   </config_element>
+
+<!--
+#endif /* CHIP_HAS_CURATOR_TEMPERATURE_SENSOR */
+-->
+   <config_element name="ProvokePanic" psid="1053">
+      <label>Provoke the subsystem to panic with the given code</label>
+      <description_user>
+      Set with an argument that is used as a panic code.
+      Immediately on receipt of a MIB set request, the subsystem
+      will panic with the given code.  No MIB set response is generated.
+      The attribute may not be read.
+      </description_user>
+      <type>uint16</type>
+      <function_list>
+         <function function_name="mibgetfn_common" type="get" />
+         <function function_name="mibsetfn_common" type="set" />
+      </function_list>
+      <is_internal>true</is_internal>
+   </config_element>
+
+
+   <config_element name="ChipInactiveWatchdogIntervals" psid="1054">
+     <label>Watchdog timing intervals when the chip is inactive</label>
+     <description_user>
+A list of 6 octets giving 3 16-bit numbers in the same format
+as ChipWatchdogIntervals.
+
+The values in this case are applied if none of the chip's other
+subsystems (providing features such as Apps, Bluetooth, WLAN and Audio) are
+active. These used to default to off on the basis that the host would detect
+a failure to respond to pings, but Crescendo onwards has no host so the chip
+needs to look after itself at all times. Hence defaults are now the same
+as ChipWatchdogIntervals.
+
+If any of the chip's other subsystems are active, this key is
+ignored and ChipWatchdogIntervals is used instead.
+     </description_user>
+     <type>octet_string</type>
+<!--
+#if defined(CHIP_AMBER)
+-->
+     <default>[03E8 1770 36B0]</default>
+     <description_internal>
+Set these to non zero (ie. watchdog enabled) for Amber because on this code
+base we're effectively using Amber as a test proxy for Crescendo, so the
+closer the behaviour of the two chips the better.
+See description in ChipWatchdogIntervals for why these values are different
+from Crescendo and other chips.
+     </description_internal>
+<!--
+#else
+-->
+     <default>[03E8 1770 2710]</default>
+<!--
+#endif
+-->
+     <range_min>6</range_min>
+     <range_max>6</range_max>
+     <function_list>
+       <function function_name="mibgetfn_common" type="get" />
+       <function function_name="mibsetfn_common" type="set" />
+     </function_list>
+     <is_internal>true</is_internal>
+   </config_element>
+
+
+   <config_element name="TidyOnCrash" psid="1063">
+      <label>Whether to tidy other subsystems on a crash</label>
+      <description_user>
+      If true, the chip management subsystem may tidy up certain
+      aspects of other subsystems in the event of a crash.  Currently
+      the only occasion when this happens is in the case of watchdog
+      or sympathetic halt of the WLAN subsystem: then the WLAN MAC
+      is disabled to prevent further radio activity.
+      If false, subsystems are never subject to invasive operations
+      following a crash.
+      </description_user>
+      <type>boolean</type>
+      <default>false</default>
+      <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name="SmpsDynamicControl" psid="1065">
+     <label>Control for dynamic switching of switched mode power supply</label>
+     <description_user>
+     The value contains a bit configuration for controlling the chip's
+     ability to change the mode of the main switched mode power supply
+     dynamically as signalled by other subsystems.
+
+     It is a 16-bit quantity in which the bits have the following meaning.
+
+     Bits 0 to 3:
+
+     - 0: No dynamic power mode switching
+
+     - 1: Dynamic switching between PFM (Pulse Frequency Modulation: low
+     power draw, low current capability) and PWM (Pulse Width
+     Modulation: high power draw, high current capability) modes,
+     subject to constraints due to the PMU use case (default setting)
+
+     - Other values are reserved
+
+     Bits 4 to 7:
+
+     - 0: No dynamic crystal mode switching
+
+     - 1: Dynamic switching from full power to LP mode
+
+     - 2: Dynamic switching from full power to ULP mode (default setting)
+
+     - Other values are reserved
+
+     Bits 8 to 15:
+
+     - Reserved.
+     </description_user>
+     <type>uint16</type>
+     <default>0x0021</default>
+     <is_internal>true</is_internal>
+   </config_element>
+   
+<!--
+#ifdef HOST_WAKE_MODULE_PRESENT
+-->
+
+   <config_element name="HostWakeBlockDuration" psid="1069">
+     <label>How long to block host wakes after the host has entered sleep</label>
+     <description_user>
+If the value is non-zero, it gives a time in milliseconds for which the
+chip does not attempt to wake the host following the host's initial
+sleep request.  If the host sleep state is not ultimately entered the
+delay is not applied.  Any attempt to wake the host during this period
+is delayed until the expiry of the timer.  Apart from this period
+where no wake attempt is made, the host sees no change to the protocol.
+     </description_user>
+     <type>uint16</type>
+     <default>0</default>
+     <is_internal>false</is_internal>
+   </config_element>
+
+<!--
+#endif /* HOST_WAKE_MODULE_PRESENT */
+-->
+
+<!--
+#if CHIP_HAS_PIO_LOOPBACK
+-->
+   <config_element name="PioLoopbackElements" psid="1070">
+     <label>Control the loopback behaviour of individual PIO lines</label>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+     <description_user>
+This key sets individual elements corresponding to entries in PioLoopback.
+This may be used to avoid changing values for PIOs inadverdently.
+The value is an array of pairs of octets.  The first octet in each pair
+is the number of a PIO, currently from 0 to 31.  The second octet
+is 0 to turn off loopback (normal PIO behaviour), 1 to turn on loopback
+(virtual PIO behaviour of the PIO within the chip).
+
+This key cannot be read; use PioLoopback to read the values for all PIOs.
+     </description_user>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96) || (NUMBER_OF_PIOS == 72)
+-->
+     <description_user>
+This key sets individual elements corresponding to entries in PioLoopback.
+This may be used to avoid changing values for PIOs inadverdently.
+The value is an array of pairs of octets.  The first octet in each pair
+is the number of a PIO, currently from 0 to 95.  The second octet
+is 0 to turn off loopback (normal PIO behaviour), 1 to turn on loopback
+(virtual PIO behaviour of the PIO within the chip). The maximum PIOs can
+be configured by this mib are 64 PIOs. If there are more than 64 PIOs
+to be configured, they should be defined by two of this mib keys and
+included seperately by two different configuration files.
+
+This key cannot be read; use PioLoopback to read the values for all PIOs.
+     </description_user>
+<!--
+#endif
+-->
+      <type>octet_string</type>
+      <range_min>2</range_min>
+<!--
+#if (NUMBER_OF_PIOS == 32)
+-->
+      <range_max>64</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 72)
+-->
+      <range_max>128</range_max>
+<!--
+#endif
+-->
+<!--
+#if (NUMBER_OF_PIOS == 96)
+-->
+      <range_max>128</range_max>
+<!--
+#endif
+-->
+      <function_list>
+         <function function_name="mibgetfn_pio_elements" type="get" />
+         <function function_name="mibsetfn_pio_elements" type="set" />
+      </function_list>
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_PIO_LOOPBACK */
+-->
+
+<!--
+#if CHIP_HAS_PROCESS_COMP
+-->
+
+   <config_element name="XtalProcessCompMul" psid="1076">
+     <label>Initial multiplier for crystal process compensation</label>
+     <description_user>
+As compensation for process variations an offset is applied to the
+crystal trim (default value given by XtalFreqTrim).  This and the
+following MIB attributes allow this value to be configured.
+
+The formula is
+
+     trim_offset = ((XtalProcessCompMul * WLAN_VCO_MIN_FREQ +
+                     XtalProcessCompAdd) -
+                    (WLAN_VCO_MIN_FREQ ** 2) / XtalProcessCompDiv)
+                   >> XtalProcessCompShift
+
+In this formula, values in SmashCase are MIB attributes;
+WLAN_VCO_MIN_FREQ is the value stored in eFuse giving the minimum
+frequency of the wireless LAN voltage-controlled offset; trim_offset is
+the offset to be applied to the crystal trim.  This value and any change
+over the default value for XtalFreqTrim are added together to give the
+initial trim.  This value is then possibly subject to temperature
+compensation at run time.
+
+The MIB values should be chosen so that the arithmetic can be done
+within 16-bit integer precision.  All values must be set for the
+formula to be applied, even if some of the values are zero.
+
+In case the values have defaults (as is currently the case for Amber),
+setting XtalProcessCompMul to zero also turns off the mechanism.
+     </description_user>
+     <type>int16</type>
+<!--
+#ifdef CHIP_AMBER
+-->
+     <default>56</default>
+<!--
+#endif /* CHIP_AMBER */
+-->
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="XtalProcessCompAdd" psid="1077">
+     <label>Initial additive constant for crystal process compensation</label>
+     <description_user>
+See description of XtalProcessCompMul for how this used.
+     </description_user>
+     <type>int16</type>
+<!--
+#ifdef CHIP_AMBER
+-->
+     <default>2380</default>
+<!--
+#endif /* CHIP_AMBER */
+-->
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="XtalProcessCompDiv" psid="1078">
+     <label>Divisor for crystal process compensation</label>
+     <description_user>
+See description of XtalProcessCompMul for how this used.
+     </description_user>
+     <type>int16</type>
+<!--
+#ifdef CHIP_AMBER
+-->
+     <default>25</default>
+<!--
+#endif /* CHIP_AMBER */
+-->
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="XtalProcessCompShift" psid="1079">
+     <label>Shift for crystal process compensation</label>
+     <description_user>
+See description of XtalProcessCompMul for how this used.
+     </description_user>
+     <type>int16</type>
+<!--
+#ifdef CHIP_AMBER
+-->
+     <default>8</default>
+<!--
+#endif /* CHIP_AMBER */
+-->
+     <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_HAS_PROCESS_COMP */
+-->
+
+<!--
+#if CHIP_HAS_XTAL_DRIVE
+#ifndef CHIP_AMBER
+-->
+   <config_element name="DSULPTimeConversionFactor" psid="1080">
+      <label>ULP slow cycles to microseconds correction factor</label>
+      <description_user>
+When using ULP as the deep sleep timer source, the result is quite
+consistent but biased. This factor is to allow us to correct that bias
+when converting from slow cycles to microseconds. We ignore the
+problem in the other direction, as the worst that can happen is that
+our wake time has an additional variance of around 100uS applied, which
+is within experimental error of deep sleep anyway. The value stored
+allows us to have an offset of the form x/65535 from 1, which gives a
+granularity of about 16ppm, well within the 250ppm target accuracy.
+Rather than use signed arithmetic, we simply add the offset (an 8 bit
+number giving +/-2048ppm correction) to 65535-128 to form the
+numerator.
+      </description_user>
+
+      <description_internal>
+        The default value is 128 rather than zero, so effectively it's
+        signed arithmetic offset by +128.
+      </description_internal>
+      <type>uint16</type>
+      <range_min>0</range_min>
+      <range_max>255</range_max>
+      <default>128</default>
+      <function_list>
+      <function function_name="mibgetfn_common" type="get" />
+      <function function_name="mibsetfn_common" type="set" />
+      </function_list>
+
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_AMBER */
+#endif /* CHIP_HAS_XTAL_DRIVE */
+-->
+
+<!--
+#if CHIP_HAS_XTAL_DRIVE
+#ifndef CHIP_AMBER
+-->
+   <config_element name="XtalDutyCycle" psid="1081">
+      <label>The crystal duty cycle setting.
+      </label>
+
+      <description_user>
+If the chip's fast clock is provided by a crystal, this value is used
+to set the duty cycle. It is calibrated on the production line.
+
+The value is an unsigned integer in the range 0 .. 31 inclusive
+
+      </description_user>
+      <description_internal>
+This is an unsigned integer -- default is approximately midway
+      </description_internal>
+      <type>uint16</type>
+      <range_min>0</range_min>
+      <range_max>31</range_max>
+      <default>15</default>
+      <function_list>
+      <function function_name="mibgetfn_common" type="get" />
+      <function function_name="mibsetfn_common" type="set" />
+      </function_list>
+
+      <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* CHIP_AMBER */
+#endif /* CHIP_HAS_XTAL_DRIVE */
+-->
+
+<!--
+#ifdef TRANSPORT_USB
+-->
+    <config_element name="USBDebugger" psid="1082">
+        <label>USB Debugger Enable</label>
+        <description_user>
+Set to false to disable USB debugger.
+        </description_user>
+        <type>boolean</type>
+        <is_internal>false</is_internal>
+        <default>true</default>
+    </config_element>
+<!--
+#endif /* TRANSPORT_USB */
+-->
+
+<!--
+#if CHIP_HAS_JANITOR
+-->
+<!--
+#ifdef JANITOR_HAS_DORMANT_SUPPORT
+-->
+   <config_element name="DormantModeEnable" psid="1083">
+     <label>Enable Dormant mode functionality</label>
+     <description_user>
+     When set to true, allows the chip to enter the ultra-low power dormant mode
+     when requested by Apps P0. In this mode, all digital and analog supplies are
+     switched off. Only the KeepAlive (KA) power domain, the VHV and BYP_LDO are active.
+     The BYP_LDO and VHV can also be individually put into their respective ULP modes
+     by configuring the DormantBypassLDOHP and DormantVHVLDOHP MIBs respectively.
+     Wake up from dormant can occur on a timer event, LED, XIO, NFC, SYS_CTRL and/or charger
+     insertion based on the wake-up config received from the Apps P0. SYS_CTRL and VCHG wakes are
+     always enabled by default during dormant. The rest can be requested by the Apps P0.
+     </description_user>
+     <description_internal>
+     This value is ignored on chips without a Janitor.
+     </description_internal>
+     <type>boolean</type>
+     <default>true</default>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="OffModeEnable" psid="1084">
+     <label>Enable Off mode functionality</label>
+     <description_user>
+     When set to true, allows the chip to enter OFF state
+     when requested by Apps P0. In the OFF state, the chip is completely
+     de-powered except for some analog circuitry in the PMU to assist in wake
+     from OFF state. The only sources that can cause a wake up from OFF state
+     are SYS_CTRL and charger insertion.
+     </description_user>
+     <description_internal>
+     This value is ignored on chips without a Janitor.
+     </description_internal>
+     <type>boolean</type>
+     <default>true</default>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name= "DormantBypassLDOHP" psid="1085">
+      <label>Determine whether to leave the bypass LDO in high power
+      during dormant.</label>
+      <description_user>
+      For some applications we may need the bypass LDO to provide power to
+      external/internal 3V3 devices, in which case it will need to remain in
+      high power mode during dormant.
+      </description_user>
+      <type>boolean</type>
+      <default>false</default>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name= "DormantVHVLDOHP" psid="1086">
+      <label>Determine whether to leave the 1v8 VHV LDO in high power
+      during dormant.</label>
+      <description_user>
+      For some applications we may need the VHV LDO to provide power to
+      external/internal 1v8 devices, in which case it will need to remain
+      in high power mode during during dormant.
+      </description_user>
+      <type>boolean</type>
+      <default>false</default>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name="DormantVoltageReduction" psid="1087">
+     <label>Voltage reduction when chip is in dormant</label>
+     <description_user>
+     The value is in millivolts, and indicates the reduction that is to be
+     applied to the voltage regulated by the Power Management Unit while the
+     chip is in dormant.  Values are rounded down to the next lower
+     usable voltage reduction for the hardware.
+
+     Currently the value is in steps of 50 mV and the maximum useful value
+     in normal operation is 250 mV.  The values 300 mV and 350 mV are
+     accepted but are only valid for testing.
+     </description_user>
+     <type>uint16</type>
+     <range_min>0</range_min>
+     <range_max>350</range_max>
+     <default>250</default>
+     <is_internal>true</is_internal>
+   </config_element>
+
+   <config_element name= "DormantWakeupDelay" psid="1088">
+      <label>Wakeup from dormant delay</label>
+      <description_user>
+      This delay is the time (specified in microseconds) it takes for the chip
+      to wakeup from dormant (i.e. Apps P0 starts re-running) when a configured
+      dormant wake event/interrupt occurs. This delay is subtracted from the
+      wake up deadline sent by the Apps P0 as part of the dormant request
+      message in order to ensure that the Apps P0 is up and running on or before
+      the deadline.
+      This is only used when Apps P0 requests a wake on timer (i.e. it specifies
+      a wake up deadline in the dormant request message)
+      </description_user>
+     <type>uint32</type>
+     <default>100000</default>
+     <range_min>0</range_min>
+     <range_max>2000000</range_max>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name= "DormantMinTime" psid="1089">
+      <label>Minimum dormant time</label>
+      <description_user>
+      This is the minimum time (specified in microseconds) for which the Curator
+      will consider putting the chip into dormant mode. When Apps P0 sends a dormant
+      request to the Curator with a specified deadline, then the Curator, after
+      subtracting the DormantWakeupDelay from the deadline, will check if there is at least
+      DormantMinTime available between now and the adjusted deadline. If there
+      isn't enough time available then the Curator will reject the dormant request.
+      DormantMinTime MIB value should ideally be greater than the DormantWakeupDelay
+      MIB value.
+      This is only used when Apps P0 requests a wake on timer (i.e. it specifies
+      a wake up deadline in the dormant request message)
+      </description_user>
+     <type>uint32</type>
+     <default>500000</default>
+     <range_min>500000</range_min>
+     <range_max>100000000</range_max>
+     <is_internal>false</is_internal>
+   </config_element>
+<!--
+#endif /* JANITOR_HAS_DORMANT_SUPPORT */
+-->
+<!--
+#endif /* CHIP_HAS_JANITOR */
+-->
+
+   <config_element name= "PMUForcePWM" psid="1090">
+      <label>Force the PMU to use PWM at all times other than deep sleep</label>
+      <description_user>
+      This allows a config file to set the system to use the PMU PWM
+      at all times when active. This applies to both the PA and core SMPSs.
+      </description_user>
+      <type>boolean</type>
+      <default>true</default>
+      <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name= "PMUSMPS80MWaveForm" psid="1091">
+      <label>A value to set the SMPS mark/space ratio in PWM when using
+      the 80MHz clock</label>
+      <description_user>
+      Generally the default 20:20 mark/space ratio giving a 2MHz clock
+      for SMPSs in PWM is sufficient. However, there is a possibility
+      it could beat with an audio clock and thus produce noise. This
+      MIB key allows the user to override the default to achieve
+      different mark/space ratios
+
+      The value is programmed into a register containing two six bit
+      fields, in bits 0-5 and 6-11. These are respectively the high
+      and low period, but offset by 1 (so 0 means 1 and the default
+      value is (19 shl 6) + 20 (note this is xml, so I can't put less
+      than signs in easily, hence shl to mean shift left).
+
+      This setting should be use with care, as tinkering with the
+      SMPSs can produce unexpected results.
+      </description_user>
+     <type>uint16</type>
+     <default>0x4d4</default>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name= "PMUSMPSCoreThresholds" psid="1092">
+      <label>A set of values to set the Core SMPS thresholds for mode change
+      </label>
+      <description_user>
+      The SMPSs are capable of switching between modes at thresholds
+      for current, and also for time, to apply hysteresis and avoid
+      pingponging. However, it's important that they are also
+      sufficiently reactive to changing conditions that they mode
+      change before killing the chip. These setting allow control over
+      when and how mode changes happen. They'll be partiularly
+      important for customers placing external loads on the PMU
+
+      Each SMPS has a set of 4 uint16s. These correspond to the
+      repeat/threshold pairs for each of PFM, PWM, ULP. The fourth
+      uint16 contains two fields, one of 8 bits for PFM, and a second
+      of 4 bits for PWM. This set is for the Core/Analogue SMPS
+      </description_user>
+     <type>octet_string</type>
+     <range_min>8</range_min>
+     <range_max>8</range_max>
+     <default>[01 05 32 00 1d 00 04 0e]</default>
+     <is_internal>false</is_internal>
+   </config_element>
+
+   <config_element name= "PMUSMPSPAThresholds" psid="1093">
+      <label>A set of values to set the PA SMPS thresholds for mode change
+      </label>
+      <description_user>
+      The SMPSs are capable of switching between modes at thresholds
+      for current, and also for time, to apply hysteresis and avoid
+      pingponging. However, it's important that they are also
+      sufficiently reactive to changing conditions that they mode
+      change before killing the chip. These setting allow control over
+      when and how mode changes happen. They'll be partiularly
+      important for customers placing external loads on the PMU
+
+      Each SMPS has a set of 4 uint16s. These correspond to the
+      repeat/threshold pairs for each of PFM, PWM, ULP. The fourth
+      uint16 contains two fields, one of 8 bits for PFM, and a second
+      of 4 bits for PWM. This set is for the PA/Digital SMPS
+      </description_user>
+     <type>octet_string</type>
+     <range_min>8</range_min>
+     <range_max>8</range_max>
+     <default>[01 05 22 00 1d 00 04 0e]</default>
+     <is_internal>false</is_internal>
+   </config_element>
+
+<!-- SCSC ENGINEERS SHOULD USE THIS GAP IN THE HIGH IDS TO ADD NEW MIB KEYS ABOVE HERE
+     CSR ENGINEERS SHOULD USE THE GAP IN THE LOW IDS INSTEAD -->
+
+  </metadata>
+
+  </metadata_list>

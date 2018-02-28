@@ -1,0 +1,1 @@
+../build/qcc512x_qcc302x_lib/core/appcmd/appcmd_call_function.o: core/appcmd/appcmd_call_function.asm ../build/qcc512x_qcc302x_lib/build_defs.h core/include/kaldwarfregnums.h core/include/dwarf_constants.h

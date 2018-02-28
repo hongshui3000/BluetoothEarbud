@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <group name="kitres://{BBAC163C-41BE-4ce7-B236-236F15FF18CA}/deploy/default">
+        <item name="Default">
+            <item name="deploy">device://trb/usb2trb/152629/qcc3026</item>
+        </item>
+    </group>
+</settings>

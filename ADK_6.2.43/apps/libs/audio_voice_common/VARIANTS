@@ -1,0 +1,6 @@
+
+VARIANTS :=  download_cvc_spkr_1mic_wb
+
+# Use a downloadable cvc speaker 1mic wideband capability
+CFLAGS_download_cvc_spkr_1mic_wb := -DDOWNLOAD_CVC_SPK_1MIC_WB
+

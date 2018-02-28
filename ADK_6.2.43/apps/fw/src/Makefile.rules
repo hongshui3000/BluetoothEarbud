@@ -1,0 +1,73 @@
+# Copyright (c) 2016 Qualcomm Technologies International, Ltd.
+#   Part of 6.2
+# -*-Makefile-*-
+# FILE
+#   Makefile.rules  -  makefile rules for each subsystem
+#
+# DESCRIPTION
+#   Makefile included at the end of all "subsystem/Makefile.inc" files.
+#
+# Gathers up the sources from each module into lists that are processed
+# by the main makefile.
+# Also produces per component/subsystem pair names for the objects therein
+#
+
+COMPONENT_SUBSYSTEMS:=			${COMPONENT_SUBSYSTEMS} ${COMPONENT}/${SUBSYSTEM}
+${COMPONENT}_${SUBSYSTEM}_SRC=		$(patsubst %,$(COMPONENT)/$(SUBSYSTEM)/%,$(SRC_C))
+${COMPONENT}_${SUBSYSTEM}_AUTO_SRC=	$(patsubst %,$(BUILD_DIR)/$(COMPONENT)/$(SUBSYSTEM)/%,$(AUTO_C))
+ifneq ("${PLATFORM}", "desktop")
+${COMPONENT}_${SUBSYSTEM}_ASM_SRC=	$(patsubst %,$(COMPONENT)/$(SUBSYSTEM)/%,$(SRC_S))
+endif
+${COMPONENT}_${SUBSYSTEM}_NON_LIB_SRC=	$(patsubst %,${COMPONENT}/${SUBSYSTEM}/%,${SRC_C_NON_LIB})
+${COMPONENT}/${SUBSYSTEM}_OBJECTS:=	$(patsubst %.c,${BUILD_DIR}/%.o,${${COMPONENT}_${SUBSYSTEM}_SRC}) \
+					$(patsubst %.c,${BUILD_DIR}/%.o,${${COMPONENT}_${SUBSYSTEM}_NON_LIB_SRC}) \
+					$(patsubst %.c,%.o,${${COMPONENT}_${SUBSYSTEM}_AUTO_SRC}) \
+					$(patsubst %.asm,${BUILD_DIR}/%.o,${${COMPONENT}_${SUBSYSTEM}_ASM_SRC})
+${COMPONENT}/${SUBSYSTEM}_BARE_OBJECTS:=	$(notdir ${${COMPONENT}/${SUBSYSTEM}_OBJECTS})
+
+SRC := $(SRC) ${${COMPONENT}_${SUBSYSTEM}_SRC}
+AUTO_SRC := $(AUTO_SRC) ${${COMPONENT}_${SUBSYSTEM}_AUTO_SRC}
+ASM_SRC := $(ASM_SRC) ${${COMPONENT}_${SUBSYSTEM}_ASM_SRC}
+NON_LIB_SRC := $(NON_LIB_SRC) ${${COMPONENT}_${SUBSYSTEM}_NON_LIB_SRC}
+MODULE_SCHED_HDRS := $(MODULE_SCHED_HDRS) $(patsubst %,$(COMPONENT)/$(SUBSYSTEM)/%,$(SCHED_H))
+MODULE_ITIME_HDRS := ${MODULE_ITIME_HDRS} $(patsubst %,$(COMPONENT)/$(SUBSYSTEM)/%,$(ITIME_H))
+LATE_INC_MAKEFILES := $(LATE_INC_MAKEFILES) $(patsubst %,$(COMPONENT)/$(SUBSYSTEM)/%,$(LATE_MAKEFILE))
+BLUESTACK_FSMS := ${BLUESTACK_FSMS} $(patsubst %,$(COMPONENT)/$(SUBSYSTEM)/%,$(BLUESTACK_FSM))
+MODULE_SLT_ENTRY_HDRS := $(MODULE_SLT_ENTRY_HDRS) $(patsubst %,$(COMPONENT)/$(SUBSYSTEM)/%,$(SLT_ENTRY_H))
+MODULE_SLT_DATA_HDRS := $(MODULE_SLT_DATA_HDRS) $(patsubst %,$(COMPONENT)/$(SUBSYSTEM)/%,$(SLT_DATA_H))
+
+# List of module library object files 
+${COMPONENT}/${SUBSYSTEM}_LIB_OBJECTS:=  $(patsubst %.c,${BUILD_DIR}/$(COMPONENT)/$(SUBSYSTEM)/%.o,$(LIB_C))
+
+# Global list of all module's libraries
+MODULE_LIBS:= $(MODULE_LIBS) $(patsubst %,${BUILD_DIR}/$(COMPONENT)/$(SUBSYSTEM)/%,$(LIB_NAME))
+# Global list of all module's object files
+MODULE_LIB_OBJECTS:= ${MODULE_LIB_OBJECTS} ${${COMPONENT}/${SUBSYSTEM}_LIB_OBJECTS}
+
+# Variables for doxygen
+DOXYGEN_SRC:=	${DOXYGEN_SRC} $(COMPONENT)/$(SUBSYSTEM)/dox
+
+# Unset standard variables in preparation for the next subsystem. Each
+# subsystem is responsible for avoiding clashes of any other variables
+# that they set.
+AUTO_C=
+AUTO_H=
+AUTO_S=
+AUTO_SDL=
+AUTO_RC=
+AUTO_OTHER=
+SRC_C=
+SRC_CPP=
+SRC_S=
+SRC_SDL=
+SRC_RC=
+SRC_C_NON_LIB=
+OBJECT_SRCS=
+SCHED_H=
+ITIME_H=
+LATE_MAKEFILE=
+BLUESTACK_FSM=
+SLT_ENTRY_H=
+SLT_DATA_H=
+LIB_NAME=
+LIB_C=
