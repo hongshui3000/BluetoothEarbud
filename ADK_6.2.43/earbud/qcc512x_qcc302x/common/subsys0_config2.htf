@@ -1,0 +1,9 @@
+file=curator2
+
+# Stop the chip resetting when it panics
+ResetOnAppPanicOrWatchdog = false
+HaltAllSubsystemsOnPanic = true
+
+# Disable watchdog for development purposes
+ChipWatchdogIntervals = [0000 0000 0000]
+ChipInactiveWatchdogIntervals = [0000 0000 0000]

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project path="">
+    <file path="\\root.pri\fileroot\Departments\ACBU\Shared\Cambridge\ACBU_Development\downloadable_capabilities\Aura Audio Package ID 175 with PB v11.0 for ADK 6.2 RC7\download_switched_passthrough_consumer.edkcs" />
+    <file path="\\root.pri\fileroot\Departments\ACBU\Shared\Cambridge\ACBU_Development\downloadable_capabilities\Aura Audio Package ID 175 with PB v11.0 for ADK 6.2 RC7\download_aptx_demux.edkcs" />
+    <configurations>
+        <configuration name="filesystem" options="build|deploy|default">
+            <devkitConfiguration>filesystem</devkitConfiguration>
+            <devkitGroup>kitres://{BBAC163C-41BE-4ce7-B236-236F15FF18CA}</devkitGroup>
+            <deployProject>deploy</deployProject>
+            <property name="BUILD_TYPE" />
+            <property name="DBG_CORE" />
+            <property name="DBS" />
+            <property name="DEBUGTRANSPORT" />
+            <property name="DEFS" />
+            <property name="FS_ROOT">..\customer_ro_filesystem</property>
+            <property name="INCPATHS" />
+            <property name="LIBPATHS" />
+            <property name="LIBS" />
+            <property name="OUTPUT" />
+            <property name="OUTPUT_TYPE" />
+            <property name="PRESERVED_LIBS" />
+            <property name="PRIVATE_DEFS" />
+            <property name="PRIVATE_INCPATHS" />
+            <property name="STRIP_SYMBOLS" />
+            <property name="TYPE">customer_ro</property>
+            <property name="system_label">QCC512X_CONFIG</property>
+        </configuration>
+    </configurations>
+</project>

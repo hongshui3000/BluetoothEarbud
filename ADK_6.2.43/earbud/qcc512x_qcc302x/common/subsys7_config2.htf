@@ -1,0 +1,8 @@
+file=app2
+USBDeviceClassCodes = [00 00 00]
+USBProductString = [ 43 53 52 41 36 38 31 30 30 ]
+USBSerialNumberString = [ 41 42 43 44 45 46 30 31 32 33 34 35 36 37 38 39 ]
+USBMaxPower = 50
+USBManufString = [00]
+
+USBRemoteWakeDisable = True

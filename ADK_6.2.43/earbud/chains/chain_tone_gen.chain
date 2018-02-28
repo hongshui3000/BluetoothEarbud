@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Copyright (c) 2018 Qualcomm Technologies International, Ltd.-->
+
+<chain name="CHAIN_TONE_GEN" id="0">
+
+    <operator name="TONE_GEN" id="CAP_ID_RINGTONE_GENERATOR">
+        <source name="OUT" terminal="0"/>
+    </operator>
+
+    <operator name="RESAMPLER" id="CAP_ID_IIR_RESAMPLER">
+        <sink name="IN" terminal="0"/>
+        <source name="OUT" terminal="0"/>
+    </operator>
+
+    <connection source="TONE_GEN.OUT" sink="RESAMPLER.IN"/>
+    <output source="RESAMPLER.OUT"/>
+
+</chain>

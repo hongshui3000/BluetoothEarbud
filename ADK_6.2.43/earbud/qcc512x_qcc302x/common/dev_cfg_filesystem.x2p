@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project path="../../../../../../;../../../../../../;../../../../../../;../../../../../../;../../../../../../;../../../../../;../../../../;../../../;../../;../;." locked="no">
+    <workspace path="../CF376_CF440/earbud.x2w"/>
+    <file path="subsys1_config2.htf"/>
+    <configurations defaultKit="kitres://{7f10f105-91f8-4254-a833-600c9dcad611}">
+        <configuration name="filesystem" kit="kitres://{7f10f105-91f8-4254-a833-600c9dcad611}" options="build|deploy|default">
+            <devkitConfiguration>filesystem</devkitConfiguration>
+            <devkitPath>C:/qtil/ADK_QCC512x_QCC302x_WIN_6.2.43</devkitPath>
+            <devkitGroup>kitres://{BBAC163C-41BE-4ce7-B236-236F15FF18CA}</devkitGroup>
+            <deployProject>deploy</deployProject>
+            <devkitRevision>1519148132</devkitRevision>
+            <property name="BUILD_TYPE"></property>
+            <property name="DBG_CORE"></property>
+            <property name="DBS"></property>
+            <property name="DEBUGTRANSPORT"></property>
+            <property name="DEFS"></property>
+            <property name="FS_ROOT"></property>
+            <property name="INCPATHS"></property>
+            <property name="LIBPATHS"></property>
+            <property name="LIBS"></property>
+            <property name="OUTPUT"></property>
+            <property name="OUTPUT_TYPE"></property>
+            <property name="PRESERVED_LIBS"></property>
+            <property name="PRIVATE_DEFS"></property>
+            <property name="PRIVATE_INCPATHS"></property>
+            <property name="STRIP_SYMBOLS"></property>
+            <property name="TYPE">device_config</property>
+            <property name="argument"></property>
+            <property name="default"></property>
+            <property name="description"></property>
+            <property name="permission"></property>
+            <property name="system_label">QCC512X_CONFIG</property>
+        </configuration>
+    </configurations>
+</project>
