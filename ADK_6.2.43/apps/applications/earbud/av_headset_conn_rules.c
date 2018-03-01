@@ -22,8 +22,8 @@
 /*! \{
     Macros for diagnostic output that can be suppressed.
     Allows debug of the rules module at two levels. */
-#define CONNRULES_LOG(x)       //DEBUG_LOG(x)
-#define CONNRULES_LOGF(x, ...) //DEBUG_LOGF(x, __VA_ARGS__)
+#define CONNRULES_LOG(x)       DEBUG_LOG(x)
+#define CONNRULES_LOGF(x, ...) DEBUG_LOGF(x, __VA_ARGS__)
 
 #define RULE_LOG(x)         DEBUG_LOG(x)
 #define RULE_LOGF(x, ...)   DEBUG_LOGF(x, __VA_ARGS__)
