@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by Qualcomm MDE 4.2.2, 2018-03-01T11:25:53. -->
+<!-- Written by Qualcomm MDE 4.2.2, 2018-03-01T13:59:54. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -55,7 +55,7 @@
   <valuemap type="QVariantMap">
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">ADK QCC512x QCC302x WIN 6.2.43 - 6.2</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">ADK QCC512x QCC302x WIN 6.2.43 - 6.2</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{5ee230db-b48f-4dc4-91c6-4faa652465da}</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{1c7e75b9-7146-43b7-ac3c-5290c5e5c52e}</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
