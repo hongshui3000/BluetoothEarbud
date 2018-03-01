@@ -4,4 +4,5 @@ ADK_6.2.43/**/*.o
 ADK_6.2.43/**/*.xuv
 ADK_6.2.43/**/*.log
 ADK_6.2.43/**/*.compile
-ADK_6.2.43/**/depend_debug_aura/
+ADK_6.2.43/apps/fw/build/
+ADK_6.2.43/apps/applications/earbud/qcc512x_qcc302x/CF376_CF440/depend_debug_aura/
