@@ -857,7 +857,9 @@ static void appSmHandleInitConfirm(void)
     switch (appGetState())
     {
         case APP_STATE_INITIALISING:
+#ifdef INCLUDE_DFU
             appSetState(APP_STATE_DFU_CHECK);
+#endif
             appPowerOn();
             break;
 
