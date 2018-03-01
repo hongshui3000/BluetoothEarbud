@@ -34,8 +34,8 @@ hydra_dev.h
 -DHFP_DEBUG_LIB
 -DDISPLAY_AT_CMDS
 -Werror
--IE:/TWS_Project/apps/libs/hfp/CONFIG_HYDRACORE
--IE:/TWS_Project/apps/libs/hfp/CONFIG_I2S_MCLK
--IE:/TWS_Project/apps/libs/hfp/CONFIG_HAVE_PIO_BANKS
--IE:/TWS_Project/apps/libs/hfp/CONFIG_KYMERA
--IE:/TWS_Project/apps/libs/hfp
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/hfp/CONFIG_HYDRACORE
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/hfp/CONFIG_I2S_MCLK
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/hfp/CONFIG_HAVE_PIO_BANKS
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/hfp/CONFIG_KYMERA
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/hfp

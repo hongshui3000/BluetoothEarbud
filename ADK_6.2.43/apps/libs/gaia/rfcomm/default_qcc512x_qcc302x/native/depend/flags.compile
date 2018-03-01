@@ -34,8 +34,8 @@ hydra_dev.h
 -DGAIA_TRANSPORT_NO_SPP
 -DGAIA_TRANSPORT_RFCOMM
 -Werror
--IE:/TWS_Project/apps/libs/gaia/CONFIG_HYDRACORE
--IE:/TWS_Project/apps/libs/gaia/CONFIG_I2S_MCLK
--IE:/TWS_Project/apps/libs/gaia/CONFIG_HAVE_PIO_BANKS
--IE:/TWS_Project/apps/libs/gaia/CONFIG_KYMERA
--IE:/TWS_Project/apps/libs/gaia
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/gaia/CONFIG_HYDRACORE
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/gaia/CONFIG_I2S_MCLK
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/gaia/CONFIG_HAVE_PIO_BANKS
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/gaia/CONFIG_KYMERA
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/gaia

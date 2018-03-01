@@ -33,8 +33,8 @@ hydra_dev.h
 -O0
 -DNO_DSP
 -Werror
--IE:/TWS_Project/apps/libs/audio_plugin_voice_variants/CONFIG_HYDRACORE
--IE:/TWS_Project/apps/libs/audio_plugin_voice_variants/CONFIG_I2S_MCLK
--IE:/TWS_Project/apps/libs/audio_plugin_voice_variants/CONFIG_HAVE_PIO_BANKS
--IE:/TWS_Project/apps/libs/audio_plugin_voice_variants/CONFIG_KYMERA
--IE:/TWS_Project/apps/libs/audio_plugin_voice_variants
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/audio_plugin_voice_variants/CONFIG_HYDRACORE
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/audio_plugin_voice_variants/CONFIG_I2S_MCLK
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/audio_plugin_voice_variants/CONFIG_HAVE_PIO_BANKS
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/audio_plugin_voice_variants/CONFIG_KYMERA
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/audio_plugin_voice_variants

@@ -36,8 +36,8 @@ hydra_dev.h
 -DDEBUG_CHG_MONITOR
 -DDEBUG_ADC_MESSAGES
 -Werror
--IE:/TWS_Project/apps/libs/power/CONFIG_HYDRACORE
--IE:/TWS_Project/apps/libs/power/CONFIG_I2S_MCLK
--IE:/TWS_Project/apps/libs/power/CONFIG_HAVE_PIO_BANKS
--IE:/TWS_Project/apps/libs/power/CONFIG_KYMERA
--IE:/TWS_Project/apps/libs/power
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/power/CONFIG_HYDRACORE
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/power/CONFIG_I2S_MCLK
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/power/CONFIG_HAVE_PIO_BANKS
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/power/CONFIG_KYMERA
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/power

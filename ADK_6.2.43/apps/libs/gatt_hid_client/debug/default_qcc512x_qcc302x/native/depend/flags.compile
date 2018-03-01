@@ -34,8 +34,8 @@ hydra_dev.h
 -DDEBUG_PRINT_ENABLED
 -DGATT_HID_CLIENT_DEBUG_LIB
 -Werror
--IE:/TWS_Project/apps/libs/gatt_hid_client/CONFIG_HYDRACORE
--IE:/TWS_Project/apps/libs/gatt_hid_client/CONFIG_I2S_MCLK
--IE:/TWS_Project/apps/libs/gatt_hid_client/CONFIG_HAVE_PIO_BANKS
--IE:/TWS_Project/apps/libs/gatt_hid_client/CONFIG_KYMERA
--IE:/TWS_Project/apps/libs/gatt_hid_client
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/gatt_hid_client/CONFIG_HYDRACORE
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/gatt_hid_client/CONFIG_I2S_MCLK
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/gatt_hid_client/CONFIG_HAVE_PIO_BANKS
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/gatt_hid_client/CONFIG_KYMERA
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/gatt_hid_client

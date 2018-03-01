@@ -34,8 +34,8 @@ hydra_dev.h
 -DDEBUG_PRINT_ENABLED
 -DTUNE_BUFFERS
 -Werror
--IE:/TWS_Project/apps/libs/audio_output_broadcast/CONFIG_HYDRACORE
--IE:/TWS_Project/apps/libs/audio_output_broadcast/CONFIG_I2S_MCLK
--IE:/TWS_Project/apps/libs/audio_output_broadcast/CONFIG_HAVE_PIO_BANKS
--IE:/TWS_Project/apps/libs/audio_output_broadcast/CONFIG_KYMERA
--IE:/TWS_Project/apps/libs/audio_output_broadcast
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/audio_output_broadcast/CONFIG_HYDRACORE
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/audio_output_broadcast/CONFIG_I2S_MCLK
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/audio_output_broadcast/CONFIG_HAVE_PIO_BANKS
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/audio_output_broadcast/CONFIG_KYMERA
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/audio_output_broadcast

@@ -33,8 +33,8 @@ hydra_dev.h
 -O0
 -DDEBUG_PRINT_ENABLED
 -Werror
--IE:/TWS_Project/apps/libs/chain/CONFIG_HYDRACORE
--IE:/TWS_Project/apps/libs/chain/CONFIG_I2S_MCLK
--IE:/TWS_Project/apps/libs/chain/CONFIG_HAVE_PIO_BANKS
--IE:/TWS_Project/apps/libs/chain/CONFIG_KYMERA
--IE:/TWS_Project/apps/libs/chain
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/chain/CONFIG_HYDRACORE
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/chain/CONFIG_I2S_MCLK
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/chain/CONFIG_HAVE_PIO_BANKS
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/chain/CONFIG_KYMERA
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/chain

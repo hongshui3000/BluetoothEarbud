@@ -33,8 +33,8 @@ hydra_dev.h
 -O0
 -Werror
 -DOPERATOR_MESSAGE_MUST_RECEIVE
--IE:/TWS_Project/apps/libs/vmal/CONFIG_HYDRACORE
--IE:/TWS_Project/apps/libs/vmal/CONFIG_I2S_MCLK
--IE:/TWS_Project/apps/libs/vmal/CONFIG_HAVE_PIO_BANKS
--IE:/TWS_Project/apps/libs/vmal/CONFIG_KYMERA
--IE:/TWS_Project/apps/libs/vmal
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/vmal/CONFIG_HYDRACORE
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/vmal/CONFIG_I2S_MCLK
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/vmal/CONFIG_HAVE_PIO_BANKS
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/vmal/CONFIG_KYMERA
+-IE:/GitHub_Projects/BluetoothEarbud/ADK_6.2.43/apps/libs/vmal
