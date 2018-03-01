@@ -4,4 +4,4 @@ ADK_6.2.43/**/*.o
 ADK_6.2.43/**/*.xuv
 ADK_6.2.43/**/*.log
 ADK_6.2.43/**/*.compile
-ADK_6.2.43/**/debug/
+ADK_6.2.43/**/depend_debug_aura/
