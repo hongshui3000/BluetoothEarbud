@@ -1018,6 +1018,7 @@ static void appSmHandleConnRulesPeerPair(void)
     default:
             break;
     }
+    appConnRulesSetRuleComplete(CONN_RULES_PEER_PAIR);
 }
 
 static void appSmHandleConnRulesHandsetPair(void)
