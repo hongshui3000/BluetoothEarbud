@@ -1018,8 +1018,8 @@ bool appPairingHandleClSmAuthoriseIndication(const CL_SM_AUTHORISE_IND_T *ind)
 {
     pairingTaskData *thePairing = appGetPairing();
 
-    DEBUG_LOGF("appPairingHandleClSmAuthoriseIndication, state %d, protocol %d, channel %d, incoming %d",
-                   appPairingGetState(thePairing), ind->protocol_id, ind->channel, ind->incoming);
+    DEBUG_LOGF("appPairingHandleClSmAuthoriseIndication, state %d, protocol %d, channel %d, incoming %d, sdp_lock %d",
+                   appPairingGetState(thePairing), ind->protocol_id, ind->channel, ind->incoming, thePairing->sdp_lock);
 
     /* Special case handling for incoming SDP */
     if ((ind->protocol_id == protocol_l2cap) && (ind->channel == 1) && ind->incoming && thePairing->sdp_lock)
