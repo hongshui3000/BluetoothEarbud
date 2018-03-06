@@ -2307,9 +2307,6 @@ void appSmInit(void)
     sm->peer_sync_state = SM_PEER_SYNC_NONE;
     sm->phy_state = appPhyStateGetState();
 
-    /* register with phy state to get phy state ind */
-    appPhyStateRegisterClient(&sm->task);
-
     /* register with connection manager to get notification of (dis)connections */
     appConManagerRegisterConnectionsClient(&sm->task);
 
